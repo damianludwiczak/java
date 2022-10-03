@@ -2,11 +2,9 @@ package com.javafee.java.tasks.task2.customer.account;
 
 public class Customer {
     Account account;
-
     public Customer(Account account) {
         this.account = account;
     }
-
     public void withdrawMoney(double amount) {
         if (amount <= 0) {
             System.out.println("Podano błędną kwotę");
@@ -21,7 +19,6 @@ public class Customer {
             }
         }
     }
-
     public void depositMoney(double amount) {
         if (amount <= 0) {
             System.out.println("Podano błędną kwotę");
@@ -32,13 +29,9 @@ public class Customer {
             System.out.printf("\nAktualne saldo %.2f\n", account.getCurrentAccountBalance());
         }
     }
-
     public void showTransactions() {
-        for (String s : account.transactionList) {
-            System.out.println(s);
-        }
+        for (String s : account.transactionList) { System.out.println(s);}
     }
-
     public double showCurrentAccountBalance() {
         return account.getCurrentAccountBalance();
     }

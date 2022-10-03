@@ -1,5 +1,4 @@
 package com.javafee.java.tasks.task2.customer.invoice;
-
 public class Main {
     public static void main(String[] args) {
 // Test Customer class

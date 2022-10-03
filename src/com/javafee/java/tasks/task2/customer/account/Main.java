@@ -1,7 +1,5 @@
 package com.javafee.java.tasks.task2.customer.account;
-
 import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -11,27 +9,24 @@ public class Main {
         double amount = 0;
 
         showMenu();
-
         String condition = scanner.nextLine();
         while (!condition.toUpperCase().equals("EXIT")) {
             switch (condition) {
                 case "1":
                     System.out.println("Podaj kwote");
                     userAmount = scanner.nextLine();
-                    if(isDouble(userAmount)) {
+                    if(isDouble(userAmount))
                         customer.withdrawMoney(Double.parseDouble(userAmount));
-                    } else {
+                    else
                         System.out.println("Podałeś błędną kwotę");
-                    }
                     break;
                 case "2":
                     System.out.println("Podaj kwote");
                     userAmount = scanner.nextLine();
-                    if(isDouble(userAmount)) {
+                    if(isDouble(userAmount))
                         customer.depositMoney(Double.parseDouble(userAmount));
-                    } else {
+                    else
                         System.out.println("Podałeś błędną kwotę");
-                    }
                     break;
                 case "3":
                     System.out.println("Stan konta: " + customer.showCurrentAccountBalance());
@@ -42,7 +37,6 @@ public class Main {
                 default:
                     System.out.println("Błędny wybór");
             }
-
             System.out.println("-------------------");
             showMenu();
             condition = scanner.nextLine();
