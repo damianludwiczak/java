@@ -9,6 +9,7 @@ import com.javafee.java.lessons.lesson7.view.impl.ViewImpl;
 
 import java.util.List;
 
+
 public class Controller {
     private View view = new ViewImpl();
     private Account account;
@@ -30,7 +31,7 @@ public class Controller {
                     account.transferMoney(view.getInputDouble("Podaj kwote wpłaty"));
                     view.print("Aktualne saldo: " + account.getBalance());
                     break;
-                case "4":
+                case "3":
                     System.out.println("Lista transakcji");
                     List<Transaction> transactionList = account.getTransactionList();
                     for (Transaction trans : transactionList)
@@ -41,6 +42,8 @@ public class Controller {
                     break;
                 default:
                     view.print("Błędny wybór");
+                    System.out.println();
+                    System.out.println();
             }
             view.print("Menu:\n1 - wypłata\n2 - wpłata\n3 - transakcje\nexit - wyjście");
             choice = view.getInputString("Provide choice:");

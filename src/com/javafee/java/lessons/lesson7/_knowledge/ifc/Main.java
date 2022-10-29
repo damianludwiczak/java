@@ -6,8 +6,9 @@ public class Main {
         System.out.println(calculator.calculate((var1, var2) -> var1 + var2, 2.5, 2.5));
         System.out.println(calculator.calculate((var1, var2) -> var1 - var2, 2.5, 2.5));
         System.out.println(calculator.calculate((var1, var2) -> var1 * var2, 2.5, 2.5));
-        System.out.println(calculator.calculate((var1, var2) -> var1 / var2, 2.5, 2.5));
+        System.out.println(calculator.calculate((var1, var2) -> var1 / var2, 2.5, 0.0));
     }
+    // TODO: 27.10.2022
     // https://bulldogjob.pl/readme/interfejsy-w-javie-wyrazenia-lambda
     // https://codecouple.pl/2016/10/08/interfejsy-funkcyjne/
 }
