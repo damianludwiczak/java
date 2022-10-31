@@ -1,8 +1,9 @@
 package com.javafee.java.lessons.lesson7.controller;
 
 import com.javafee.java.lessons.lesson7.model.Account;
-import com.javafee.java.lessons.lesson7.model.memodb.AccountImpl;
-import com.javafee.java.lessons.lesson7.model.memodb.AccountPremium;
+import com.javafee.java.lessons.lesson7.model.filedb.User;
+import com.javafee.java.lessons.lesson7.model.filedb.AccountImpl;
+import com.javafee.java.lessons.lesson7.model.filedb.AccountPremium;
 import com.javafee.java.lessons.lesson7.model.memodb.Transaction;
 import com.javafee.java.lessons.lesson7.view.View;
 import com.javafee.java.lessons.lesson7.view.impl.ViewImpl;
@@ -16,8 +17,8 @@ public class Controller {
 
     public void run() {
         String accountType = view.getInputString("Jakie konto chciałbyś założyć? PREMIUM/STANDARD");
-
-        account = accountType.equalsIgnoreCase("PREMIUM") ? new AccountPremium(0) : new AccountImpl(0);
+        User user = new User(1, "damian123", "damian1234");
+        account = accountType.equalsIgnoreCase("PREMIUM") ? new AccountPremium(0, user) : new AccountImpl(0, user);
         view.print("Menu:\n1 - wypłata\n2 - wpłata\n3 - transakcje\nexit - wyjście");
         String choice = view.getInputString("Provide choice:");
         while (!choice.equals("exit")) {

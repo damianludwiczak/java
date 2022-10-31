@@ -5,6 +5,7 @@ import com.javafee.java.lessons.lesson7.model.memodb.Transaction;
 import java.util.List;
 
 public interface Account {
+
     void transferMoney(double amount);
 
     boolean withdrawMoney(double amount);

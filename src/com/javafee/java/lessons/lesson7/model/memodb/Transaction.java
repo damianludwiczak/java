@@ -1,14 +1,22 @@
 package com.javafee.java.lessons.lesson7.model.memodb;
 
+import com.javafee.java.lessons.lesson7.model.filedb.User;
+
 public class Transaction {
     private Double amount;
     private Double balanceBefore;
     private Double balanceAfter;
+    private int userID;
 
-    public Transaction(Double amount, Double balanceBefore, Double balanceAfter) {
+    public Transaction(Double amount, Double balanceBefore, Double balanceAfter, int userID) {
         this.amount = amount;
         this.balanceBefore = balanceBefore;
         this.balanceAfter = balanceAfter;
+        this.userID = userID;
+    }
+
+    public int getUserID() {
+        return userID;
     }
 
     public Double getAmount() {
@@ -37,6 +45,6 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return amount + "," + balanceBefore + "," + balanceAfter;
+        return amount + "," + balanceBefore + "," + balanceAfter + "," + userID;
     }
 }

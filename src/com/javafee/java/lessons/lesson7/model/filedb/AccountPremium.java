@@ -1,8 +1,8 @@
 package com.javafee.java.lessons.lesson7.model.filedb;
 
 public class AccountPremium extends AccountImpl {
-    public AccountPremium(double balance) {
-        super(balance);
+    public AccountPremium(double balance, User user) {
+        super(balance, user);
     }
 
     @Override

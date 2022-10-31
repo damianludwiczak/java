@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccountImpl implements Account {
+    private User user;
     private FileService fileService = new FileService();
     private MapperService mapperService = new MapperService();
     private double balance;
     private List<Transaction> transactionList = new ArrayList<>();
 
-    public AccountImpl(double balance) {
+    public AccountImpl(double balance, User user) {
+        this.user = user;
         this.transactionList = initFile();
         if (!transactionList.isEmpty())
             for (Transaction t : transactionList)
@@ -24,14 +26,14 @@ public class AccountImpl implements Account {
 
     public void transferMoney(double amount) {
         setBalance(getBalance() + amount);
-        transactionList.add(new Transaction(amount, getBalance() - amount, getBalance()));
+        transactionList.add(new Transaction(amount, getBalance() - amount, getBalance(), user.getId()));
         reloadFile();
     }
 
     public boolean withdrawMoney(double amount) {
         if (amount <= getBalance()) {
             setBalance(getBalance() - amount);
-            transactionList.add(new Transaction(amount, getBalance() - amount, getBalance()));
+            transactionList.add(new Transaction(amount, getBalance() - amount, getBalance(), user.getId()));
             reloadFile();
             return true;
         } else {
