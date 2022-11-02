@@ -1,21 +1,19 @@
 package com.javafee.java.lessons.lesson7.model.memodb;
 
-import com.javafee.java.lessons.lesson7.model.filedb.User;
-
 public class Transaction {
     private Double amount;
     private Double balanceBefore;
     private Double balanceAfter;
-    private int userID;
+    private String userID;
 
-    public Transaction(Double amount, Double balanceBefore, Double balanceAfter, int userID) {
+    public Transaction(Double amount, Double balanceBefore, Double balanceAfter, String userID) {
         this.amount = amount;
         this.balanceBefore = balanceBefore;
         this.balanceAfter = balanceAfter;
         this.userID = userID;
     }
 
-    public int getUserID() {
+    public String getUserID() {
         return userID;
     }
 

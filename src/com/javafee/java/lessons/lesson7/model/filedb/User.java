@@ -1,21 +1,31 @@
 package com.javafee.java.lessons.lesson7.model.filedb;
 
 public class User {
-    private int id;
+    private String id;
     private String login;
     private String password;
 
-    public User(int id, String login, String password) {
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+    public User(String id, String login, String password) {
         this.id = id;
         this.login = login;
         this.password = password;
     }
 
-    public void setId(int id) {
+    @Override
+    public String toString() {
+        return id + "," + login + "," + password;
+    }
+
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

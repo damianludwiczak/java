@@ -16,7 +16,7 @@ public class MapperService {
 
     public Transaction from(String str) {
         String[] parts = str.split(",");
-        return new Transaction(Double.parseDouble(parts[0]), Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Integer.parseInt(parts[3]));
+        return new Transaction(Double.parseDouble(parts[0]), Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), parts[3]);
     }
 
     public String to(Transaction transaction) {

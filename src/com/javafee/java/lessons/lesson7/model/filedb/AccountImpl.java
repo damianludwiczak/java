@@ -17,10 +17,13 @@ public class AccountImpl implements Account {
     public AccountImpl(double balance, User user) {
         this.user = user;
         this.transactionList = initFile();
-        if (!transactionList.isEmpty())
-            for (Transaction t : transactionList)
-                this.balance += t.getAmount();
-        else
+        if (!transactionList.isEmpty()) {
+            for (Transaction t : transactionList) {
+                if (t.getUserID().equals(user.getId())) {
+                    this.balance += t.getAmount();
+                }
+            }
+        } else
             this.balance = balance;
     }
 
@@ -33,12 +36,11 @@ public class AccountImpl implements Account {
     public boolean withdrawMoney(double amount) {
         if (amount <= getBalance()) {
             setBalance(getBalance() - amount);
-            transactionList.add(new Transaction(amount, getBalance() - amount, getBalance(), user.getId()));
+            transactionList.add(new Transaction(getBalance() - (getBalance() + amount), getBalance() + amount, getBalance(), user.getId()));
             reloadFile();
             return true;
-        } else {
+        } else
             return false;
-        }
     }
 
     private void reloadFile() {

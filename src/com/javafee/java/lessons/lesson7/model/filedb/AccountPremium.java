@@ -4,7 +4,6 @@ public class AccountPremium extends AccountImpl {
     public AccountPremium(double balance, User user) {
         super(balance, user);
     }
-
     @Override
     public boolean withdrawMoney(double amount) {
         return super.withdrawMoney(amount * 1.005);

@@ -18,7 +18,7 @@ public class AccountImpl implements Account {
 
     public void transferMoney(double amount) {
         setBalance(getBalance() + amount);
-        transactionList.add(new Transaction(amount, getBalance() - amount, getBalance(), user.getId()));
+        transactionList.add(new Transaction(amount, getBalance() + amount, getBalance(), user.getId()));
     }
 
     public boolean withdrawMoney(double amount) {

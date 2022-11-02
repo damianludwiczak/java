@@ -6,8 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ConstansUsers {
-    static String path = "users.db";
-    static File file = new File(path);
+    public static String path = "users.db";
+    public static File file = new File(path);
 
     static {
         if (!file.exists()) {
