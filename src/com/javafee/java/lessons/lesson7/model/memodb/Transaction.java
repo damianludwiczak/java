@@ -45,4 +45,8 @@ public class Transaction {
     public String toString() {
         return amount + "," + balanceBefore + "," + balanceAfter + "," + userID;
     }
+
+    public String printable() {
+        return amount + "," + balanceBefore + "," + balanceAfter;
+    }
 }

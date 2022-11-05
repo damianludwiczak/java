@@ -15,7 +15,7 @@ public class UserService {
         if (isExists(user)) {
             return false;
         } else {
-            user.setId(String.valueOf(random.nextInt(0,10000)));
+            user.setId(String.valueOf(random.nextInt(0,10000))); //TODO: change to static generator
             listUsers.add(user);
             fileService.save(mapperUserService.to(listUsers));
             return true;

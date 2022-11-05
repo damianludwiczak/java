@@ -20,4 +20,9 @@ public class ViewImpl implements View {
         System.out.println(msg);
         return scanner.nextDouble();
     }
+
+    public Integer getInputInteger(String msg) {
+        System.out.println(msg);
+        return scanner.nextInt();
+    }
 }

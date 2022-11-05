@@ -1,6 +1,6 @@
 package com.javafee.java.lessons.lesson7.model.memodb;
 
-import com.javafee.java.lessons.lesson7.model.filedb.User;
+import com.javafee.java.lessons.lesson7.model.memodb.User;
 
 public class AccountPremium extends AccountImpl {
     public AccountPremium(double balance, User user) {
