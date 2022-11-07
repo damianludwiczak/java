@@ -1,7 +1,7 @@
 package com.javafee.java.lessons.lesson7.model.memodb;
 
 public class User {
-    private String id;
+    private int id;
     private String login;
     private String password;
     private String accountType;
@@ -17,7 +17,7 @@ public class User {
         this.accountType = accountType;
     }
 
-    public User(String id, String login, String password, String accountType) {
+    public User(int id, String login, String password, String accountType) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -30,11 +30,11 @@ public class User {
     }
     public String getAccountType() { return accountType; }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 

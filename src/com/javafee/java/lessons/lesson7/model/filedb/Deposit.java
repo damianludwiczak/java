@@ -1,15 +1,15 @@
 package com.javafee.java.lessons.lesson7.model.filedb;
 
 public class Deposit {
-    private String userID;
+    private int userID;
     private double balance;
     private double percentage;
 
-    public String getUserID() {
+    public int getUserID() {
         return userID;
     }
 
-    public Deposit(String userID, double balance, double percentage) {
+    public Deposit(int userID, double balance, double percentage) {
         this.userID = userID;
         this.balance = balance + (balance * percentage);
         this.percentage = percentage;

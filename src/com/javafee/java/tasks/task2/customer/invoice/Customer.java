@@ -1,6 +1,6 @@
 package com.javafee.java.tasks.task2.customer.invoice;
 
-//TODO: add private modifiers to the fields
+
 public class Customer {
     private int id, discount;
     private String name;

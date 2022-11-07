@@ -4,16 +4,16 @@ public class Transaction {
     private Double amount;
     private Double balanceBefore;
     private Double balanceAfter;
-    private String userID;
+    private int userID;
 
-    public Transaction(Double amount, Double balanceBefore, Double balanceAfter, String userID) {
+    public Transaction(Double amount, Double balanceBefore, Double balanceAfter, int userID) {
         this.amount = amount;
         this.balanceBefore = balanceBefore;
         this.balanceAfter = balanceAfter;
         this.userID = userID;
     }
 
-    public String getUserID() {
+    public int getUserID() {
         return userID;
     }
 

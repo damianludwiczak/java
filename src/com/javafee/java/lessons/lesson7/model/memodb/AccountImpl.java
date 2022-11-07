@@ -2,7 +2,6 @@ package com.javafee.java.lessons.lesson7.model.memodb;
 
 import com.javafee.java.lessons.lesson7.model.Account;
 import com.javafee.java.lessons.lesson7.model.filedb.Deposit;
-import com.javafee.java.lessons.lesson7.model.memodb.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,7 @@ public class AccountImpl implements Account {
         this.user = user;
     }
 
-    public boolean deposit(double amount, String userID) {
+    public boolean deposit(double amount, int userID) {
         double percentage = 0.01;
         if (getBalance() >= amount) {
             Deposit deposit = new Deposit(userID, amount, percentage);
@@ -28,8 +27,8 @@ public class AccountImpl implements Account {
             return false;
     }
 
-    public List<Deposit> printDeposits(String userID) {
-        return deposits.stream().filter(e -> userID.equals(e.getUserID())).toList();
+    public List<Deposit> printDeposits(int userID) {
+        return deposits.stream().filter(e -> userID == e.getUserID()).toList();
     }
 
     public boolean finishDeposit(int depositIndex) {

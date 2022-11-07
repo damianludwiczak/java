@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface Account {
 
-    boolean deposit(double amount, String userID);
+    boolean deposit(double amount, int userID);
 
-    List<Deposit> printDeposits(String userID);
+    List<Deposit> printDeposits(int userID);
 
     boolean finishDeposit(int depositIndex);
 

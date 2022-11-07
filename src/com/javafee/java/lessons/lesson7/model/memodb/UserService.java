@@ -1,18 +1,22 @@
 package com.javafee.java.lessons.lesson7.model.memodb;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.io.IOException;
+import java.util.*;
 
 public class UserService {
     List<User> listUsers = new ArrayList<>();
 
-    public boolean register(User user) {
-        Random random = new Random();
+    public boolean register(User user) throws IOException, NoSuchFieldException {
         if (isExists(user)) {
             return false;
         } else {
-            user.setId(String.valueOf(random.nextInt(0,10000)));
+            if (listUsers.isEmpty()) {
+                user.setId(10000);
+            } else {
+               User newID = listUsers.stream().max(Comparator.comparing(User::getId)).orElseThrow(NoSuchElementException::new);
+               user.setId(newID.getId() + 1);
+            }
+            //TODO: change to static generator
             listUsers.add(user);
             return true;
         }
@@ -21,7 +25,7 @@ public class UserService {
     public boolean signIn(User dataFromUser) {
         if (isExists(dataFromUser)) {
             User user = get(dataFromUser);
-            return (dataFromUser.getPassword().equals(user.getPassword())) ? true: false;
+            return dataFromUser.getPassword().equals(user.getPassword());
         } else {
             return false;
         }

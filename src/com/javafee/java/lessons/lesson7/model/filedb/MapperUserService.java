@@ -10,7 +10,7 @@ public class MapperUserService {
 
     public User from(String str) {
         String[] parts = str.split(",");
-        return new User(parts[0], parts[1],parts[2], parts[3]);
+        return new User(Integer.parseInt(parts[0]), parts[1],parts[2], parts[3]);
     }
 
     public List<String> to(List<User> users) {

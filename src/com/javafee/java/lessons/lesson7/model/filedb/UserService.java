@@ -1,21 +1,25 @@
 package com.javafee.java.lessons.lesson7.model.filedb;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class UserService {
     List<User> listUsers = new ArrayList<>();
     FileUserService fileService = new FileUserService();
     MapperUserService mapperUserService = new MapperUserService();
 
-    public boolean register(User user) throws IOException {
+    public boolean register(User user) throws IOException, NoSuchFieldException {
         Random random = new Random();
         if (isExists(user)) {
             return false;
         } else {
-            user.setId(String.valueOf(random.nextInt(0,10000))); //TODO: change to static generator
+            if (listUsers.isEmpty()) {
+                user.setId(10000);
+            } else {
+                User newID = listUsers.stream().max(Comparator.comparing(User::getId)).orElseThrow(NoSuchElementException::new);
+                user.setId(newID.getId() + 1);
+            }
+            //TODO: change to static generator
             listUsers.add(user);
             fileService.save(mapperUserService.to(listUsers));
             return true;
@@ -38,7 +42,7 @@ public class UserService {
     public boolean signIn(User dataFromUser) throws IOException {
         if (isExists(dataFromUser)) {
             User user = get(dataFromUser);
-            return (dataFromUser.getPassword().equals(user.getPassword())) ? true: false;
+            return dataFromUser.getPassword().equals(user.getPassword());
         } else {
             return false;
         }

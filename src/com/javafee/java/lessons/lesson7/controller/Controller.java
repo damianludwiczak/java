@@ -13,14 +13,13 @@ public class Controller {
     private static View view = new ViewImpl();
     private static UserService userService = new UserService();
 
-    public static void run() throws IOException {
+    public static void run() throws IOException, NoSuchFieldException {
         entranceMenu();
     }
 
-    private static void login() throws IOException {
+    private static void login() throws IOException, NoSuchFieldException {
         String login = view.getInputString("login");
         String password = view.getInputString("password");
-        ;
         User user = new User(login, password);
         if (userService.signIn(user)) {
             view.print("Logged");
@@ -34,7 +33,7 @@ public class Controller {
         }
     }
 
-    private static void register() throws IOException {
+    private static void register() throws IOException, NoSuchFieldException {
         String login = view.getInputString("login");
         String password = view.getInputString("password");
         String accountType = view.getInputString("Acoount Type: Standard / Premium");
@@ -48,7 +47,7 @@ public class Controller {
         }
     }
 
-    private static void entranceMenu() throws IOException {
+    private static void entranceMenu() throws IOException, NoSuchFieldException {
         String inputString = view.getInputString("BANK ACCOUNT\n1 - Login\n2 - Register");
         switch (inputString) {
             case "1" -> login();
@@ -62,14 +61,14 @@ public class Controller {
                 "6 - Close deposit\n7 - Print deposits\nExit" + "\nProvide choice:");
     }
 
-    private static void printListTransaction(List<Transaction> transactionList, String userId) {
+    private static void printListTransaction(List<Transaction> transactionList, int userId) {
         System.out.println("Transactions list");
         for (Transaction trans : transactionList)
-            if (trans.getUserID().equals(userId))
+            if (trans.getUserID() == (userId))
                 System.out.println(trans.printable());
     }
 
-    private static void mainMenu(User user, Account account) throws IOException {
+    private static void mainMenu(User user, Account account) throws IOException, NoSuchFieldException {
         String choice = printMenu();
         while (!choice.equals("exit")) {
             switch (choice) {
@@ -94,6 +93,3 @@ public class Controller {
         entranceMenu();
     }
 }
-
-// view.getInputInteger("Which deposit do You want to close?") - 1) ?
-//                        view.print("Deposit has been closed") : view.print("Something wrong")

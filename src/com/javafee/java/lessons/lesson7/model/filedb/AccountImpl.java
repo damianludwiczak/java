@@ -6,7 +6,6 @@ import com.javafee.java.lessons.lesson7.model.memodb.Transaction;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AccountImpl implements Account {
     private User user;
@@ -21,7 +20,7 @@ public class AccountImpl implements Account {
         this.transactionList = initFile();
         if (!transactionList.isEmpty()) {
             for (Transaction t : transactionList) {
-                if (t.getUserID().equals(user.getId())) {
+                if (t.getUserID() == user.getId()) {
                     this.balance += t.getAmount();
                 }
             }
@@ -45,7 +44,7 @@ public class AccountImpl implements Account {
             return false;
     }
 
-    public boolean deposit(double amount, String userID) {
+    public boolean deposit(double amount, int userID) {
         double percentage = 0.01;
         if (getBalance() >= amount) {
             Deposit deposit = new Deposit(userID, amount, percentage);
@@ -55,8 +54,8 @@ public class AccountImpl implements Account {
         } else
             return false;
     }
-    public List<Deposit> printDeposits(String userID) {
-        return deposits.stream().filter(e -> userID.equals(e.getUserID())).toList();
+    public List<Deposit> printDeposits(int userID) {
+        return deposits.stream().filter(e -> userID == e.getUserID()).toList();
     }
 
     public boolean finishDeposit(int depositIndex) {
