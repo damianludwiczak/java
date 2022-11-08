@@ -1,7 +1,10 @@
 package com.javafee.java.lessons.lesson7.controller;
 
 import com.javafee.java.lessons.lesson7.model.Account;
-import com.javafee.java.lessons.lesson7.model.filedb.*;
+import com.javafee.java.lessons.lesson7.model.filedb.AccountImpl;
+import com.javafee.java.lessons.lesson7.model.filedb.AccountPremium;
+import com.javafee.java.lessons.lesson7.model.filedb.User;
+import com.javafee.java.lessons.lesson7.model.filedb.UserService;
 import com.javafee.java.lessons.lesson7.model.memodb.Transaction;
 import com.javafee.java.lessons.lesson7.view.View;
 import com.javafee.java.lessons.lesson7.view.impl.ViewImpl;
@@ -13,11 +16,15 @@ public class Controller {
     private static View view = new ViewImpl();
     private static UserService userService = new UserService();
 
-    public static void run() throws IOException, NoSuchFieldException {
-        entranceMenu();
+    public void run() {
+        try {
+            entranceMenu();
+        } catch (Exception e) {
+            view.print("Something went wrong");
+        }
     }
 
-    private static void login() throws IOException, NoSuchFieldException {
+    private void login() throws IOException, NoSuchFieldException {
         String login = view.getInputString("login");
         String password = view.getInputString("password");
         User user = new User(login, password);
@@ -33,7 +40,7 @@ public class Controller {
         }
     }
 
-    private static void register() throws IOException, NoSuchFieldException {
+    private void register() throws IOException, NoSuchFieldException {
         String login = view.getInputString("login");
         String password = view.getInputString("password");
         String accountType = view.getInputString("Acoount Type: Standard / Premium");
@@ -47,7 +54,7 @@ public class Controller {
         }
     }
 
-    private static void entranceMenu() throws IOException, NoSuchFieldException {
+    private void entranceMenu() throws IOException, NoSuchFieldException {
         String inputString = view.getInputString("BANK ACCOUNT\n1 - Login\n2 - Register");
         switch (inputString) {
             case "1" -> login();
@@ -68,27 +75,31 @@ public class Controller {
                 System.out.println(trans.printable());
     }
 
-    private static void mainMenu(User user, Account account) throws IOException, NoSuchFieldException {
+    private void mainMenu(User user, Account account) throws IOException, NoSuchFieldException {
         String choice = printMenu();
         while (!choice.equals("exit")) {
-            switch (choice) {
-                case "1" -> view.print(account.withdrawMoney(view.getInputDouble("Withdraw\nAmount: ")) ?
-                        "Withdraw successful" : "Not enough founds");
-                case "2" -> account.transferMoney(view.getInputDouble("Transfer\nAmount"));
-                case "3" -> printListTransaction(account.getTransactionList(), user.getId());
-                case "4" -> view.print("Balance" + String.valueOf(account.getBalance()));
-                case "5" -> {
-                    boolean result = account.deposit(view.getInputDouble("Amount"), user.getId());
-                    view.print(result ? "New deposit has been created" : "Something wrong");
+            try {
+                switch (choice) {
+                    case "1" -> view.print(account.withdrawMoney(view.getInputDouble("Withdraw\nAmount: ")) ?
+                            "Withdraw successful" : "Not enough founds");
+                    case "2" -> account.transferMoney(Double.parseDouble(view.getInputString("Transfer\nAmount")));
+                    case "3" -> printListTransaction(account.getTransactionList(), user.getId());
+                    case "4" -> view.print("Balance" + String.valueOf(account.getBalance()));
+                    case "5" -> {
+                        boolean result = account.deposit(view.getInputDouble("Amount"), user.getId());
+                        view.print(result ? "New deposit has been created" : "Something wrong");
+                    }
+                    case "6" -> {
+                        boolean result = account.finishDeposit(view.getInputInteger("Which deposit do You want to close?") - 1);
+                        view.print(result ? "Deposit has been closed" : "Something wrong");
+                    }
+                    case "7" -> account.printDeposits(user.getId()).forEach(System.out::println);
+                    default -> view.print("Wrong choice");
                 }
-                case "6" -> {
-                    boolean result = account.finishDeposit(view.getInputInteger("Which deposit do You want to close?") - 1);
-                    view.print(result ? "Deposit has been closed" : "Something wrong");
-                }
-                case "7" -> account.printDeposits(user.getId()).forEach(System.out::println);
-                default -> view.print("Wrong choice");
+                choice = printMenu();
+            } catch (Exception e) {
+                view.print("Something went wrong: " + e.getMessage());
             }
-            choice = printMenu();
         }
         entranceMenu();
     }

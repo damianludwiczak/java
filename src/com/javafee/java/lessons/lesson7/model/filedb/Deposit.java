@@ -34,7 +34,8 @@ public class Deposit {
     @Override
     public String toString() {
         return "Deposit{" +
-                "balance=" + balance +
+                "userID=" + userID +
+                ", balance=" + balance +
                 '}';
     }
 }
