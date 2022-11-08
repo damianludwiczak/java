@@ -19,7 +19,6 @@ public class UserService {
                 User newID = listUsers.stream().max(Comparator.comparing(User::getId)).orElseThrow(NoSuchElementException::new);
                 user.setId(newID.getId() + 1);
             }
-            //TODO: change to static generator
             listUsers.add(user);
             fileService.save(mapperUserService.to(listUsers));
             return true;
@@ -34,9 +33,8 @@ public class UserService {
         try {
             return mapperUserService.from(fileService.read());
         } catch (IOException e) {
-            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public boolean signIn(User dataFromUser) throws IOException {
