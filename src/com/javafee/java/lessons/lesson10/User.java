@@ -9,12 +9,20 @@ public class User {
         this.name = name;
     }
 
+    public User(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     void sentMessage(SentMessage sentMessage, String message){

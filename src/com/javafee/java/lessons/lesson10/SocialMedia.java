@@ -15,8 +15,8 @@ public class SocialMedia {
         return name;
     }
 
-    public List<String> getListMesaages() {
-        return listMesaages;
+    public void printListMesaages() {
+        listMesaages.forEach(System.out::println);
     }
 
     void sentMessage(String message) {
