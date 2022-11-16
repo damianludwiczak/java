@@ -15,8 +15,14 @@ public class SocialMedia {
         return name;
     }
 
-    public void printListMesaages() {
-        listMesaages.forEach(System.out::println);
+    public void printListMesaages(int id) {
+        String[] tab = new String[2];
+        for (String message : listMesaages) {
+            tab = message.split(",");
+            if (Integer.parseInt(tab[1]) == id) {
+                System.out.println(tab[0]);
+            }
+        }
     }
 
     void sentMessage(String message) {

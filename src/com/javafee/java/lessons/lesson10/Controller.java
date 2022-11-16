@@ -33,12 +33,14 @@ public class Controller {
         }
     }
 
-    private void printMessages() {
+    private void printMessages() throws IOException {
+        String name = view.getString("Give a nick/name");
+        User user = userService.isExists(name) ? userService.getUser(name): userService.addUser(new User(name));
         String socialMedia = view.getString("Which social media messages do You want to see\n1 - Facebook\n2 - Instagram");
         if(socialMedia.equalsIgnoreCase("1"))
-            facebook.printListMesaages();
+            facebook.printListMesaages(user.getId());
         else if (socialMedia.equalsIgnoreCase("2"))
-            instagram.printListMesaages();
+            instagram.printListMesaages(user.getId());
         else
             view.print("Wrong choice in Social Media type.");
     }
@@ -49,9 +51,9 @@ public class Controller {
         String socialMedia = view.getString("1 - Facebook, 2 - Instagram");
         String messageFromUser = view.getString("Body message");
         if(socialMedia.equalsIgnoreCase("1"))
-            user.sentMessage((message) -> facebook.sentMessage(message), messageFromUser );
+            user.sentMessage((message) -> facebook.sentMessage(message), messageFromUser + "," +user.getId() );
         else if (socialMedia.equalsIgnoreCase("2"))
-            user.sentMessage(message -> instagram.sentMessage(message), messageFromUser);
+            user.sentMessage(message -> instagram.sentMessage(message), messageFromUser + "," + user.getId());
         else
             view.print("Wrong choice in Social Media type.");
     }
