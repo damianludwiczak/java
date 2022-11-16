@@ -1,4 +1,4 @@
-package com.javafee.java.lessons.lesson10;
+package com.javafee.java.lessons.lesson10.model;
 
 import java.io.File;
 import java.io.IOException;

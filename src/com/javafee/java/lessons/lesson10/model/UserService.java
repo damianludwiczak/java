@@ -1,4 +1,4 @@
-package com.javafee.java.lessons.lesson10;
+package com.javafee.java.lessons.lesson10.model;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.javafee.java.lessons.lesson10;
+package com.javafee.java.lessons.lesson10.model;
 
 public class User {
     private int id;
@@ -25,7 +25,7 @@ public class User {
         this.id = id;
     }
 
-    void sentMessage(SentMessage sentMessage, String message){
+    public void sentMessage(SentMessage sentMessage, String message){
         sentMessage.sentMessage(message);
     }
 

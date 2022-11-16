@@ -1,4 +1,4 @@
-package com.javafee.java.lessons.lesson10;
+package com.javafee.java.lessons.lesson10.model;
 
 import java.util.List;
 import java.util.stream.Collectors;

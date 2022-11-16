@@ -1,4 +1,4 @@
-package com.javafee.java.lessons.lesson10;
+package com.javafee.java.lessons.lesson10.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class SocialMedia {
         }
     }
 
-    void sentMessage(String message) {
+    public void sentMessage(String message) {
         listMesaages.add(message);
     }
 }

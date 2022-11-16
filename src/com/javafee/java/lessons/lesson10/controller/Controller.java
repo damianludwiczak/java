@@ -1,12 +1,17 @@
-package com.javafee.java.lessons.lesson10;
+package com.javafee.java.lessons.lesson10.controller;
+
+import com.javafee.java.lessons.lesson10.model.SocialMedia;
+import com.javafee.java.lessons.lesson10.model.User;
+import com.javafee.java.lessons.lesson10.model.UserService;
+import com.javafee.java.lessons.lesson10.view.impl.ViewImpl;
 
 import java.io.IOException;
 
 public class Controller {
-    private static UserService userService = new UserService();
-    private static ViewImpl view = new ViewImpl();
-    private SocialMedia facebook = new SocialMedia("Facebook");
-    private SocialMedia instagram =  new SocialMedia("Instagram");
+    private static final UserService userService = new UserService();
+    private static final ViewImpl view = new ViewImpl();
+    private final SocialMedia facebook = new SocialMedia("Facebook");
+    private final SocialMedia instagram =  new SocialMedia("Instagram");
 
     public void run() throws IOException {
         showMenu();
