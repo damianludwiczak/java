@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class Broadcaster {
+public class Broadcaster implements Broadcast {
     private String name;
     List<News> newsList = new ArrayList<>();
 
@@ -14,7 +14,7 @@ public class Broadcaster {
         this.name = name;
     }
 
-    void broadcast(News news) {
+    public void broadcast(News news) {
         newsList.add(news);
         Map<String, Long> counted = newsList.stream().map(News::getAuthor).toList()
                 .stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));

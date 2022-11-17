@@ -16,28 +16,34 @@ public class Main {
         // displaying the news in some diff duration for each agencies using some condition f.eg.: if(i % 7 == 0 || i % 8 == 0) ...
         // add sleep in the loop (Thread.sleep(new Random().nextInt(1200) + 300);)
 
-        bbc.createNews(facebook::broadcast);
+        bbc.createNews(news -> facebook.broadcast(news));
         cnn.createNews(facebook::broadcast);
         skyNews.createNews(facebook::broadcast);
 
-        for (int i = 0; i < 300; i++) {
-            if (i % 3 == 0) {
-                if (i % 7 == 0)
-                    cnn.createNews(redit::broadcast);
-                else if (i % 8 == 0)
-                    skyNews.createNews(redit::broadcast);
-                else
-                    bbc.createNews(redit::broadcast);
-            } else {
-                if (i % 7 == 0)
-                    cnn.createNews(facebook::broadcast);
-                else if (i % 8 == 0)
-                    skyNews.createNews(facebook::broadcast);
-                else
-                    bbc.createNews(facebook::broadcast);
-            }
+        System.out.println("------------------");
+        Broadcaster2 test = new Broadcaster2();
+        //bbc.createNews(test.broadcast(new News("aa","bb","cc"))); // TODO: 17.11.2022
+        bbc.createNews(news -> test.broadcast(new News("bb","cc","dd")));
+        test.broadcast(new News("aa", "bb", "cc"));
 
-            Thread.sleep(new Random().nextInt(1200) + 300);
-        }
+//        for (int i = 0; i < 300; i++) {
+//            if (i % 3 == 0) {
+//                if (i % 7 == 0)
+//                    cnn.createNews(redit::broadcast);
+//                else if (i % 8 == 0)
+//                    skyNews.createNews(redit::broadcast);
+//                else
+//                    bbc.createNews(redit::broadcast);
+//            } else {
+//                if (i % 7 == 0)
+//                    cnn.createNews(facebook::broadcast);
+//                else if (i % 8 == 0)
+//                    skyNews.createNews(facebook::broadcast);
+//                else
+//                    bbc.createNews(facebook::broadcast);
+//            }
+//
+//            Thread.sleep(new Random().nextInt(1200) + 300);
+//        }
     }
 }
