@@ -33,9 +33,10 @@ public class LoginController {
 
     private void onClickButtonLogin() {
         if (loginService.authenticate(loginForm.getTextFieldLogin().getText(),
-                String.valueOf(loginForm.getPasswordField().getPassword())))
+                String.valueOf(loginForm.getPasswordField().getPassword()))) {
+            loginForm.getFrame().setVisible(false);
             clientController.control();
-        else
+        } else
             Utils.displayPopup("Invalid credentials", "Error", JOptionPane.ERROR_MESSAGE, loginForm.getFrame());
     }
 }

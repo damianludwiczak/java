@@ -1,11 +1,13 @@
 package com.javafee.java.lessons.lesson12.view;
 
+import com.javafee.java.lessons.lesson12.view.model.ClientTableModel;
+
 import javax.swing.*;
 
 public class ClientForm {
     private JFrame frame;
     private JPanel panel;
-    private JTable table1;
+    private JTable tableClient;
     private JButton buttonAdd;
     private JButton buttonModify;
     private JButton buttonDelete;
@@ -26,7 +28,7 @@ public class ClientForm {
     }
 
     public JTable getTable1() {
-        return table1;
+        return tableClient;
     }
 
     public JButton getButtonAdd() {
@@ -39,5 +41,11 @@ public class ClientForm {
 
     public JButton getButtonDelete() {
         return buttonDelete;
+    }
+
+    private void createUIComponents() {
+        tableClient = new JTable();
+        tableClient.setModel(new ClientTableModel());
+        tableClient.setAutoCreateRowSorter(true);
     }
 }

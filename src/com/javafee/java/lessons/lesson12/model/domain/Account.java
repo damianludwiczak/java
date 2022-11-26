@@ -1,11 +1,12 @@
 package com.javafee.java.lessons.lesson12.model.domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * Store generic use's account data.
  */
-public class Account extends UserData {
+public class Account extends UserData implements Serializable {
     private String login;
     private String password;
     private LocalDateTime created;
