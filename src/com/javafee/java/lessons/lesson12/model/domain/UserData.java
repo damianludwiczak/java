@@ -1,5 +1,6 @@
 package com.javafee.java.lessons.lesson12.model.domain;
 
+import javax.swing.*;
 import java.io.Serializable;
 
 /**
@@ -8,6 +9,7 @@ import java.io.Serializable;
 public class UserData implements Serializable {
     private String name;
     private String surname;
+    private Integer id;
     private String nationality;
     private Integer age;
     private Double wage;
@@ -15,9 +17,10 @@ public class UserData implements Serializable {
     public UserData() {
     }
 
-    public UserData(String name, String surname, String nationality, Integer age, Double wage) {
+    public UserData(String name, String surname, Integer id, String nationality, Integer age, Double wage) {
         this.name = name;
         this.surname = surname;
+        this.id = id;
         this.nationality = nationality;
         this.age = age;
         this.wage = wage;
@@ -37,6 +40,14 @@ public class UserData implements Serializable {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNationality() {

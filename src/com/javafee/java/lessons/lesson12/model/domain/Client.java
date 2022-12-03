@@ -11,8 +11,8 @@ public class Client extends UserData implements Serializable {
     public Client() {
     }
 
-    public Client(String name, String surname, String nationality, Integer age, Double wage, Company company) {
-        super(name, surname, nationality, age, wage);
+    public Client(String name, String surname, Integer id, String nationality, Integer age, Double wage, Company company) {
+        super(name, surname, id, nationality, age, wage);
         this.company = company;
     }
 
@@ -22,5 +22,17 @@ public class Client extends UserData implements Serializable {
 
     public void setCompany(Company company) {
         this.company = company;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "name=" + super.getName() +
+                " surname=" + super.getSurname() +
+                " nationality=" + super.getNationality() +
+                " age=" + super.getAge() +
+                " wage=" + super.getWage() +
+                " company=" + company +
+                '}';
     }
 }

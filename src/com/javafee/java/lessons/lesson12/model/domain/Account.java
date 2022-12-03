@@ -22,6 +22,12 @@ public class Account extends UserData implements Serializable {
         this.lastLogin = lastLogin;
     }
 
+    public Account(String name, String surname, Integer id, String nationality, Integer age, Double wage, String login, String password) {
+        super(name, surname, id, nationality, age, wage);
+        this.login = login;
+        this.password = password;
+    }
+
     public String getLogin() {
         return login;
     }

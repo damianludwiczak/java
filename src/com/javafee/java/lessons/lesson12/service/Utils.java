@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 public class Utils {
     public static final String ACCOUNT_FILE = "account.db";
     public static final String CLIENT_FILE = "client.db";
+    public static final String COMPANY_FILE = "company.db";
 
     public static String createMd5(String password) {
         String md5 = null;

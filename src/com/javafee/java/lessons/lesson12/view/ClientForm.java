@@ -27,7 +27,7 @@ public class ClientForm {
         return panel;
     }
 
-    public JTable getTable1() {
+    public JTable getTableClient() {
         return tableClient;
     }
 

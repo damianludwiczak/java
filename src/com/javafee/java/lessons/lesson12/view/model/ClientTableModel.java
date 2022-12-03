@@ -21,8 +21,17 @@ public class ClientTableModel extends AbstractTableModel {
         columns = new String[]{"name", "surname", "nationality", "age", "wage", "company"};
     }
 
+    public Client getClient(Integer index) {
+        return clients.get(index);
+    }
+
     private void prepareData() {
         clients = new ArrayList<>(List.of(clientDAO.findAll(Utils.CLIENT_FILE)));
+    }
+
+    public void reload() {
+        prepareData();
+        fireTableDataChanged();
     }
 
     @Override
