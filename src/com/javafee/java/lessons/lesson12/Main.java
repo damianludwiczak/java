@@ -41,10 +41,10 @@ public class Main {
         Client[] clientList = dao.findAll(Utils.CLIENT_FILE);
 
         if (Objects.isNull(clientList) || clientList.length == 0) {
-            Client[] arr = {new Client("Andrzej", "Kosiński", 10, "Polish", 30, 6500.0, null),
-                    new Client("Marta", "Skupień", 11, "Polish", 25, 24000.0, null),
-                    new Client("Andrew", "Roberts", 12, "US", 32, 4500.0, null),
-                    new Client("Amhad", "Yossi", 13, "India", 31, 40000.0, null)};
+            Client[] arr = {new Client("Andrzej", "Kosiński","Polish", 30, 6500.0, null),
+                    new Client("Marta", "Skupień","Polish", 25, 24000.0, null),
+                    new Client("Andrew", "Roberts", "US", 32, 4500.0, null),
+                    new Client("Amhad", "Yossi", "India", 31, 40000.0, null)};
             dao.saveAll(Utils.CLIENT_FILE, arr);
 
             clientList = dao.findAll(Utils.CLIENT_FILE);

@@ -26,6 +26,14 @@ public class UserData implements Serializable {
         this.wage = wage;
     }
 
+    public UserData(String name, String surname, String nationality, Integer age, Double wage) {
+        this.name = name;
+        this.surname = surname;
+        this.nationality = nationality;
+        this.age = age;
+        this.wage = wage;
+    }
+
     public String getName() {
         return name;
     }

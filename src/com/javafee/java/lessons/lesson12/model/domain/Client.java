@@ -1,12 +1,14 @@
 package com.javafee.java.lessons.lesson12.model.domain;
 
 import java.io.Serializable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Store client's data managed by CMS.
  */
 public class Client extends UserData implements Serializable {
     private Company company;
+    private static AtomicInteger uniqueId = new AtomicInteger();
 
     public Client() {
     }
@@ -16,12 +18,26 @@ public class Client extends UserData implements Serializable {
         this.company = company;
     }
 
+    public Client(String name, String surname, String nationality, Integer age, Double wage, Company company) {
+        super(name, surname, nationality, age, wage);
+        setId(uniqueId.getAndIncrement());
+        this.company = company;
+    }
+
     public Company getCompany() {
         return company;
     }
 
     public void setCompany(Company company) {
         this.company = company;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return this.getId().equals(client.getId());
     }
 
     @Override
