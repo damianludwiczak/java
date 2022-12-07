@@ -36,6 +36,7 @@ public class Main {
 //            System.out.println(entry.getKey() + " " + entry.getValue());
 //        }
 
+
         Map<String, Double> listMap = new HashMap<>();
         Double salary = 0.0;
         String name = "";

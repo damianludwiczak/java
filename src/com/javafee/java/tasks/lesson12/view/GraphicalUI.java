@@ -1,28 +1,21 @@
-package com.javafee.java.lessons.lesson11.frontend.gui;
-
-import com.javafee.java.lessons.lesson11.frontend.View;
+package com.javafee.java.tasks.lesson12.view;
 
 import javax.swing.*;
 
 public class GraphicalUI implements View {
     private JFrame frame;
     private JPanel panel;
-    private JTextField textFieldVar1;
-    private JTextField textFieldVar2;
-    private JTextField textFieldCalculationType;
+    private JTextField textFieldVarA;
+    private JTextField textFieldVarB;
+    private JTextField textFieldVarC;
     private JButton buttonCalculate;
     private JLabel labelResult;
 
     public GraphicalUI() {
-        frame = new JFrame(" (c) by Damian");
+        frame = new JFrame("Calc (c) by Damian");
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-    }
-
-    @Override
-    public JFrame getFrame() {
-        return frame;
     }
 
     @Override
@@ -31,18 +24,23 @@ public class GraphicalUI implements View {
     }
 
     @Override
+    public JFrame getFrame() {
+        return frame;
+    }
+
+    @Override
     public String getFirstVar() {
-        return textFieldVar1.getText();
+        return textFieldVarA.getText();
     }
 
     @Override
     public String getSecondVar() {
-        return textFieldVar2.getText();
+        return textFieldVarB.getText();
     }
 
     @Override
-    public String getCalculationType() {
-        return textFieldCalculationType.getText();
+    public String getThirdVar() {
+        return textFieldVarC.getText();
     }
 
     @Override
