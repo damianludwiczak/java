@@ -22,7 +22,7 @@ public class ClientController {
         clientForm.getButtonAdd().addActionListener(e -> onClickBtnAdd());
         clientForm.getButtonModify().addActionListener(e -> onClickBtnModify());
         clientForm.getButtonDelete().addActionListener(e -> onClickBtnDelete());
-        clientForm.getButtonManagmentCompany().addActionListener(e -> onClickBtnManagementCompany());
+        clientForm.getButtonManagementCompany().addActionListener(e -> onClickBtnManagementCompany());
     }
 
     private void init() {
@@ -46,10 +46,8 @@ public class ClientController {
 
     private void onClickBtnDelete( ) {
         int selectedIndex = clientForm.getTableClient().getSelectedRow();
-        System.out.println("Selected index: " + selectedIndex);
         if (selectedIndex != -1) {
             int index = clientForm.getTableClient().convertRowIndexToModel(selectedIndex);
-            System.out.println("index: " + index);
             clientFormController.delete(e -> updateData(),
                     ((ClientTableModel)clientForm.getTableClient().getModel()).getClient(index));
         } else
@@ -57,7 +55,7 @@ public class ClientController {
     }
 
     private void onClickBtnManagementCompany(){
-        companyController.manageCompany();
+        companyController.control();
     }
 
     private void updateData() {

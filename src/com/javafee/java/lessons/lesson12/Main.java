@@ -57,10 +57,10 @@ public class Main {
         Company[] companiesList = dao.findAll(Utils.COMPANY_FILE);
 
         if (Objects.isNull(companiesList) || companiesList.length == 0) {
-            Company[] arr = { new Company(1, "aaa", 250000.0),
-                    new Company(2, "bbb", 350000.0),
-                    new Company(3, "ccc", 450000.0),
-                    new Company(4, "ddd", 550000.0)};
+            Company[] arr = { new Company("aaa", 250000.0),
+                    new Company("bbb", 350000.0),
+                    new Company("ccc", 450000.0),
+                    new Company( "ddd", 550000.0)};
             dao.saveAll(Utils.COMPANY_FILE, arr);
 
             companiesList = dao.findAll(Utils.COMPANY_FILE);

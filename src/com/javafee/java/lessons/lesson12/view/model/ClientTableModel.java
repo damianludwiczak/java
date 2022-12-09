@@ -22,7 +22,6 @@ public class ClientTableModel extends AbstractTableModel {
     }
 
     public Client getClient(Integer index) {
-        System.out.println(clients.get(index));
         return clients.get(index);
     }
 

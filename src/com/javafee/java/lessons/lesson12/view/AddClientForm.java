@@ -2,7 +2,7 @@ package com.javafee.java.lessons.lesson12.view;
 
 import javax.swing.*;
 
-public class AddUserForm {
+public class AddClientForm {
     private JFrame frame;
     private JPanel panel;
     private JTextField textFieldName;
@@ -14,7 +14,7 @@ public class AddUserForm {
     private JTextField textFieldSurname;
 
 
-    public AddUserForm() {
+    public AddClientForm() {
         frame = new JFrame("Add User");
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

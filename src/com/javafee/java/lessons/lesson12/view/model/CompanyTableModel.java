@@ -1,6 +1,5 @@
 package com.javafee.java.lessons.lesson12.view.model;
 
-import com.javafee.java.lessons.lesson12.model.domain.Client;
 import com.javafee.java.lessons.lesson12.model.domain.Company;
 import com.javafee.java.lessons.lesson12.model.repository.DAO;
 import com.javafee.java.lessons.lesson12.service.Utils;
@@ -9,25 +8,25 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
+
 
 public class CompanyTableModel extends AbstractTableModel {
     private List<Company> companies;
     private String[] columns;
-    private DAO<Company[]> clientDAO;
+    private DAO<Company[]> companyDAO;
 
     public CompanyTableModel() {
-        clientDAO = new DAO<>();
+        companyDAO = new DAO<>();
         prepareData();
-        columns = new String[]{"name", "Yearly Incomes"};
+        columns = new String[]{"Name", "Yearly Incomes"};
+    }
+
+    public Company getCompany(Integer index) {
+        return companies.get(index);
     }
 
     private void prepareData() {
-        companies = new ArrayList<>(List.of(clientDAO.findAll(Utils.COMPANY_FILE)));
-    }
-
-    public Company getClient(Integer index) {
-        return companies.get(index);
+        companies = new ArrayList<>(List.of(companyDAO.findAll(Utils.COMPANY_FILE)));
     }
 
     public void reload() {
@@ -43,6 +42,11 @@ public class CompanyTableModel extends AbstractTableModel {
     @Override
     public int getColumnCount() {
         return columns.length;
+    }
+
+    @Override
+    public String getColumnName(int column) {
+        return columns[column];
     }
 
     @Override
