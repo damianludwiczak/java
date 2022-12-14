@@ -22,7 +22,6 @@ public class CompanyFormController {
 
     public CompanyFormController() {
        addCompanyForm = new AddCompanyForm();
-
     }
 
     public void control(Consumer reload, String context, Company company) {

@@ -1,5 +1,7 @@
 package com.javafee.java.lessons.lesson12.view;
 
+import com.javafee.java.lessons.lesson12.view.model.CompanyTableModel;
+
 import javax.swing.*;
 
 public class AddClientForm {
@@ -12,6 +14,7 @@ public class AddClientForm {
     private JTextField textFieldCompany;
     private JButton buttonAccept;
     private JTextField textFieldSurname;
+    private JTable tableCompany;
 
 
     public AddClientForm() {
@@ -19,6 +22,14 @@ public class AddClientForm {
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
+    }
+
+    public JTable getTableCompany() {
+        return tableCompany;
+    }
+
+    public void setTableCompany(JTable tableCompany) {
+        this.tableCompany = tableCompany;
     }
 
     public JFrame getFrame() {
@@ -75,5 +86,11 @@ public class AddClientForm {
 
     public JTextField getTextFieldSurname() {
         return textFieldSurname;
+    }
+
+    private void createUIComponents() {
+        tableCompany = new JTable();
+        tableCompany.setModel(new CompanyTableModel());
+        tableCompany.setAutoCreateRowSorter(true);
     }
 }

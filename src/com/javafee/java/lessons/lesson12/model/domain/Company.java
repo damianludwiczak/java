@@ -1,6 +1,8 @@
 package com.javafee.java.lessons.lesson12.model.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -10,6 +12,8 @@ public class Company implements Serializable {
     private Integer id;
     private String name;
     private Double yearlyIncomes;
+
+    private List<Client> clientList =  new ArrayList<>();
 
     private static AtomicInteger uniqueId = new AtomicInteger();
 
@@ -42,6 +46,14 @@ public class Company implements Serializable {
 
     public void setYearlyIncomes(Double yearlyIncomes) {
         this.yearlyIncomes = yearlyIncomes;
+    }
+
+    public List<Client> getClientList() {
+        return clientList;
+    }
+
+    public void setClientList(List<Client> clientList) {
+        this.clientList = clientList;
     }
 
     @Override

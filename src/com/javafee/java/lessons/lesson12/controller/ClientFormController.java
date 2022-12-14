@@ -6,6 +6,7 @@ import com.javafee.java.lessons.lesson12.model.repository.DAO;
 import com.javafee.java.lessons.lesson12.service.CompanyService;
 import com.javafee.java.lessons.lesson12.service.Utils;
 import com.javafee.java.lessons.lesson12.view.AddClientForm;
+import com.javafee.java.lessons.lesson12.view.model.CompanyTableModel;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class ClientFormController {
     private DAO<Client[]> dao = new DAO<>();
     private ActionListener addActionListener = e -> onClickButtonAdd();
     private ActionListener modifyActionListener = e -> onClickButtonModify();
+
+    private List<Company> companyList = new ArrayList<>();
 
 
     public ClientFormController() {
@@ -55,8 +58,15 @@ public class ClientFormController {
         String nationality = addClientForm.getTextFieldNationality().getText();
         Integer age = Integer.valueOf(addClientForm.getTextFieldAge().getText());
         Double wage = Double.valueOf(addClientForm.getTextFieldWage().getText());
-        Company company = companyService.findByName(addClientForm.getTextFieldCompany().getText());
-        Client client = new Client(name, surname, nationality, age, wage, company);
+        int[] selectedIndex = addClientForm.getTableCompany().getSelectedRows();
+        if (selectedIndex != null) {
+            for (int i = 0; i < selectedIndex.length; i++) {
+                int index = addClientForm.getTableCompany().convertRowIndexToModel(selectedIndex[i]);
+                companyList.add(((CompanyTableModel)addClientForm.getTableCompany().getModel()).getCompany(index));
+            }
+        }
+
+        Client client = new Client(name, surname, nationality, age, wage, companyList);
 
         clientList.add(client);
         dao.saveAll(Utils.CLIENT_FILE, clientList.toArray(new Client[clientList.size()]));
