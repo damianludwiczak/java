@@ -56,6 +56,7 @@ public class ClientController {
 
     private void onClickBtnManagementCompany(){
         companyController.control();
+        updateData();
     }
 
     private void updateData() {

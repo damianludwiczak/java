@@ -9,7 +9,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Store client's data managed by CMS.
  */
 public class Client extends UserData implements Serializable {
-    private Company company;
     private static AtomicInteger uniqueId = new AtomicInteger();
 
     private List<Company> companyList = new ArrayList<>();
@@ -17,25 +16,16 @@ public class Client extends UserData implements Serializable {
     public Client() {
     }
 
-    public Client(String name, String surname, Integer id, String nationality, Integer age, Double wage, Company company) {
+    public Client(String name, String surname, Integer id, String nationality, Integer age, Double wage, List<Company> companyList) {
         super(name, surname, id, nationality, age, wage);
-        this.company = company;
+        this.companyList = companyList;
     }
 
     public Client(String name, String surname, String nationality, Integer age, Double wage, List<Company> companyList) {
         super(name, surname, nationality, age, wage);
         setId(uniqueId.getAndIncrement());
-        this.company = company;
+        this.companyList = companyList;
     }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
     public List<Company> getCompanyList() {
         return companyList;
     }
@@ -60,7 +50,7 @@ public class Client extends UserData implements Serializable {
                 " nationality=" + super.getNationality() +
                 " age=" + super.getAge() +
                 " wage=" + super.getWage() +
-                " company=" + company +
+                " company=" + companyList.toString() +
                 '}';
     }
 }

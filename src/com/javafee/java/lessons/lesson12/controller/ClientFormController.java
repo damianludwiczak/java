@@ -58,13 +58,7 @@ public class ClientFormController {
         String nationality = addClientForm.getTextFieldNationality().getText();
         Integer age = Integer.valueOf(addClientForm.getTextFieldAge().getText());
         Double wage = Double.valueOf(addClientForm.getTextFieldWage().getText());
-        int[] selectedIndex = addClientForm.getTableCompany().getSelectedRows();
-        if (selectedIndex != null) {
-            for (int i = 0; i < selectedIndex.length; i++) {
-                int index = addClientForm.getTableCompany().convertRowIndexToModel(selectedIndex[i]);
-                companyList.add(((CompanyTableModel)addClientForm.getTableCompany().getModel()).getCompany(index));
-            }
-        }
+        companyList = addCompanies();
 
         Client client = new Client(name, surname, nationality, age, wage, companyList);
 
@@ -83,8 +77,10 @@ public class ClientFormController {
         String nationality = addClientForm.getTextFieldNationality().getText();
         Integer age = Integer.valueOf(addClientForm.getTextFieldAge().getText());
         Double wage = Double.valueOf(addClientForm.getTextFieldWage().getText());
-        Company company = companyService.findByName(addClientForm.getTextFieldCompany().getText());
-        Client modifyClient = new Client(name, surname, client.getId(), nationality, age, wage, company);
+
+
+        List<Company> companyList = addCompanies();
+        Client modifyClient = new Client(name, surname, client.getId(), nationality, age, wage, companyList);
 
         clientList.add(numberToReplace, modifyClient);
 
@@ -105,7 +101,7 @@ public class ClientFormController {
         addClientForm.getTextFieldNationality().setText(client.getNationality());
         addClientForm.getTextFieldAge().setText(String.valueOf(client.getAge()));
         addClientForm.getTextFieldWage().setText(String.valueOf(client.getWage()));
-        String companyName = client.getCompany() == null ? "" : client.getCompany().getName();
+        String companyName = !(client.getCompanyList() == null || client.getCompanyList().isEmpty()) ? client.getCompanyList().toString() : "";
         addClientForm.getTextFieldCompany().setText(companyName);
     }
 
@@ -116,5 +112,17 @@ public class ClientFormController {
         addClientForm.getTextFieldAge().setText(null);
         addClientForm.getTextFieldWage().setText(null);
         addClientForm.getTextFieldCompany().setText(null);
+    }
+
+    private List<Company> addCompanies(){
+        List<Company> listCompaniesToAdd = new ArrayList<>();
+        int[] selectedIndex = addClientForm.getTableCompany().getSelectedRows();
+        if (selectedIndex != null) {
+            for (int i = 0; i < selectedIndex.length; i++) {
+                int index = addClientForm.getTableCompany().convertRowIndexToModel(selectedIndex[i]);
+                listCompaniesToAdd.add(((CompanyTableModel)addClientForm.getTableCompany().getModel()).getCompany(index));
+            }
+        }
+        return listCompaniesToAdd;
     }
 }
