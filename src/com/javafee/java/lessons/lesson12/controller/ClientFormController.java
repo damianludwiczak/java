@@ -77,8 +77,6 @@ public class ClientFormController {
         String nationality = addClientForm.getTextFieldNationality().getText();
         Integer age = Integer.valueOf(addClientForm.getTextFieldAge().getText());
         Double wage = Double.valueOf(addClientForm.getTextFieldWage().getText());
-
-
         List<Company> companyList = addCompanies();
         Client modifyClient = new Client(name, surname, client.getId(), nationality, age, wage, companyList);
 
@@ -87,6 +85,7 @@ public class ClientFormController {
         dao.saveAll(Utils.CLIENT_FILE, clientList.toArray(new Client[clientList.size()]));
         reload.accept(null);
     }
+
     public void delete(Consumer reload, Client client) {
         this.reload = reload;
         clientList = new ArrayList<Client>(List.of(dao.findAll(Utils.CLIENT_FILE)));
@@ -103,6 +102,17 @@ public class ClientFormController {
         addClientForm.getTextFieldWage().setText(String.valueOf(client.getWage()));
         String companyName = !(client.getCompanyList() == null || client.getCompanyList().isEmpty()) ? client.getCompanyList().toString() : "";
         addClientForm.getTextFieldCompany().setText(companyName);
+        selectCompanyIndex();
+    }
+
+    private void selectCompanyIndex() {
+        List<Company> clientCompanyList = client.getCompanyList();
+        List<Integer> selectedIndex = new ArrayList<>();
+        for (Company company : clientCompanyList)
+            selectedIndex.add(((CompanyTableModel)addClientForm.getTableCompany().getModel()).getCompanies().indexOf(company));
+
+        for(int i = 0; i < selectedIndex.size(); i++)
+            addClientForm.getTableCompany().addRowSelectionInterval(selectedIndex.get(i), selectedIndex.get(i));
     }
 
     private void reloadEmptyForm() {
@@ -114,13 +124,17 @@ public class ClientFormController {
         addClientForm.getTextFieldCompany().setText(null);
     }
 
-    private List<Company> addCompanies(){
+    private List<Company> addCompanies() {
         List<Company> listCompaniesToAdd = new ArrayList<>();
         int[] selectedIndex = addClientForm.getTableCompany().getSelectedRows();
         if (selectedIndex != null) {
             for (int i = 0; i < selectedIndex.length; i++) {
                 int index = addClientForm.getTableCompany().convertRowIndexToModel(selectedIndex[i]);
-                listCompaniesToAdd.add(((CompanyTableModel)addClientForm.getTableCompany().getModel()).getCompany(index));
+                Company company = ((CompanyTableModel) addClientForm.getTableCompany().getModel()).getCompany(index);
+                List<Client> listClients = company.getClientList();
+                listClients.add(client);
+                company.setClientList(listClients);
+                listCompaniesToAdd.add(company);
             }
         }
         return listCompaniesToAdd;

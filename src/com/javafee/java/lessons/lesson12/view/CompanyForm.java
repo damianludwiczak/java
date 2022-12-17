@@ -1,5 +1,6 @@
 package com.javafee.java.lessons.lesson12.view;
 
+import com.javafee.java.lessons.lesson12.view.model.ClientTableModel;
 import com.javafee.java.lessons.lesson12.view.model.CompanyTableModel;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ public class CompanyForm {
     private JButton buttonAdd;
     private JButton buttonModify;
     private JButton buttonDelete;
+    private JTable tableClient;
 
     public CompanyForm() {
         frame = new JFrame("Companies (c) myCMS");
@@ -45,6 +47,10 @@ public class CompanyForm {
     private void createUIComponents() {
         tableCompany = new JTable();
         tableCompany.setModel(new CompanyTableModel());
+        tableCompany.setAutoCreateRowSorter(true);
+
+        tableClient = new JTable();
+        tableClient.setModel(new ClientTableModel());
         tableCompany.setAutoCreateRowSorter(true);
     }
 }

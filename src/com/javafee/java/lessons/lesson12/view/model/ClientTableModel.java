@@ -8,7 +8,6 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class ClientTableModel extends AbstractTableModel {
     private List<Client> clients;

@@ -25,6 +25,10 @@ public class CompanyTableModel extends AbstractTableModel {
         return companies.get(index);
     }
 
+    public List<Company> getCompanies() {
+        return companies;
+    }
+
     private void prepareData() {
         companies = new ArrayList<>(List.of(companyDAO.findAll(Utils.COMPANY_FILE)));
     }
