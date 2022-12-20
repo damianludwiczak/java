@@ -32,7 +32,7 @@ public class ClientFormController {
         addClientForm = new AddClientForm();
     }
 
-    public void control(Consumer reload, String context, Client client) { // reload / context / client
+    public void control(Consumer reload, String context, Client clientFromTable) { // reload / context / client
         init();
         this.reload = reload;
         addClientForm.getButtonAccept().removeActionListener(addActionListener);
@@ -41,8 +41,8 @@ public class ClientFormController {
             reloadEmptyForm();
             addClientForm.getButtonAccept().addActionListener(addActionListener);
         } else {
-            this.client = client;
-            reloadForm(this.client);
+            this.client = clientFromTable;
+            reloadForm(clientFromTable);
             addClientForm.getButtonAccept().addActionListener(modifyActionListener);
         }
     }
@@ -69,19 +69,17 @@ public class ClientFormController {
 
     private void onClickButtonModify() {
         clientList = new ArrayList<Client>(List.of(dao.findAll(Utils.CLIENT_FILE)));
-        int numberToReplace = clientList.indexOf(client);
-        clientList.remove(client);
+        clientList.forEach(System.out::println);
+        int indexOfList = clientList.indexOf(client);
 
-        String name = addClientForm.getTextFieldName().getText();
-        String surname = addClientForm.getTextFieldSurname().getText();
-        String nationality = addClientForm.getTextFieldNationality().getText();
-        Integer age = Integer.valueOf(addClientForm.getTextFieldAge().getText());
-        Double wage = Double.valueOf(addClientForm.getTextFieldWage().getText());
-        List<Company> companyList = addCompanies();
-        Client modifyClient = new Client(name, surname, client.getId(), nationality, age, wage, companyList);
+        clientList.get(indexOfList).setName(addClientForm.getTextFieldName().getText());
+        clientList.get(indexOfList).setSurname(addClientForm.getTextFieldSurname().getText());
+        clientList.get(indexOfList).setNationality(addClientForm.getTextFieldNationality().getText());
+        clientList.get(indexOfList).setAge(Integer.valueOf(addClientForm.getTextFieldAge().getText()));
+        clientList.get(indexOfList).setWage(Double.valueOf(addClientForm.getTextFieldWage().getText()));
+        clientList.get(indexOfList).setCompanyList(addCompanies());
 
-        clientList.add(numberToReplace, modifyClient);
-
+        clientList.forEach(System.out::println);
         dao.saveAll(Utils.CLIENT_FILE, clientList.toArray(new Client[clientList.size()]));
         reload.accept(null);
     }
@@ -94,23 +92,22 @@ public class ClientFormController {
         reload.accept(null);
     }
 
-    private void reloadForm(Client client) {
-        addClientForm.getTextFieldName().setText(client.getName());
-        addClientForm.getTextFieldSurname().setText(client.getSurname());
-        addClientForm.getTextFieldNationality().setText(client.getNationality());
-        addClientForm.getTextFieldAge().setText(String.valueOf(client.getAge()));
-        addClientForm.getTextFieldWage().setText(String.valueOf(client.getWage()));
-        String companyName = !(client.getCompanyList() == null || client.getCompanyList().isEmpty()) ? client.getCompanyList().toString() : "";
+    private void reloadForm(Client clientFromTable) {
+        addClientForm.getTextFieldName().setText(clientFromTable.getName());
+        addClientForm.getTextFieldSurname().setText(clientFromTable.getSurname());
+        addClientForm.getTextFieldNationality().setText(clientFromTable.getNationality());
+        addClientForm.getTextFieldAge().setText(String.valueOf(clientFromTable.getAge()));
+        addClientForm.getTextFieldWage().setText(String.valueOf(clientFromTable.getWage()));
+        String companyName = !(clientFromTable.getCompanyList() == null || clientFromTable.getCompanyList().isEmpty()) ? clientFromTable.getCompanyList().toString() : "";
         addClientForm.getTextFieldCompany().setText(companyName);
-        selectCompanyIndex();
+        selectCompanyIndex(clientFromTable.getCompanyList());
     }
 
-    private void selectCompanyIndex() {
-        List<Company> clientCompanyList = client.getCompanyList();
+    private void selectCompanyIndex(List<Company> clientCompanyList) {
         List<Integer> selectedIndex = new ArrayList<>();
         for (Company company : clientCompanyList)
             selectedIndex.add(((CompanyTableModel)addClientForm.getTableCompany().getModel()).getCompanies().indexOf(company));
-
+        addClientForm.getTableCompany().removeRowSelectionInterval(0,((CompanyTableModel)addClientForm.getTableCompany().getModel()).getCompanies().size() - 1);
         for(int i = 0; i < selectedIndex.size(); i++)
             addClientForm.getTableCompany().addRowSelectionInterval(selectedIndex.get(i), selectedIndex.get(i));
     }
