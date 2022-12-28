@@ -11,6 +11,7 @@ import com.javafee.java.lessons.lesson12.view.model.CompanyTableModel;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 
@@ -24,7 +25,6 @@ public class ClientFormController {
     private ActionListener addActionListener = e -> onClickButtonAdd();
     private ActionListener modifyActionListener = e -> onClickButtonModify();
 
-    private List<Company> companyList = new ArrayList<>();
 
 
     public ClientFormController() {
@@ -58,18 +58,18 @@ public class ClientFormController {
         String nationality = addClientForm.getTextFieldNationality().getText();
         Integer age = Integer.valueOf(addClientForm.getTextFieldAge().getText());
         Double wage = Double.valueOf(addClientForm.getTextFieldWage().getText());
-        companyList = addCompanies();
+        Client newClient = new Client(name, surname, nationality, age, wage, null);
+        List<Company> companyList = addCompanies(newClient);
+        newClient.setCompanyList(companyList);
 
-        Client client = new Client(name, surname, nationality, age, wage, companyList);
 
-        clientList.add(client);
+        clientList.add(newClient);
         dao.saveAll(Utils.CLIENT_FILE, clientList.toArray(new Client[clientList.size()]));
         reload.accept(null);
     }
 
     private void onClickButtonModify() {
         clientList = new ArrayList<Client>(List.of(dao.findAll(Utils.CLIENT_FILE)));
-        clientList.forEach(System.out::println);
         int indexOfList = clientList.indexOf(client);
 
         clientList.get(indexOfList).setName(addClientForm.getTextFieldName().getText());
@@ -77,9 +77,10 @@ public class ClientFormController {
         clientList.get(indexOfList).setNationality(addClientForm.getTextFieldNationality().getText());
         clientList.get(indexOfList).setAge(Integer.valueOf(addClientForm.getTextFieldAge().getText()));
         clientList.get(indexOfList).setWage(Double.valueOf(addClientForm.getTextFieldWage().getText()));
-        clientList.get(indexOfList).setCompanyList(addCompanies());
+        removeFromCompanyList(clientList.get(indexOfList));
+        List<Company> companyList = addCompanies(clientList.get(indexOfList));
+        clientList.get(indexOfList).setCompanyList(companyList);
 
-        clientList.forEach(System.out::println);
         dao.saveAll(Utils.CLIENT_FILE, clientList.toArray(new Client[clientList.size()]));
         reload.accept(null);
     }
@@ -88,6 +89,7 @@ public class ClientFormController {
         this.reload = reload;
         clientList = new ArrayList<Client>(List.of(dao.findAll(Utils.CLIENT_FILE)));
         clientList.remove(client);
+        removeFromCompanyList(client);
         dao.saveAll(Utils.CLIENT_FILE, clientList.toArray(new Client[clientList.size()]));
         reload.accept(null);
     }
@@ -121,19 +123,35 @@ public class ClientFormController {
         addClientForm.getTextFieldCompany().setText(null);
     }
 
-    private List<Company> addCompanies() {
+    private void removeFromCompanyList(Client newClient) {
+        DAO<Company[]> daoCompany = new DAO<>();
+        List<Company> companyList = new ArrayList<Company>(List.of(daoCompany.findAll(Utils.COMPANY_FILE)));
+        for (Company company: companyList)
+            company.getClientList().remove(newClient);
+        daoCompany.saveAll(Utils.COMPANY_FILE, companyList.toArray(new Company[companyList.size()]));
+    }
+
+    private List<Company> addCompanies(Client newClient) {
+        DAO<Company[]> daoCompany = new DAO<>();
         List<Company> listCompaniesToAdd = new ArrayList<>();
         int[] selectedIndex = addClientForm.getTableCompany().getSelectedRows();
         if (selectedIndex != null) {
             for (int i = 0; i < selectedIndex.length; i++) {
                 int index = addClientForm.getTableCompany().convertRowIndexToModel(selectedIndex[i]);
-                Company company = ((CompanyTableModel) addClientForm.getTableCompany().getModel()).getCompany(index);
-                List<Client> listClients = company.getClientList();
-                listClients.add(client);
-                company.setClientList(listClients);
-                listCompaniesToAdd.add(company);
+                List<Client> listClients = ((CompanyTableModel) addClientForm.getTableCompany().getModel()).getCompany(index).getClientList();
+                if (listClients.contains(newClient)) {
+                    int indexInList = listClients.indexOf(newClient);
+                    listClients.remove(newClient);
+                    listClients.add(indexInList, newClient);
+                }
+                ((CompanyTableModel) addClientForm.getTableCompany().getModel()).getCompany(index).setClientList(listClients);
+
+                listCompaniesToAdd.add(((CompanyTableModel) addClientForm.getTableCompany().getModel()).getCompany(index));
             }
         }
+        List<Company> listCompanyToSave = ((CompanyTableModel) addClientForm.getTableCompany().getModel()).getCompanies();
+        daoCompany.saveAll(Utils.COMPANY_FILE, listCompanyToSave.toArray(new Company[listCompanyToSave.size()]));
+
         return listCompaniesToAdd;
     }
 }

@@ -1,5 +1,6 @@
 package com.javafee.java.lessons.lesson12.controller;
 
+import com.javafee.java.lessons.lesson12.model.domain.Client;
 import com.javafee.java.lessons.lesson12.model.domain.Company;
 import com.javafee.java.lessons.lesson12.model.repository.DAO;
 import com.javafee.java.lessons.lesson12.service.Utils;
@@ -51,13 +52,11 @@ public class CompanyFormController {
 
     private void onClickButtonModify() {
         companyList = new ArrayList<Company>(List.of(daoCompany.findAll(Utils.COMPANY_FILE)));
-        int numberToReplace = companyList.indexOf(company);
-        companyList.remove(company);
+        int indexOfCompanyInList = companyList.indexOf(company);
+        companyList.get(indexOfCompanyInList).setName(addCompanyForm.getTextFieldName().getText());
+        companyList.get(indexOfCompanyInList).setYearlyIncomes(Double.valueOf(addCompanyForm.getTextFieldYearlyIncomes().getText()));
 
-        String name = addCompanyForm.getTextFieldName().getText();
-        Double YearlyIncomes = Double.valueOf(addCompanyForm.getTextFieldYearlyIncomes().getText());
-        Company modifyCompany = new Company(name, company.getId(), YearlyIncomes);
-        companyList.add(numberToReplace, modifyCompany);
+        modifyCompanyInClientList(companyList.get(indexOfCompanyInList));
         daoCompany.saveAll(Utils.COMPANY_FILE, companyList.toArray(new Company[companyList.size()]));
         reload.accept(null);
     }
@@ -66,8 +65,42 @@ public class CompanyFormController {
         this.reload = reload;
         companyList = new ArrayList<Company>(List.of(daoCompany.findAll(Utils.COMPANY_FILE)));
         companyList.remove(company);
+        deleteCompanyInClientList(company);
         daoCompany.saveAll(Utils.COMPANY_FILE, companyList.toArray(new Company[companyList.size()]));
         reload.accept(null);
+    }
+
+    private void modifyCompanyInClientList(Company company) {
+        int indexCompanyInList = 0;
+        DAO<Client[]> daoClient =  new DAO<>();
+        List<Client> clientList = new ArrayList<Client>(List.of(daoClient.findAll(Utils.CLIENT_FILE)));
+        if (!(clientList == null || clientList.isEmpty())) {
+            for (Client client: clientList) {
+                if (client.getCompanyList().contains(company)) {
+                    indexCompanyInList = client.getCompanyList().indexOf(company);
+                    client.getCompanyList().remove(indexCompanyInList);
+                    client.getCompanyList().add(indexCompanyInList, company);
+                }
+            }
+            daoClient.saveAll(Utils.CLIENT_FILE, clientList.toArray(new Client[clientList.size()]));
+        }
+    }
+
+    private void deleteCompanyInClientList(Company company) {
+        int indexCompanyInList = 0;
+        DAO<Client[]> daoClient =  new DAO<>();
+        List<Client> clientList = new ArrayList<Client>(List.of(daoClient.findAll(Utils.CLIENT_FILE)));
+        if (!(clientList == null || clientList.isEmpty())) {
+            for (Client client: clientList) {
+                if (!(client.getCompanyList() == null || client.getCompanyList().isEmpty())){
+                    if (client.getCompanyList().contains(company)) {
+                        indexCompanyInList = client.getCompanyList().indexOf(company);
+                        client.getCompanyList().remove(indexCompanyInList);
+                    }
+                }
+            }
+            daoClient.saveAll(Utils.CLIENT_FILE, clientList.toArray(new Client[clientList.size()]));
+        }
     }
 
     private void reloadForm(Company company) {

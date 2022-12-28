@@ -1,8 +1,13 @@
 package com.javafee.java.lessons.lesson12.model.domain;
 
+import com.javafee.java.lessons.lesson12.model.repository.DAO;
+import com.javafee.java.lessons.lesson12.service.Utils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -15,10 +20,11 @@ public class Company implements Serializable {
 
     private List<Client> clientList =  new ArrayList<>();
 
-    private static AtomicInteger uniqueId = new AtomicInteger();
+    private List<Company> companyList = new ArrayList<>();
+
 
     public Company(String name, Double yearlyIncomes) {
-        this.id = uniqueId.getAndIncrement();
+        this.id = findMaxId() + 1;
         this.name = name;
         this.yearlyIncomes = yearlyIncomes;
     }
@@ -54,6 +60,13 @@ public class Company implements Serializable {
 
     public void setClientList(List<Client> clientList) {
         this.clientList = clientList;
+    }
+
+    private Integer findMaxId() {
+        DAO<Company[]> companyDao = new DAO<>();
+        List<Company> companyList = new ArrayList<Company>(List.of(companyDao.findAll(Utils.COMPANY_FILE)));
+        return (companyList == null || companyList.isEmpty()) ? 1 : (companyList.stream().max(Comparator.comparing(Company::getId))
+                .orElseThrow(NoSuchElementException::new)).getId();
     }
 
     @Override
