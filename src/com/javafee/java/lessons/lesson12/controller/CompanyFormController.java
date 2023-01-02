@@ -6,6 +6,7 @@ import com.javafee.java.lessons.lesson12.model.repository.DAO;
 import com.javafee.java.lessons.lesson12.service.Utils;
 import com.javafee.java.lessons.lesson12.view.AddCompanyForm;
 
+import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,23 +43,33 @@ public class CompanyFormController {
 
     private void onClickButtonAdd() {
         companyList = new ArrayList<Company>(List.of(daoCompany.findAll(Utils.COMPANY_FILE)));
-        String name = addCompanyForm.getTextFieldName().getText();
-        Double YearlyIncomes = Double.valueOf(addCompanyForm.getTextFieldYearlyIncomes().getText());
-        this.company = new Company(name, YearlyIncomes);
-        companyList.add(company);
-        daoCompany.saveAll(Utils.COMPANY_FILE, companyList.toArray(new Company[companyList.size()]));
-        reload.accept(null);
+        try {
+            String name = addCompanyForm.getTextFieldName().getText();
+            Double YearlyIncomes = Double.valueOf(addCompanyForm.getTextFieldYearlyIncomes().getText());
+            this.company = new Company(name, YearlyIncomes);
+            companyList.add(company);
+            daoCompany.saveAll(Utils.COMPANY_FILE, companyList.toArray(new Company[companyList.size()]));
+            reload.accept(null);
+        } catch (NumberFormatException e) {
+            com.javafee.java.lessons.lesson12.view.Utils.displayPopup("Wrong input in field age or wage", "Error",
+                    JOptionPane.ERROR_MESSAGE, addCompanyForm.getFrame());
+        }
     }
 
     private void onClickButtonModify() {
         companyList = new ArrayList<Company>(List.of(daoCompany.findAll(Utils.COMPANY_FILE)));
         int indexOfCompanyInList = companyList.indexOf(company);
-        companyList.get(indexOfCompanyInList).setName(addCompanyForm.getTextFieldName().getText());
-        companyList.get(indexOfCompanyInList).setYearlyIncomes(Double.valueOf(addCompanyForm.getTextFieldYearlyIncomes().getText()));
+        try {
+            companyList.get(indexOfCompanyInList).setName(addCompanyForm.getTextFieldName().getText());
+            companyList.get(indexOfCompanyInList).setYearlyIncomes(Double.valueOf(addCompanyForm.getTextFieldYearlyIncomes().getText()));
 
-        modifyCompanyInClientList(companyList.get(indexOfCompanyInList));
-        daoCompany.saveAll(Utils.COMPANY_FILE, companyList.toArray(new Company[companyList.size()]));
-        reload.accept(null);
+            modifyCompanyInClientList(companyList.get(indexOfCompanyInList));
+            daoCompany.saveAll(Utils.COMPANY_FILE, companyList.toArray(new Company[companyList.size()]));
+            reload.accept(null);
+        } catch (Exception e) {
+            com.javafee.java.lessons.lesson12.view.Utils.displayPopup("Wrong input in field age or wage", "Error",
+                    JOptionPane.ERROR_MESSAGE, addCompanyForm.getFrame());
+        }
     }
 
     public void delete(Consumer reload, Company company){

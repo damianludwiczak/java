@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Store company's data.
@@ -65,7 +64,7 @@ public class Company implements Serializable {
     private Integer findMaxId() {
         DAO<Company[]> companyDao = new DAO<>();
         List<Company> companyList = new ArrayList<Company>(List.of(companyDao.findAll(Utils.COMPANY_FILE)));
-        return (companyList == null || companyList.isEmpty()) ? 1 : (companyList.stream().max(Comparator.comparing(Company::getId))
+        return (companyList == null || companyList.isEmpty()) ? 0 : (companyList.stream().max(Comparator.comparing(Company::getId))
                 .orElseThrow(NoSuchElementException::new)).getId();
     }
 

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Store client's data managed by CMS.
@@ -37,7 +36,7 @@ public class Client extends UserData implements Serializable {
     private Integer findMaxId() {
         DAO<Client[]> dao = new DAO<>();
         List<Client> clientList = new ArrayList<Client>(List.of(dao.findAll(Utils.CLIENT_FILE)));
-        return (clientList == null || clientList.isEmpty()) ? 1 : (clientList.stream().max(Comparator.comparing(Client::getId))
+        return (clientList == null || clientList.isEmpty()) ? 0 : (clientList.stream().max(Comparator.comparing(Client::getId))
                                         .orElseThrow(NoSuchElementException::new)).getId();
     }
 
