@@ -3,6 +3,7 @@ package com.javafee.java.lessons.lesson12.view;
 import com.javafee.java.lessons.lesson12.view.model.CompanyTableModel;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class AddClientForm {
     private JFrame frame;
@@ -20,9 +21,13 @@ public class AddClientForm {
 
     public AddClientForm() {
         frame = new JFrame("Add User");
+        frame.setIconImage(new ImageIcon(AddClientForm.class.getResource("btnLogOut-ico.png")).getImage());
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
+
+        buttonAccept.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("btnAccept-ico.png"))
+                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
     }
 
     public JTable getTableCompany() {

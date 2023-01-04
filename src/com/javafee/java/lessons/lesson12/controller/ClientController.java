@@ -19,11 +19,13 @@ public class ClientController {
 
     public void control() {
         init();
+
+        clientForm.getFrame().getRootPane().setDefaultButton(clientForm.getButtonAdd());
+
         clientForm.getButtonAdd().addActionListener(e -> onClickBtnAdd());
         clientForm.getButtonModify().addActionListener(e -> onClickBtnModify());
         clientForm.getButtonDelete().addActionListener(e -> onClickBtnDelete());
         clientForm.getButtonManagementCompany().addActionListener(e -> onClickBtnManagementCompany());
-        clientForm.getButtonUpdate().addActionListener(e -> updateData());
         updateData();
     }
 
@@ -57,7 +59,7 @@ public class ClientController {
     }
 
     private void onClickBtnManagementCompany(){
-        companyController.control();
+        companyController.control(e -> updateData());
     }
 
     private void updateData() {

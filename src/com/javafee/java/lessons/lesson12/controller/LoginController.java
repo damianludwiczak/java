@@ -25,6 +25,7 @@ public class LoginController {
         init();
 
         loginForm.getButtonLogin().addActionListener(e -> onClickButtonLogin());
+        loginForm.getFrame().getRootPane().setDefaultButton(loginForm.getButtonLogin());
     }
 
     private void init() {

@@ -14,9 +14,10 @@ import java.util.function.Consumer;
 
 public class CompanyFormController {
     private AddCompanyForm addCompanyForm;
-    private ActionListener addActionListener = e -> onClickButtonAdd();
-    private ActionListener modifyActionListener = e -> onClickButtonModify();
     private Consumer reload;
+    private Consumer reload2;
+    private ActionListener addActionListener = e -> onClickButtonAdd(reload2);
+    private ActionListener modifyActionListener = e -> onClickButtonModify(reload2);
     private List<Company> companyList = new ArrayList<>();
 
     DAO<Company[]> daoCompany = new DAO<>();
@@ -26,9 +27,10 @@ public class CompanyFormController {
        addCompanyForm = new AddCompanyForm();
     }
 
-    public void control(Consumer reload, String context, Company company) {
+    public void control(Consumer reload, Consumer reload2, String context, Company company) {
         init();
         this.reload = reload;
+        this.reload2 = reload2;
         addCompanyForm.getButtonConfirm().removeActionListener(addActionListener);
         addCompanyForm.getButtonConfirm().removeActionListener(modifyActionListener);
         if (context.equals("add")) {
@@ -41,7 +43,7 @@ public class CompanyFormController {
         }
     }
 
-    private void onClickButtonAdd() {
+    private void onClickButtonAdd(Consumer reload2) {
         companyList = new ArrayList<Company>(List.of(daoCompany.findAll(Utils.COMPANY_FILE)));
         try {
             String name = addCompanyForm.getTextFieldName().getText();
@@ -50,13 +52,14 @@ public class CompanyFormController {
             companyList.add(company);
             daoCompany.saveAll(Utils.COMPANY_FILE, companyList.toArray(new Company[companyList.size()]));
             reload.accept(null);
+            reload2.accept(null);
         } catch (NumberFormatException e) {
             com.javafee.java.lessons.lesson12.view.Utils.displayPopup("Wrong input in field age or wage", "Error",
                     JOptionPane.ERROR_MESSAGE, addCompanyForm.getFrame());
         }
     }
 
-    private void onClickButtonModify() {
+    private void onClickButtonModify(Consumer reload2) {
         companyList = new ArrayList<Company>(List.of(daoCompany.findAll(Utils.COMPANY_FILE)));
         int indexOfCompanyInList = companyList.indexOf(company);
         try {
@@ -66,19 +69,21 @@ public class CompanyFormController {
             modifyCompanyInClientList(companyList.get(indexOfCompanyInList));
             daoCompany.saveAll(Utils.COMPANY_FILE, companyList.toArray(new Company[companyList.size()]));
             reload.accept(null);
+            reload2.accept(null);
         } catch (Exception e) {
             com.javafee.java.lessons.lesson12.view.Utils.displayPopup("Wrong input in field age or wage", "Error",
                     JOptionPane.ERROR_MESSAGE, addCompanyForm.getFrame());
         }
     }
 
-    public void delete(Consumer reload, Company company){
+    public void delete(Consumer reload, Consumer reload2, Company company){
         this.reload = reload;
         companyList = new ArrayList<Company>(List.of(daoCompany.findAll(Utils.COMPANY_FILE)));
         companyList.remove(company);
         deleteCompanyInClientList(company);
         daoCompany.saveAll(Utils.COMPANY_FILE, companyList.toArray(new Company[companyList.size()]));
         reload.accept(null);
+        reload2.accept(null);
     }
 
     private void modifyCompanyInClientList(Company company) {
