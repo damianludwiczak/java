@@ -12,6 +12,7 @@ public class ClientForm {
     private JButton buttonModify;
     private JButton buttonDelete;
     private JButton buttonManagementCompany;
+    private JButton buttonUpdate;
 
     public ClientForm() {
         frame = new JFrame("Clients (c) myCMS");
@@ -46,6 +47,10 @@ public class ClientForm {
 
     public JButton getButtonManagementCompany() {
         return buttonManagementCompany;
+    }
+
+    public JButton getButtonUpdate() {
+        return buttonUpdate;
     }
 
     private void createUIComponents() {

@@ -6,6 +6,7 @@ import com.javafee.java.lessons.lesson12.model.repository.DAO;
 import com.javafee.java.lessons.lesson12.service.CompanyService;
 import com.javafee.java.lessons.lesson12.service.Utils;
 import com.javafee.java.lessons.lesson12.view.AddClientForm;
+import com.javafee.java.lessons.lesson12.view.model.ClientTableModel;
 import com.javafee.java.lessons.lesson12.view.model.CompanyTableModel;
 
 import javax.swing.*;
@@ -37,6 +38,7 @@ public class ClientFormController {
         this.reload = reload;
         addClientForm.getButtonAccept().removeActionListener(addActionListener);
         addClientForm.getButtonAccept().removeActionListener(modifyActionListener);
+        updateData();
         if (context.equals("add")) {
             reloadEmptyForm();
             addClientForm.getButtonAccept().addActionListener(addActionListener);
@@ -112,7 +114,8 @@ public class ClientFormController {
         addClientForm.getTextFieldWage().setText(String.valueOf(clientFromTable.getWage()));
         String companyName = !(clientFromTable.getCompanyList() == null || clientFromTable.getCompanyList().isEmpty()) ? clientFromTable.getCompanyList().toString() : "";
         addClientForm.getTextFieldCompany().setText(companyName);
-        selectCompanyIndex(clientFromTable.getCompanyList());
+        if (!(clientFromTable.getCompanyList() == null || clientFromTable.getCompanyList().isEmpty()))
+            selectCompanyIndex(clientFromTable.getCompanyList());
     }
 
     private void selectCompanyIndex(List<Company> clientCompanyList) {
@@ -167,5 +170,9 @@ public class ClientFormController {
         daoCompany.saveAll(Utils.COMPANY_FILE, listCompanyToSave.toArray(new Company[listCompanyToSave.size()]));
 
         return listCompaniesToAdd;
+    }
+
+    private void updateData() {
+        ((CompanyTableModel) addClientForm.getTableCompany().getModel()).reload();
     }
 }

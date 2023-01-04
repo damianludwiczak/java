@@ -54,7 +54,7 @@ public class ClientTableModel extends AbstractTableModel {
         return switch (ClientTableColumn.getByIndex(columnIndex)) {
             case COL_NAME -> client.getName();
             case COL_SURNAME -> client.getSurname();
-            case COL_NATIONALITY -> client.getId();
+            case COL_NATIONALITY -> client.getNationality();
             case COL_AGE -> client.getAge();
             case COL_WAGE -> client.getWage();
             case COL_COMPANY -> !(client.getCompanyList() == null || client.getCompanyList().isEmpty()) ? client.getCompanyList().toString() : "";

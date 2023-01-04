@@ -3,7 +3,6 @@ package com.javafee.java.lessons.lesson12.controller;
 
 import com.javafee.java.lessons.lesson12.view.CompanyForm;
 import com.javafee.java.lessons.lesson12.view.Utils;
-import com.javafee.java.lessons.lesson12.view.model.ClientTableModel;
 import com.javafee.java.lessons.lesson12.view.model.CompanyTableModel;
 
 import javax.swing.*;
@@ -16,10 +15,10 @@ public class CompanyController {
     public CompanyController() {
         companyForm = new CompanyForm();
         companyFormController = new CompanyFormController();
-
     }
 
     public void control() {
+        updateData();
         init();
 
         companyForm.getButtonAdd().addActionListener(e -> onClickButtonAdd());
@@ -49,12 +48,9 @@ public class CompanyController {
             Utils.displayPopup("Not selected row", "Error", JOptionPane.ERROR_MESSAGE, companyForm.getFrame());
         }
     }
-
     private void updateData(){
         ((CompanyTableModel) companyForm.getTableCompany().getModel()).reload();
     }
-
-
     private void init() {
         companyForm.getFrame().setVisible(true);
     }

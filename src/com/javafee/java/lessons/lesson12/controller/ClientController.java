@@ -23,6 +23,8 @@ public class ClientController {
         clientForm.getButtonModify().addActionListener(e -> onClickBtnModify());
         clientForm.getButtonDelete().addActionListener(e -> onClickBtnDelete());
         clientForm.getButtonManagementCompany().addActionListener(e -> onClickBtnManagementCompany());
+        clientForm.getButtonUpdate().addActionListener(e -> updateData());
+        updateData();
     }
 
     private void init() {
@@ -56,7 +58,6 @@ public class ClientController {
 
     private void onClickBtnManagementCompany(){
         companyController.control();
-        updateData();
     }
 
     private void updateData() {

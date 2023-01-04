@@ -15,6 +15,7 @@ public class AddClientForm {
     private JButton buttonAccept;
     private JTextField textFieldSurname;
     private JTable tableCompany;
+    private JButton buttonUpdate;
 
 
     public AddClientForm() {
