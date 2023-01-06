@@ -51,6 +51,6 @@ public class Client extends UserData implements Serializable {
 
     @Override
     public String toString() {
-        return getName() + " " + getId();
+        return getName();
     }
 }

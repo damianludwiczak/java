@@ -49,6 +49,9 @@ public class ClientController {
     }
 
     private void onClickBtnDelete( ) {
+        System.out.println("Count of listeners delete: " + ((JButton) clientForm.getButtonDelete()).getActionListeners().length);
+        System.out.println("Count of listeners modify: " + ((JButton) clientForm.getButtonModify()).getActionListeners().length);
+        System.out.println("Count of listeners add: " + ((JButton) clientForm.getButtonAdd()).getActionListeners().length);
         int selectedIndex = clientForm.getTableClient().getSelectedRow();
         if (selectedIndex != -1) {
             int index = clientForm.getTableClient().convertRowIndexToModel(selectedIndex);

@@ -1,6 +1,5 @@
 package com.javafee.java.lessons.lesson12.controller;
 
-
 import com.javafee.java.lessons.lesson12.view.CompanyForm;
 import com.javafee.java.lessons.lesson12.view.Utils;
 import com.javafee.java.lessons.lesson12.view.model.CompanyTableModel;
@@ -44,6 +43,9 @@ public class CompanyController {
         }
     }
     private void onClickButtonDelete(Consumer reloadAction) {
+        System.out.println("Count of listeners delete: " + ((JButton) companyForm.getButtonDelete()).getActionListeners().length);
+        System.out.println("Count of listeners modify: " + ((JButton) companyForm.getButtonModify()).getActionListeners().length);
+        System.out.println("Count of listeners add: " + ((JButton) companyForm.getButtonAdd()).getActionListeners().length);
         int selectedIndex = companyForm.getTableCompany().getSelectedRow();
         if (selectedIndex != -1) {
             int index = companyForm.getTableCompany().convertRowIndexToModel(selectedIndex);

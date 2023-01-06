@@ -6,10 +6,8 @@ import com.javafee.java.lessons.lesson12.model.repository.DAO;
 import com.javafee.java.lessons.lesson12.service.CompanyService;
 import com.javafee.java.lessons.lesson12.service.Utils;
 import com.javafee.java.lessons.lesson12.view.AddClientForm;
-import com.javafee.java.lessons.lesson12.view.model.ClientTableModel;
 import com.javafee.java.lessons.lesson12.view.model.CompanyTableModel;
 
-import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,45 +54,49 @@ public class ClientFormController {
     private void onClickButtonAdd() {
         clientList = new ArrayList<Client>(List.of(dao.findAll(Utils.CLIENT_FILE)));
 
+        String name = addClientForm.getTextFieldName().getText();
+        String surname = addClientForm.getTextFieldSurname().getText();
+        String nationality = addClientForm.getTextFieldNationality().getText();
+        Integer age;
+        Double wage;
         try {
-            String name = addClientForm.getTextFieldName().getText();
-            String surname = addClientForm.getTextFieldSurname().getText();
-            String nationality = addClientForm.getTextFieldNationality().getText();
-            Integer age = Integer.valueOf(addClientForm.getTextFieldAge().getText());
-            Double wage = Double.valueOf(addClientForm.getTextFieldWage().getText());
+            age = Integer.valueOf(addClientForm.getTextFieldAge().getText());
+            wage = Double.valueOf(addClientForm.getTextFieldWage().getText());
 
-            Client newClient = new Client(name, surname, nationality, age, wage, null);
-            newClient.setCompanyList(addCompanies(newClient));
-
-            clientList.add(newClient);
-            dao.saveAll(Utils.CLIENT_FILE, clientList.toArray(new Client[clientList.size()]));
-            reload.accept(null);
         } catch (NumberFormatException e ){
-            com.javafee.java.lessons.lesson12.view.Utils.displayPopup("Wrong input in field age or wage", "Error",
-                    JOptionPane.ERROR_MESSAGE, addClientForm.getFrame());
+            age = 0;
+            wage = 0.0;
         }
+
+        Client newClient = new Client(name, surname, nationality, age, wage, null);
+        newClient.setCompanyList(addCompanies(newClient));
+
+        clientList.add(newClient);
+        dao.saveAll(Utils.CLIENT_FILE, clientList.toArray(new Client[clientList.size()]));
+        reload.accept(null);
     }
 
     private void onClickButtonModify() {
         clientList = new ArrayList<Client>(List.of(dao.findAll(Utils.CLIENT_FILE)));
         int indexOfList = clientList.indexOf(client);
 
+        clientList.get(indexOfList).setName(addClientForm.getTextFieldName().getText());
+        clientList.get(indexOfList).setSurname(addClientForm.getTextFieldSurname().getText());
+        clientList.get(indexOfList).setNationality(addClientForm.getTextFieldNationality().getText());
+
         try {
-            clientList.get(indexOfList).setName(addClientForm.getTextFieldName().getText());
-            clientList.get(indexOfList).setSurname(addClientForm.getTextFieldSurname().getText());
-            clientList.get(indexOfList).setNationality(addClientForm.getTextFieldNationality().getText());
             clientList.get(indexOfList).setAge(Integer.valueOf(addClientForm.getTextFieldAge().getText()));
             clientList.get(indexOfList).setWage(Double.valueOf(addClientForm.getTextFieldWage().getText()));
-            removeFromCompanyList(clientList.get(indexOfList));
-            List<Company> companyList = addCompanies(clientList.get(indexOfList));
-            clientList.get(indexOfList).setCompanyList(companyList);
-
-            dao.saveAll(Utils.CLIENT_FILE, clientList.toArray(new Client[clientList.size()]));
-            reload.accept(null);
         } catch (NumberFormatException e) {
-            com.javafee.java.lessons.lesson12.view.Utils.displayPopup("Wrong input in field age or wage", "Error",
-                    JOptionPane.ERROR_MESSAGE, addClientForm.getFrame());
+            clientList.get(indexOfList).setAge(0);
+            clientList.get(indexOfList).setWage(0.0);
         }
+        removeFromCompanyList(clientList.get(indexOfList));
+        List<Company> companyList = addCompanies(clientList.get(indexOfList));
+        clientList.get(indexOfList).setCompanyList(companyList);
+
+        dao.saveAll(Utils.CLIENT_FILE, clientList.toArray(new Client[clientList.size()]));
+        reload.accept(null);
     }
 
     public void delete(Consumer reload, Client client) {
