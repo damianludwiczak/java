@@ -5,60 +5,66 @@ import com.javafee.java.lessons.lesson12.view.Utils;
 import com.javafee.java.lessons.lesson12.view.model.CompanyTableModel;
 
 import javax.swing.*;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class CompanyController {
     private CompanyForm companyForm;
-    private CompanyFormController companyFormController;
-    private Consumer reloadAction;
+    private static Consumer reloadAction;
+    private static CompanyController instance = null;
 
-
-    public CompanyController() {
+    private CompanyController() {
         companyForm = new CompanyForm();
-        companyFormController = new CompanyFormController();
+
+        control();
     }
 
-    public void control(Consumer reloadClientForm) {
+    public static CompanyController getInstance(Consumer reloadClientForm) {
+        reloadAction = reloadClientForm;
+        if (Objects.isNull(instance))
+            instance = new CompanyController();
+        return instance;
+    }
+
+    private void control() {
+        companyForm.getButtonAdd().addActionListener(e -> onClickButtonAdd());
+        companyForm.getButtonModify().addActionListener(e -> onClickButtonModify());
+        companyForm.getButtonDelete().addActionListener(e -> onClickButtonDelete());
+    }
+
+    public void open() {
         updateData();
-        init();
-
-        this.reloadAction = reloadClientForm;
-
-        companyForm.getButtonAdd().addActionListener(e -> onClickButtonAdd(reloadAction));
-        companyForm.getButtonModify().addActionListener(e -> onClickButtonModify(reloadAction));
-        companyForm.getButtonDelete().addActionListener(e -> onClickButtonDelete(reloadAction));
+        companyForm.getFrame().setVisible(true);
     }
 
-    private void onClickButtonAdd(Consumer reloadAction) {
-        companyFormController.control(e -> updateData(), reloadAction, "add", null);
+    private void onClickButtonAdd() {
+        CompanyFormController.getInstance(reloadAction, e -> updateData(), "add", null).open();
     }
-    private void onClickButtonModify(Consumer reloadAction) {
+
+    private void onClickButtonModify() {
         int selectedIndex = companyForm.getTableCompany().getSelectedRow();
         if (selectedIndex != -1) {
             int index = companyForm.getTableCompany().convertRowIndexToModel(selectedIndex);
-            companyFormController.control(e -> updateData(), reloadAction, "modify",
-                    ((CompanyTableModel)companyForm.getTableCompany().getModel()).getCompany(index));
+            CompanyFormController.getInstance(reloadAction, e -> updateData(), "modify",
+                    ((CompanyTableModel) companyForm.getTableCompany().getModel()).getCompany(index)).open();
         } else {
             Utils.displayPopup("Not selected row", "Error", JOptionPane.ERROR_MESSAGE, companyForm.getFrame());
         }
     }
-    private void onClickButtonDelete(Consumer reloadAction) {
-        System.out.println("Count of listeners delete: " + ((JButton) companyForm.getButtonDelete()).getActionListeners().length);
-        System.out.println("Count of listeners modify: " + ((JButton) companyForm.getButtonModify()).getActionListeners().length);
-        System.out.println("Count of listeners add: " + ((JButton) companyForm.getButtonAdd()).getActionListeners().length);
+
+    private void onClickButtonDelete() {
         int selectedIndex = companyForm.getTableCompany().getSelectedRow();
         if (selectedIndex != -1) {
             int index = companyForm.getTableCompany().convertRowIndexToModel(selectedIndex);
-            companyFormController.delete(e -> updateData(), reloadAction, ((CompanyTableModel)companyForm.getTableCompany().getModel()).getCompany(index));
+            CompanyFormController.getInstance(e -> updateData(), reloadAction, "delete",
+                    (((CompanyTableModel) companyForm.getTableCompany().getModel()).getCompany(index))).delete();
         } else {
             Utils.displayPopup("Not selected row", "Error", JOptionPane.ERROR_MESSAGE, companyForm.getFrame());
         }
         reloadAction.accept(null);
     }
-    private void updateData(){
+
+    private void updateData() {
         ((CompanyTableModel) companyForm.getTableCompany().getModel()).reload();
-    }
-    private void init() {
-        companyForm.getFrame().setVisible(true);
     }
 }

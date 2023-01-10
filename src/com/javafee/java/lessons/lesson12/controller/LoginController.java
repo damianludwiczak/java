@@ -3,8 +3,10 @@ package com.javafee.java.lessons.lesson12.controller;
 import com.javafee.java.lessons.lesson12.service.LoginService;
 import com.javafee.java.lessons.lesson12.view.LoginForm;
 import com.javafee.java.lessons.lesson12.view.Utils;
+import jdk.dynalink.beans.StaticClass;
 
 import javax.swing.*;
+import java.util.Objects;
 
 /**
  * Store all the actions and manage them.
@@ -15,10 +17,18 @@ public class LoginController {
     private LoginService loginService;
     private ClientController clientController;
 
-    public LoginController() {
+    private static LoginController instance = null;
+
+    private LoginController() {
         loginForm = new LoginForm();
         loginService = new LoginService();
-        clientController = new ClientController();
+        clientController = ClientController.getInstance();
+    }
+
+    public static LoginController getInstance() {
+        if (Objects.isNull(instance))
+            instance = new LoginController();
+        return instance;
     }
 
     public void control() {

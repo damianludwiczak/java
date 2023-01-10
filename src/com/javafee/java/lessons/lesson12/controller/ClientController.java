@@ -5,17 +5,24 @@ import com.javafee.java.lessons.lesson12.view.Utils;
 import com.javafee.java.lessons.lesson12.view.model.ClientTableModel;
 
 import javax.swing.*;
+import java.util.Objects;
 
 public class ClientController {
     private ClientForm clientForm;
     private ClientFormController clientFormController;
-    private CompanyController companyController;
+    private static ClientController instance = null;
 
-    public ClientController() {
+    private ClientController() {
         clientForm = new ClientForm();
-        clientFormController = new ClientFormController();
-        companyController = new CompanyController();
+        clientFormController = ClientFormController.getInstance();
     }
+
+    public static ClientController getInstance() {
+        if (Objects.isNull(instance))
+            instance = new ClientController();
+        return instance;
+    }
+
 
     public void control() {
         init();
@@ -42,27 +49,24 @@ public class ClientController {
         if (selectedIndex != -1) {
             int index = clientForm.getTableClient().convertRowIndexToModel(selectedIndex);
             clientFormController.control(e -> updateData(), "modify",
-                    ((ClientTableModel)clientForm.getTableClient().getModel()).getClient(index));
+                    ((ClientTableModel) clientForm.getTableClient().getModel()).getClient(index));
         } else {
             Utils.displayPopup("Not selected row", "Error", JOptionPane.ERROR_MESSAGE, clientForm.getFrame());
         }
     }
 
-    private void onClickBtnDelete( ) {
-        System.out.println("Count of listeners delete: " + ((JButton) clientForm.getButtonDelete()).getActionListeners().length);
-        System.out.println("Count of listeners modify: " + ((JButton) clientForm.getButtonModify()).getActionListeners().length);
-        System.out.println("Count of listeners add: " + ((JButton) clientForm.getButtonAdd()).getActionListeners().length);
+    private void onClickBtnDelete() {
         int selectedIndex = clientForm.getTableClient().getSelectedRow();
         if (selectedIndex != -1) {
             int index = clientForm.getTableClient().convertRowIndexToModel(selectedIndex);
             clientFormController.delete(e -> updateData(),
-                    ((ClientTableModel)clientForm.getTableClient().getModel()).getClient(index));
+                    ((ClientTableModel) clientForm.getTableClient().getModel()).getClient(index));
         } else
             Utils.displayPopup("Not selected row", "Error", JOptionPane.ERROR_MESSAGE, clientForm.getFrame());
     }
 
-    private void onClickBtnManagementCompany(){
-        companyController.control(e -> updateData());
+    private void onClickBtnManagementCompany() {
+        CompanyController.getInstance(e -> updateData()).open();
     }
 
     private void updateData() {

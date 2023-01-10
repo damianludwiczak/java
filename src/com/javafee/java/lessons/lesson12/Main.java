@@ -17,7 +17,7 @@ public class Main {
         feedAccount();
         feedClient();
         feedCompany();
-        new LoginController().control();
+        LoginController.getInstance().control();
     }
 
     public static void feedAccount() {

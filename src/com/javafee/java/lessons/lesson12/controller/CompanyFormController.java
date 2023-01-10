@@ -9,40 +9,59 @@ import com.javafee.java.lessons.lesson12.view.AddCompanyForm;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class CompanyFormController {
     private AddCompanyForm addCompanyForm;
-    private Consumer reload;
-    private Consumer reload2;
-    private ActionListener addActionListener = e -> onClickButtonAdd(reload2);
-    private ActionListener modifyActionListener = e -> onClickButtonModify(reload2);
+    private ActionListener addActionListener = e -> onClickButtonAdd(reloadActionClient);
+    private ActionListener modifyActionListener = e -> onClickButtonModify(reloadActionClient);
     private List<Company> companyList = new ArrayList<>();
 
     DAO<Company[]> daoCompany = new DAO<>();
-    private Company company;
+    private static Company company;
+    private static String context;
 
-    public CompanyFormController() {
-       addCompanyForm = new AddCompanyForm();
+    private static Consumer reloadActionClient;
+    private static Consumer reloadActionCompany;
+
+    private static CompanyFormController instance = null;
+
+    private CompanyFormController() {
+        addCompanyForm = new AddCompanyForm();
     }
 
-    public void control(Consumer reload, Consumer reload2, String context, Company company) {
-        init();
-        this.reload = reload;
-        this.reload2 = reload2;
+    public static CompanyFormController getInstance(Consumer reloadActionClientForm, Consumer reloadActionCompanyForm,
+                                                    String context, Company company) {
+        reloadActionClient = reloadActionClientForm;
+        reloadActionCompany = reloadActionCompanyForm;
+        if (Objects.isNull(instance))
+            instance = new CompanyFormController();
+
+        CompanyFormController.context = context;
+        CompanyFormController.company = company;
+
+        return instance;
+    }
+
+    public void open() {
+        addCompanyForm.getFrame().setVisible(true);
+
         addCompanyForm.getButtonConfirm().removeActionListener(addActionListener);
         addCompanyForm.getButtonConfirm().removeActionListener(modifyActionListener);
         if (context.equals("add")) {
             reloadEmptyForm();
             addCompanyForm.getButtonConfirm().addActionListener(addActionListener);
-        } else {
+        } else if (context.equals("modify")) {
             this.company = company;
             reloadForm(company);
             addCompanyForm.getButtonConfirm().addActionListener(modifyActionListener);
+        } else {
+            delete();
         }
     }
 
-    private void onClickButtonAdd(Consumer reload2) {
+    private void onClickButtonAdd(Consumer reloadClient) {
         companyList = new ArrayList<Company>(List.of(daoCompany.findAll(Utils.COMPANY_FILE)));
         String name = addCompanyForm.getTextFieldName().getText();
         Double YearlyIncomes;
@@ -54,11 +73,11 @@ public class CompanyFormController {
         this.company = new Company(name, YearlyIncomes);
         companyList.add(company);
         daoCompany.saveAll(Utils.COMPANY_FILE, companyList.toArray(new Company[companyList.size()]));
-        reload.accept(null);
-        reload2.accept(null);
+        reloadActionCompany.accept(null);
+        reloadClient.accept(null);
     }
 
-    private void onClickButtonModify(Consumer reload2) {
+    private void onClickButtonModify(Consumer reloadClient) {
         companyList = new ArrayList<Company>(List.of(daoCompany.findAll(Utils.COMPANY_FILE)));
         int indexOfCompanyInList = companyList.indexOf(company);
 
@@ -70,26 +89,25 @@ public class CompanyFormController {
         }
         modifyCompanyInClientList(companyList.get(indexOfCompanyInList));
         daoCompany.saveAll(Utils.COMPANY_FILE, companyList.toArray(new Company[companyList.size()]));
-        reload.accept(null);
-        reload2.accept(null);
+        reloadActionCompany.accept(null);
+        reloadClient.accept(null);
     }
 
-    public void delete(Consumer reload, Consumer reload2, Company company){
-        this.reload = reload;
+    public void delete() {
         companyList = new ArrayList<Company>(List.of(daoCompany.findAll(Utils.COMPANY_FILE)));
         companyList.remove(company);
         deleteCompanyInClientList(company);
         daoCompany.saveAll(Utils.COMPANY_FILE, companyList.toArray(new Company[companyList.size()]));
-        reload.accept(null);
-        reload2.accept(null);
+        reloadActionCompany.accept(null);
+        reloadActionClient.accept(null);
     }
 
     private void modifyCompanyInClientList(Company company) {
         int indexCompanyInList = 0;
-        DAO<Client[]> daoClient =  new DAO<>();
+        DAO<Client[]> daoClient = new DAO<>();
         List<Client> clientList = new ArrayList<Client>(List.of(daoClient.findAll(Utils.CLIENT_FILE)));
         if (!(clientList == null || clientList.isEmpty())) {
-            for (Client client: clientList) {
+            for (Client client : clientList) {
                 if (client.getCompanyList().contains(company)) {
                     indexCompanyInList = client.getCompanyList().indexOf(company);
                     client.getCompanyList().remove(indexCompanyInList);
@@ -102,11 +120,11 @@ public class CompanyFormController {
 
     private void deleteCompanyInClientList(Company company) {
         int indexCompanyInList = 0;
-        DAO<Client[]> daoClient =  new DAO<>();
+        DAO<Client[]> daoClient = new DAO<>();
         List<Client> clientList = new ArrayList<Client>(List.of(daoClient.findAll(Utils.CLIENT_FILE)));
         if (!(clientList == null || clientList.isEmpty())) {
-            for (Client client: clientList) {
-                if (!(client.getCompanyList() == null || client.getCompanyList().isEmpty())){
+            for (Client client : clientList) {
+                if (!(client.getCompanyList() == null || client.getCompanyList().isEmpty())) {
                     if (client.getCompanyList().contains(company)) {
                         indexCompanyInList = client.getCompanyList().indexOf(company);
                         client.getCompanyList().remove(indexCompanyInList);
@@ -125,9 +143,5 @@ public class CompanyFormController {
     private void reloadEmptyForm() {
         addCompanyForm.getTextFieldName().setText("");
         addCompanyForm.getTextFieldYearlyIncomes().setText("");
-    }
-
-    private void init(){
-        addCompanyForm.getFrame().setVisible(true);
     }
 }

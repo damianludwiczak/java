@@ -3,7 +3,6 @@ package com.javafee.java.lessons.lesson12.controller;
 import com.javafee.java.lessons.lesson12.model.domain.Client;
 import com.javafee.java.lessons.lesson12.model.domain.Company;
 import com.javafee.java.lessons.lesson12.model.repository.DAO;
-import com.javafee.java.lessons.lesson12.service.CompanyService;
 import com.javafee.java.lessons.lesson12.service.Utils;
 import com.javafee.java.lessons.lesson12.view.AddClientForm;
 import com.javafee.java.lessons.lesson12.view.model.CompanyTableModel;
@@ -11,11 +10,11 @@ import com.javafee.java.lessons.lesson12.view.model.CompanyTableModel;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 
 public class ClientFormController {
-    private CompanyService companyService;
     private AddClientForm addClientForm;
     private List<Client> clientList = new ArrayList<>();
     private Client client;
@@ -23,12 +22,17 @@ public class ClientFormController {
     private DAO<Client[]> dao = new DAO<>();
     private ActionListener addActionListener = e -> onClickButtonAdd();
     private ActionListener modifyActionListener = e -> onClickButtonModify();
+    private static ClientFormController instance = null;
 
 
 
-    public ClientFormController() {
-        companyService = new CompanyService();
+    private ClientFormController() {
         addClientForm = new AddClientForm();
+    }
+    public static ClientFormController getInstance() {
+        if(Objects.isNull(instance))
+            instance = new ClientFormController();
+        return instance;
     }
 
     public void control(Consumer reload, String context, Client clientFromTable) { // reload / context / client
