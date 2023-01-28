@@ -8,7 +8,6 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class ClientTableModel extends AbstractTableModel {
     private List<Client> clients;
@@ -58,7 +57,7 @@ public class ClientTableModel extends AbstractTableModel {
             case COL_NATIONALITY -> client.getNationality();
             case COL_AGE -> client.getAge();
             case COL_WAGE -> client.getWage();
-            case COL_COMPANY -> !Objects.isNull(client.getCompany()) ? client.getCompany().getName() : "";
+            case COL_COMPANY -> !(client.getCompanyList() == null || client.getCompanyList().isEmpty()) ? client.getCompanyList().toString() : "";
         };
     }
 

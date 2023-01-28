@@ -1,7 +1,13 @@
 package com.javafee.java.lessons.lesson12.model.domain;
 
+import com.javafee.java.lessons.lesson12.model.repository.DAO;
+import com.javafee.java.lessons.lesson12.service.Utils;
+
 import java.io.Serializable;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Store company's data.
@@ -11,10 +17,13 @@ public class Company implements Serializable {
     private String name;
     private Double yearlyIncomes;
 
-    private static AtomicInteger uniqueId = new AtomicInteger();
+    private List<Client> clientList =  new ArrayList<>();
+
+    private List<Company> companyList = new ArrayList<>();
+
 
     public Company(String name, Double yearlyIncomes) {
-        this.id = uniqueId.getAndIncrement();
+        this.id = findMaxId() + 1;
         this.name = name;
         this.yearlyIncomes = yearlyIncomes;
     }
@@ -42,6 +51,26 @@ public class Company implements Serializable {
 
     public void setYearlyIncomes(Double yearlyIncomes) {
         this.yearlyIncomes = yearlyIncomes;
+    }
+
+    public List<Client> getClientList() {
+        return clientList;
+    }
+
+    public void setClientList(List<Client> clientList) {
+        this.clientList = clientList;
+    }
+
+    private Integer findMaxId() {
+        DAO<Company[]> companyDao = new DAO<>();
+        List<Company> companyList = new ArrayList<Company>(List.of(companyDao.findAll(Utils.COMPANY_FILE)));
+        return (companyList == null || companyList.isEmpty()) ? 0 : (companyList.stream().max(Comparator.comparing(Company::getId))
+                .orElseThrow(NoSuchElementException::new)).getId();
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     @Override

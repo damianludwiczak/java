@@ -43,7 +43,7 @@ public class Controller {
     private void register() throws IOException, NoSuchFieldException {
         String login = view.getInputString("login");
         String password = view.getInputString("password");
-        String accountType = view.getInputString("Acoount Type: Standard / Premium");
+        String accountType = view.getInputString("Account Type: Standard / Premium");
         User user = new User(login, password, accountType);
         if (userService.register(user)) {
             view.print("User has been registered");

@@ -1,36 +1,45 @@
 package com.javafee.java.lessons.lesson12.model.domain;
 
+import com.javafee.java.lessons.lesson12.model.repository.DAO;
+import com.javafee.java.lessons.lesson12.service.Utils;
+
 import java.io.Serializable;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Store client's data managed by CMS.
  */
 public class Client extends UserData implements Serializable {
-    private Company company;
-    private static AtomicInteger uniqueId = new AtomicInteger();
+    private List<Company> companyList = new ArrayList<>();
 
-    public Client() {
-    }
-
-    public Client(String name, String surname, Integer id, String nationality, Integer age, Double wage, Company company) {
+    public Client(String name, String surname, Integer id, String nationality, Integer age, Double wage, List<Company> companyList) {
         super(name, surname, id, nationality, age, wage);
-        this.company = company;
+        this.companyList = companyList;
     }
 
-    public Client(String name, String surname, String nationality, Integer age, Double wage, Company company) {
+    public Client(String name, String surname, String nationality, Integer age, Double wage, List<Company> companyList) {
         super(name, surname, nationality, age, wage);
-        setId(uniqueId.getAndIncrement());
-        this.company = company;
+        setId(findMaxId() + 1);
+        this.companyList = companyList;
+    }
+    public List<Company> getCompanyList() {
+        return companyList;
     }
 
-    public Company getCompany() {
-        return company;
+    public void setCompanyList(List<Company> companyList) {
+        this.companyList = companyList;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    private Integer findMaxId() {
+        DAO<Client[]> dao = new DAO<>();
+        List<Client> clientList = new ArrayList<Client>(List.of(dao.findAll(Utils.CLIENT_FILE)));
+        return (clientList == null || clientList.isEmpty()) ? 0 : (clientList.stream().max(Comparator.comparing(Client::getId))
+                                        .orElseThrow(NoSuchElementException::new)).getId();
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -42,13 +51,6 @@ public class Client extends UserData implements Serializable {
 
     @Override
     public String toString() {
-        return "Client{" +
-                "name=" + super.getName() +
-                " surname=" + super.getSurname() +
-                " nationality=" + super.getNationality() +
-                " age=" + super.getAge() +
-                " wage=" + super.getWage() +
-                " company=" + company +
-                '}';
+        return getName();
     }
 }

@@ -18,11 +18,15 @@ public class CompanyTableModel extends AbstractTableModel {
     public CompanyTableModel() {
         companyDAO = new DAO<>();
         prepareData();
-        columns = new String[]{"Name", "Yearly Incomes"};
+        columns = new String[]{"Name", "Yearly Incomes", "Client List"};
     }
 
     public Company getCompany(Integer index) {
         return companies.get(index);
+    }
+
+    public List<Company> getCompanies() {
+        return companies;
     }
 
     private void prepareData() {
@@ -55,6 +59,7 @@ public class CompanyTableModel extends AbstractTableModel {
         return switch (CompanyTableColumn.getByIndex(columnIndex)) {
             case COMPANY_NAME -> company.getName();
             case COMPANY_YEARLY_INCOMES -> company.getYearlyIncomes();
+            case COMPANY_LIST_CLIENT -> company.getClientList();
         };
     }
 
@@ -64,7 +69,7 @@ public class CompanyTableModel extends AbstractTableModel {
     }
 
     enum CompanyTableColumn {
-        COMPANY_NAME(0), COMPANY_YEARLY_INCOMES(1);
+        COMPANY_NAME(0), COMPANY_YEARLY_INCOMES(1), COMPANY_LIST_CLIENT(2);
 
         private final Integer index;
 

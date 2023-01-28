@@ -17,7 +17,7 @@ public class Main {
         feedAccount();
         feedClient();
         feedCompany();
-        new LoginController().control();
+        LoginController.getInstance().control();
     }
 
     public static void feedAccount() {
@@ -41,10 +41,10 @@ public class Main {
         Client[] clientList = dao.findAll(Utils.CLIENT_FILE);
 
         if (Objects.isNull(clientList) || clientList.length == 0) {
-            Client[] arr = {new Client("Andrzej", "Kosiński","Polish", 30, 6500.0, null),
-                    new Client("Marta", "Skupień","Polish", 25, 24000.0, null),
-                    new Client("Andrew", "Roberts", "US", 32, 4500.0, null),
-                    new Client("Amhad", "Yossi", "India", 31, 40000.0, null)};
+            Client[] arr = {new Client("Andrzej", "Kosiński", 1,"Polish", 30, 6500.0, null),
+                    new Client("Marta", "Skupień", 2,"Polish", 25, 24000.0, null),
+                    new Client("Andrew", "Roberts",3,  "US", 32, 4500.0, null),
+                    new Client("Amhad", "Yossi", 4, "India", 31, 40000.0, null)};
             dao.saveAll(Utils.CLIENT_FILE, arr);
 
             clientList = dao.findAll(Utils.CLIENT_FILE);
@@ -57,10 +57,10 @@ public class Main {
         Company[] companiesList = dao.findAll(Utils.COMPANY_FILE);
 
         if (Objects.isNull(companiesList) || companiesList.length == 0) {
-            Company[] arr = { new Company("aaa", 250000.0),
-                    new Company("bbb", 350000.0),
-                    new Company("ccc", 450000.0),
-                    new Company( "ddd", 550000.0)};
+            Company[] arr = { new Company("aaa", 1, 250000.0),
+                    new Company("bbb", 2, 350000.0),
+                    new Company("ccc", 3,450000.0),
+                    new Company( "ddd", 4,550000.0)};
             dao.saveAll(Utils.COMPANY_FILE, arr);
 
             companiesList = dao.findAll(Utils.COMPANY_FILE);
