@@ -12,7 +12,7 @@ import java.util.List;
 public class ClientTableModel extends AbstractTableModel {
     private List<Client> clients;
     private String[] columns;
-    private FileDb<Client[]> clientFileDb;
+    private FileDb<Client> clientFileDb;
 
     public ClientTableModel() {
         clientFileDb = new FileDb<>(Utils.CLIENT_FILE);
@@ -25,7 +25,7 @@ public class ClientTableModel extends AbstractTableModel {
     }
 
     private void prepareData() {
-        clients = new ArrayList<>(List.of(clientFileDb.findAll()));
+        clients = clientFileDb.findAll();
     }
 
     public void reload() {

@@ -34,8 +34,8 @@ public class Client extends UserData implements Serializable {
     }
 
     private Integer findMaxId() {
-        FileDb<Client[]> fileDb = new FileDb<>(Utils.CLIENT_FILE);
-        List<Client> clientList = new ArrayList<Client>(List.of(fileDb.findAll()));
+        FileDb<Client> fileDb = new FileDb<>(Utils.CLIENT_FILE);
+        List<Client> clientList = fileDb.findAll();
         return (clientList == null || clientList.isEmpty()) ? 0 : (clientList.stream().max(Comparator.comparing(Client::getId))
                                         .orElseThrow(NoSuchElementException::new)).getId();
     }

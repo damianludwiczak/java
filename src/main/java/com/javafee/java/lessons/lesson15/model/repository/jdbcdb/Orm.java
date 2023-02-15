@@ -24,7 +24,7 @@ public class Orm {
 
     public static Function<Map<String, String>, Company> getCompanyMapFunction() {
         return (map) -> new Company(map.get("name"), Integer.parseInt(map.get("id")),
-                Double.parseDouble(map.get("yearlyIncomes")));
+                Double.parseDouble(map.get("yearlyincomes")));
     }
 
     public static Function<Map<String, String>, UserData> getUserDataMapFunction() {
