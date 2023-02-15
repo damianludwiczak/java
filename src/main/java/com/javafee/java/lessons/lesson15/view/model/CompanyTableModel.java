@@ -18,7 +18,7 @@ public class CompanyTableModel extends AbstractTableModel {
     private Dao<Company> companyDao;
 
     public CompanyTableModel() {
-        companyDao = new FileDb<>(Utils.COMPANY_FILE); //new CompanyJdbcDb();
+        companyDao =  new CompanyJdbcDb(); // new FileDb<>(Utils.COMPANY_FILE);
         prepareData();
         columns = new String[]{"Name", "Yearly Incomes", "Client List"};
     }

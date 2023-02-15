@@ -1,21 +1,21 @@
 package com.javafee.java.lessons.lesson15.view.model;
 
 import com.javafee.java.lessons.lesson15.model.domain.Client;
-import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
-import com.javafee.java.lessons.lesson15.service.Utils;
+import com.javafee.java.lessons.lesson15.model.repository.Dao;
+import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.JdbcDb;
+import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.ClientJdbcDb;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class ClientTableModel extends AbstractTableModel {
     private List<Client> clients;
     private String[] columns;
-    private FileDb<Client> clientFileDb;
+    private Dao<Client> daoClient;
 
     public ClientTableModel() {
-        clientFileDb = new FileDb<>(Utils.CLIENT_FILE);
+        daoClient = new ClientJdbcDb(); //new FileDb<>(Utils.CLIENT_FILE);
         prepareData();
         columns = new String[]{"name", "surname", "nationality", "age", "wage", "company"};
     }
@@ -25,7 +25,7 @@ public class ClientTableModel extends AbstractTableModel {
     }
 
     private void prepareData() {
-        clients = clientFileDb.findAll();
+        clients = daoClient.findAll();
     }
 
     public void reload() {

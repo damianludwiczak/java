@@ -5,6 +5,7 @@ import com.javafee.java.lessons.lesson15.model.domain.Company;
 import com.javafee.java.lessons.lesson15.model.repository.Dao;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.CompanyJdbcDb;
+import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.ClientJdbcDb;
 import com.javafee.java.lessons.lesson15.service.Utils;
 import com.javafee.java.lessons.lesson15.view.AddClientForm;
 import com.javafee.java.lessons.lesson15.view.model.CompanyTableModel;
@@ -21,8 +22,8 @@ public class ClientFormController {
     private List<Client> clientList = new ArrayList<>();
     private Client client;
     private Consumer reload;
-    private Dao<Client> fileDb = new FileDb<>(Utils.CLIENT_FILE);
-    private Dao<Company> jdbcDb = new CompanyJdbcDb();
+    private Dao<Client> jdbcDbClient = new ClientJdbcDb();
+    private Dao<Company> jdbcDbCompany = new CompanyJdbcDb();
     private ActionListener addActionListener = e -> onClickButtonAdd();
     private ActionListener modifyActionListener = e -> onClickButtonModify();
     private static ClientFormController instance = null;
@@ -59,7 +60,7 @@ public class ClientFormController {
     }
 
     private void onClickButtonAdd() {
-        clientList = fileDb.findAll();
+        clientList = jdbcDbClient.findAll();
 
         String name = addClientForm.getTextFieldName().getText();
         String surname = addClientForm.getTextFieldSurname().getText();
@@ -79,12 +80,12 @@ public class ClientFormController {
         newClient.setCompanyList(addCompanies(newClient));
 
         clientList.add(newClient);
-        fileDb.saveAll(clientList);
+        jdbcDbClient.saveAll(clientList);
         reload.accept(null);
     }
 
     private void onClickButtonModify() {
-        clientList = fileDb.findAll();
+        clientList = jdbcDbClient.findAll();
         int indexOfList = clientList.indexOf(client);
 
         clientList.get(indexOfList).setName(addClientForm.getTextFieldName().getText());
@@ -102,16 +103,16 @@ public class ClientFormController {
         List<Company> companyList = addCompanies(clientList.get(indexOfList));
         clientList.get(indexOfList).setCompanyList(companyList);
 
-        fileDb.saveAll(clientList);
+        jdbcDbClient.saveAll(clientList);
         reload.accept(null);
     }
 
     public void delete(Consumer reload, Client client) {
         this.reload = reload;
-        clientList = fileDb.findAll();
+        clientList = jdbcDbClient.findAll();
         clientList.remove(client);
         removeFromCompanyList(client);
-        fileDb.saveAll(clientList);
+        jdbcDbClient.saveAll(clientList);
         reload.accept(null);
     }
 

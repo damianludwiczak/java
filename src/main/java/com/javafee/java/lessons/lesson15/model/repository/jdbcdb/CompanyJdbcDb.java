@@ -15,7 +15,8 @@ public class CompanyJdbcDb extends JdbcDb<Company> {
             ResultSet resultSet = statement.executeQuery("select * from company");
             List<Company> companies = new ArrayList<>();
             while (resultSet.next())
-                companies.add(Orm.getCompanyMapFunction().apply(Map.of("name", resultSet.getString("name"),
+                companies.add(Orm.getCompanyMapFunction().apply(Map.of(
+                        "name", resultSet.getString("name"),
                         "id", String.valueOf(resultSet.getInt("id")),
                         "yearlyincomes", String.valueOf(resultSet.getFloat("yearlyincomes"))
                 )));

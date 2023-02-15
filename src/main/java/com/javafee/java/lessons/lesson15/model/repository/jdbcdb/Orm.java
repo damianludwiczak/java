@@ -13,8 +13,8 @@ public class Orm {
     private static Function<Map<String, String>, Client> clientMapFunction;
 
     public static Function<Map<String, String>, Client> getClientMapFunction() {
-        return (map) -> new Client(map.get("name"), map.get("surname"), map.get("nationality"),
-                Integer.parseInt(map.get("age")), Double.parseDouble(map.get("age")), null);
+        return (map) -> new Client(map.get("name"), map.get("surname"), Integer.parseInt(map.get("id")), map.get("nationality"),
+                Integer.parseInt(map.get("age")), Double.parseDouble(map.get("wage")), null);
     }
 
     public static Function<Map<String, String>, Account> getAccountMapFunction() {
