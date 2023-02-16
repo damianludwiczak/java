@@ -2,9 +2,8 @@ package com.javafee.java.lessons.lesson15.view.model;
 
 import com.javafee.java.lessons.lesson15.model.domain.Company;
 import com.javafee.java.lessons.lesson15.model.repository.Dao;
-import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.CompanyJdbcDb;
-import com.javafee.java.lessons.lesson15.service.Utils;
+
 
 import javax.swing.table.AbstractTableModel;
 import java.util.Arrays;

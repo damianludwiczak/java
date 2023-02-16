@@ -4,7 +4,9 @@ import com.javafee.java.lessons.lesson15.controller.LoginController;
 import com.javafee.java.lessons.lesson15.model.domain.Account;
 import com.javafee.java.lessons.lesson15.model.domain.Client;
 import com.javafee.java.lessons.lesson15.model.domain.Company;
+import com.javafee.java.lessons.lesson15.model.repository.Dao;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
+import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.AccountJdbcDb;
 import com.javafee.java.lessons.lesson15.service.Utils;
 
 import javax.swing.*;
@@ -22,14 +24,15 @@ public class Main {
     }
 
     public static void feedAccount() {
-        FileDb<Account> fileDb = new FileDb<>(Utils.ACCOUNT_FILE);
+        Dao<Account> fileDb =  new AccountJdbcDb(); //new FileDb<>(Utils.ACCOUNT_FILE);
         List<Account> accountList = fileDb.findAll();
 
         if (Objects.isNull(accountList) || accountList.size() == 0) {
-            Account[] arr = {new Account("test", Utils.createMd5("admin123"), LocalDateTime.now(), null),
-                    new Account("jkowalski", Utils.createMd5("admin123"), LocalDateTime.now(), null),
-                    new Account("anowak", Utils.createMd5("admin123"), LocalDateTime.now(), null),
-                    new Account("admin", Utils.createMd5("admin123"), LocalDateTime.now(), null)};
+            System.out.println("Tak");
+            Account[] arr = {new Account(1, "test", Utils.createMd5("admin123"), LocalDateTime.now(), null),
+                    new Account(2, "jkowalski", Utils.createMd5("admin123"), LocalDateTime.now(), null),
+                    new Account(3,"anowak", Utils.createMd5("admin123"), LocalDateTime.now(), null),
+                    new Account(4,"admin", Utils.createMd5("admin123"), LocalDateTime.now(), null)};
             fileDb.saveAll(List.of(arr));
 
             accountList = fileDb.findAll();
@@ -65,7 +68,7 @@ public class Main {
             fileDb.saveAll(List.of(arr));
 
             companiesList = fileDb.findAll();
-            System.out.println(companiesList.size() + " clients fed successfully");
+            System.out.println(companiesList.size() + " company  fed successfully");
         }
     }
 }

@@ -19,9 +19,7 @@ public class CompanyFormController {
     private ActionListener addActionListener = e -> onClickButtonAdd(reloadActionClient);
     private ActionListener modifyActionListener = e -> onClickButtonModify(reloadActionClient);
     private List<Company> companyList = new ArrayList<>();
-
-    private FileDb<Company> fileDbCompany = new FileDb<>(Utils.COMPANY_FILE);
-    private Dao<Company> companyDao = new CompanyJdbcDb();
+    private Dao<Company> fileDbCompany = new CompanyJdbcDb(); // new FileDb<>(Utils.COMPANY_FILE);
     private static Company company;
     private static String context;
 

@@ -15,7 +15,8 @@ public class Account extends UserData implements Serializable {
     public Account() {
     }
 
-    public Account(String login, String password, LocalDateTime created, LocalDateTime lastLogin) {
+    public Account(Integer id, String login, String password, LocalDateTime created, LocalDateTime lastLogin) {
+        setId(id);
         this.login = login;
         this.password = password;
         this.created = created;

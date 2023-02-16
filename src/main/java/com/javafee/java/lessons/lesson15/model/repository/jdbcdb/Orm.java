@@ -18,8 +18,9 @@ public class Orm {
     }
 
     public static Function<Map<String, String>, Account> getAccountMapFunction() {
-        return (map) -> new Account(map.get("login"), map.get("password"), LocalDateTime.parse(map.get("created")),
-                LocalDateTime.parse(map.get("lastLogin")));
+        return (map) -> new Account(Integer.parseInt(map.get("id")), map.get("login"),
+                map.get("password"), LocalDateTime.parse(map.get("created")),
+                LocalDateTime.parse(map.get("lastlogin")));
     }
 
     public static Function<Map<String, String>, Company> getCompanyMapFunction() {
