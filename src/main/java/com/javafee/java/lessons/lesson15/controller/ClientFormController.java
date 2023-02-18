@@ -165,7 +165,7 @@ public class ClientFormController {
                 if (listClients.isEmpty()) {
                     listClients.add(newClient);
                 } else if (listClients.contains(newClient)) {
-                    int indexInList = listClients.indexOf(newClient);
+                    int indexInList = listClients.indexOf(newClient); // TODO: 18.02.2023  
                     listClients.remove(newClient);
                     listClients.add(indexInList, newClient);
                 } else {
