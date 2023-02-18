@@ -62,8 +62,8 @@ public class Company implements Serializable {
     }
 
     private Integer findMaxId() {
-        FileDb<Company[]> companyFileDb = new FileDb<>(Utils.COMPANY_FILE);
-        List<Company> companyList = new ArrayList<Company>(List.of(companyFileDb.findAll()));
+        FileDb<Company> companyFileDb = new FileDb<>(Utils.COMPANY_FILE);
+        List<Company> companyList = companyFileDb.findAll();
         return (companyList == null || companyList.isEmpty()) ? 0 : (companyList.stream().max(Comparator.comparing(Company::getId))
                 .orElseThrow(NoSuchElementException::new)).getId();
     }

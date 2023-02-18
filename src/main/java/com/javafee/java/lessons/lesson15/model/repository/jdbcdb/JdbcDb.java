@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 public abstract class JdbcDb<T> implements Dao<T> {
     private static Connection connection;
@@ -23,8 +24,8 @@ public abstract class JdbcDb<T> implements Dao<T> {
     }
 
     @Override
-    public abstract T findAll();
+    public abstract List<T> findAll();
 
     @Override
-    public abstract void saveAll(T data);
+    public abstract void saveAll(List<T> data);
 }

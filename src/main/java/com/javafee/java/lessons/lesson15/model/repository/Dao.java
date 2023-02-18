@@ -1,7 +1,9 @@
 package com.javafee.java.lessons.lesson15.model.repository;
 
-public interface Dao<T> {
-    T findAll();
+import java.util.List;
 
-    void saveAll(T data);
+public interface Dao<T> {
+    List<T> findAll();
+
+    void saveAll(List<T> data);
 }

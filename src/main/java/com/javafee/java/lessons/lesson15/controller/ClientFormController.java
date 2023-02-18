@@ -4,7 +4,8 @@ import com.javafee.java.lessons.lesson15.model.domain.Client;
 import com.javafee.java.lessons.lesson15.model.domain.Company;
 import com.javafee.java.lessons.lesson15.model.repository.Dao;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
-import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.JdbcDb;
+import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.CompanyJdbcDb;
+import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.ClientJdbcDb;
 import com.javafee.java.lessons.lesson15.service.Utils;
 import com.javafee.java.lessons.lesson15.view.AddClientForm;
 import com.javafee.java.lessons.lesson15.view.model.CompanyTableModel;
@@ -21,8 +22,8 @@ public class ClientFormController {
     private List<Client> clientList = new ArrayList<>();
     private Client client;
     private Consumer reload;
-    private Dao<Client[]> fileDb = new FileDb<>(Utils.CLIENT_FILE);
-    private Dao<Client[]> jdbcDb = new JdbcDb<>();
+    private Dao<Client> jdbcDbClient = new ClientJdbcDb();
+    private Dao<Company> jdbcDbCompany = new CompanyJdbcDb();
     private ActionListener addActionListener = e -> onClickButtonAdd();
     private ActionListener modifyActionListener = e -> onClickButtonModify();
     private static ClientFormController instance = null;
@@ -59,7 +60,7 @@ public class ClientFormController {
     }
 
     private void onClickButtonAdd() {
-        clientList = new ArrayList<Client>(List.of(fileDb.findAll()));
+        clientList = jdbcDbClient.findAll();
 
         String name = addClientForm.getTextFieldName().getText();
         String surname = addClientForm.getTextFieldSurname().getText();
@@ -79,12 +80,12 @@ public class ClientFormController {
         newClient.setCompanyList(addCompanies(newClient));
 
         clientList.add(newClient);
-        fileDb.saveAll(clientList.toArray(new Client[clientList.size()]));
+        jdbcDbClient.saveAll(clientList);
         reload.accept(null);
     }
 
     private void onClickButtonModify() {
-        clientList = new ArrayList<Client>(List.of(fileDb.findAll()));
+        clientList = jdbcDbClient.findAll();
         int indexOfList = clientList.indexOf(client);
 
         clientList.get(indexOfList).setName(addClientForm.getTextFieldName().getText());
@@ -102,16 +103,16 @@ public class ClientFormController {
         List<Company> companyList = addCompanies(clientList.get(indexOfList));
         clientList.get(indexOfList).setCompanyList(companyList);
 
-        fileDb.saveAll(clientList.toArray(new Client[clientList.size()]));
+        jdbcDbClient.saveAll(clientList);
         reload.accept(null);
     }
 
     public void delete(Consumer reload, Client client) {
         this.reload = reload;
-        clientList = new ArrayList<Client>(List.of(fileDb.findAll()));
+        clientList = jdbcDbClient.findAll();
         clientList.remove(client);
         removeFromCompanyList(client);
-        fileDb.saveAll(clientList.toArray(new Client[clientList.size()]));
+        jdbcDbClient.saveAll(clientList);
         reload.accept(null);
     }
 
@@ -146,15 +147,15 @@ public class ClientFormController {
     }
 
     private void removeFromCompanyList(Client newClient) {
-        FileDb<Company[]> fileDbCompany = new FileDb<>(Utils.COMPANY_FILE);
-        List<Company> companyList = new ArrayList<Company>(List.of(fileDbCompany.findAll()));
+        FileDb<Company> fileDbCompany = new FileDb<>(Utils.COMPANY_FILE);
+        List<Company> companyList = fileDbCompany.findAll();
         for (Company company : companyList)
             company.getClientList().remove(newClient);
-        fileDbCompany.saveAll(companyList.toArray(new Company[companyList.size()]));
+        fileDbCompany.saveAll(companyList);
     }
 
     private List<Company> addCompanies(Client newClient) {
-        FileDb<Company[]> fileDbCompany = new FileDb<>(Utils.COMPANY_FILE);
+        FileDb<Company> fileDbCompany = new FileDb<>(Utils.COMPANY_FILE);
         List<Company> listCompaniesToAdd = new ArrayList<>();
         int[] selectedIndex = addClientForm.getTableCompany().getSelectedRows();
         if (selectedIndex != null) {
@@ -164,7 +165,7 @@ public class ClientFormController {
                 if (listClients.isEmpty()) {
                     listClients.add(newClient);
                 } else if (listClients.contains(newClient)) {
-                    int indexInList = listClients.indexOf(newClient);
+                    int indexInList = listClients.indexOf(newClient); // TODO: 18.02.2023  
                     listClients.remove(newClient);
                     listClients.add(indexInList, newClient);
                 } else {
@@ -176,7 +177,7 @@ public class ClientFormController {
             }
         }
         List<Company> listCompanyToSave = ((CompanyTableModel) addClientForm.getTableCompany().getModel()).getCompanies();
-        fileDbCompany.saveAll(listCompanyToSave.toArray(new Company[listCompanyToSave.size()]));
+        fileDbCompany.saveAll(listCompanyToSave);
 
         return listCompaniesToAdd;
     }
