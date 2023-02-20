@@ -3,7 +3,6 @@ package com.javafee.java.lessons.lesson15.controller;
 import com.javafee.java.lessons.lesson15.service.LoginService;
 import com.javafee.java.lessons.lesson15.view.LoginForm;
 import com.javafee.java.lessons.lesson15.view.Utils;
-import jdk.dynalink.beans.StaticClass;
 
 import javax.swing.*;
 import java.util.Objects;

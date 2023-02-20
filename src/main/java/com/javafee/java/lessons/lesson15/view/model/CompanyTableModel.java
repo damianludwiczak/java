@@ -2,7 +2,9 @@ package com.javafee.java.lessons.lesson15.view.model;
 
 import com.javafee.java.lessons.lesson15.model.domain.Company;
 import com.javafee.java.lessons.lesson15.model.repository.Dao;
+import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.CompanyJdbcDb;
+import com.javafee.java.lessons.lesson15.service.Utils;
 
 
 import javax.swing.table.AbstractTableModel;
@@ -13,11 +15,10 @@ import java.util.List;
 public class CompanyTableModel extends AbstractTableModel {
     private List<Company> companies;
     private String[] columns;
-    // private FileDb<Company> companyFileDb;
     private Dao<Company> companyDao;
 
     public CompanyTableModel() {
-        companyDao =  new CompanyJdbcDb(); // new FileDb<>(Utils.COMPANY_FILE);
+        companyDao = new CompanyJdbcDb(); // new FileDb<>(Utils.COMPANY_FILE);
         prepareData();
         columns = new String[]{"Name", "Yearly Incomes", "Client List"};
     }

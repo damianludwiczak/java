@@ -24,7 +24,7 @@ public class Main {
     }
 
     public static void feedAccount() {
-        Dao<Account> fileDb =  new AccountJdbcDb(); //new FileDb<>(Utils.ACCOUNT_FILE);
+        Dao<Account> fileDb = new FileDb<>(Utils.ACCOUNT_FILE); //  new AccountJdbcDb();
         List<Account> accountList = fileDb.findAll();
 
         if (Objects.isNull(accountList) || accountList.size() == 0) {

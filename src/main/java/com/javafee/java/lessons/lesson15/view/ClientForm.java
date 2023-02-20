@@ -15,6 +15,7 @@ public class ClientForm {
     private JButton buttonModify;
     private JButton buttonDelete;
     private JButton buttonManagementCompany;
+    private JButton buttonFilter;
 
     private static FocusTraversalPolicy newPolicy;
     public ClientForm() {
@@ -32,6 +33,9 @@ public class ClientForm {
                 .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
         buttonManagementCompany.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnRegisterNow-ico.png"))
                 .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
+        buttonFilter.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnRegisterNow-ico.png"))
+                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
+
 
         Vector<Component> order = new Vector<Component>(7);
         order.add(buttonAdd);
@@ -69,6 +73,10 @@ public class ClientForm {
 
     public JButton getButtonManagementCompany() {
         return buttonManagementCompany;
+    }
+
+    public JButton getButtonFilter() {
+        return buttonFilter;
     }
 
     private void createUIComponents() {

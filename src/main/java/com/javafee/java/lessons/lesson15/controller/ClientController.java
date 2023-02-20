@@ -33,9 +33,9 @@ public class ClientController {
         clientForm.getButtonModify().addActionListener(e -> onClickBtnModify());
         clientForm.getButtonDelete().addActionListener(e -> onClickBtnDelete());
         clientForm.getButtonManagementCompany().addActionListener(e -> onClickBtnManagementCompany());
+        clientForm.getButtonFilter().addActionListener(e -> onClickBtnFilter());
         updateData();
     }
-
     private void init() {
         clientForm.getFrame().setVisible(true);
     }
@@ -67,6 +67,9 @@ public class ClientController {
 
     private void onClickBtnManagementCompany() {
         CompanyController.getInstance(e -> updateData()).open();
+    }
+    private void onClickBtnFilter() {
+        clientFormController.filterClient(e -> updateData());
     }
 
     private void updateData() {

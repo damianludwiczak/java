@@ -2,6 +2,7 @@ package com.javafee.java.lessons.lesson15.service;
 
 import com.javafee.java.lessons.lesson15.model.domain.Account;
 import com.javafee.java.lessons.lesson15.model.repository.Dao;
+import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.AccountJdbcDb;
 
 public class LoginService {
@@ -10,7 +11,6 @@ public class LoginService {
     public LoginService() {
         accountFileDb = new AccountJdbcDb(); // new FileDb<>(Utils.ACCOUNT_FILE);
     }
-
     public boolean authenticate(String login, String password) {
         for (Account account : accountFileDb.findAll())
             if (account.getLogin().equals(login) 
