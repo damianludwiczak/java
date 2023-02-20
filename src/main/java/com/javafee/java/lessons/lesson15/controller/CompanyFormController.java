@@ -4,7 +4,7 @@ import com.javafee.java.lessons.lesson15.model.domain.Client;
 import com.javafee.java.lessons.lesson15.model.domain.Company;
 import com.javafee.java.lessons.lesson15.model.repository.Dao;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
-import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.CompanyJdbcDb;
+import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.CompanyJdbcDb;
 import com.javafee.java.lessons.lesson15.service.Utils;
 import com.javafee.java.lessons.lesson15.view.AddCompanyForm;
 
@@ -109,10 +109,12 @@ public class CompanyFormController {
         List<Client> clientList = fileDbClient.findAll();
         if (!(clientList == null || clientList.isEmpty())) {
             for (Client client : clientList) {
-                if (client.getCompanyList().contains(company)) {
-                    indexCompanyInList = client.getCompanyList().indexOf(company);
-                    client.getCompanyList().remove(indexCompanyInList);
-                    client.getCompanyList().add(indexCompanyInList, company);
+                if (!Objects.isNull(client.getCompanyList())) {
+                    if (client.getCompanyList().contains(company)) {
+                        indexCompanyInList = client.getCompanyList().indexOf(company);
+                        client.getCompanyList().remove(indexCompanyInList);
+                        client.getCompanyList().add(indexCompanyInList, company);
+                    }
                 }
             }
             fileDbClient.saveAll(clientList);

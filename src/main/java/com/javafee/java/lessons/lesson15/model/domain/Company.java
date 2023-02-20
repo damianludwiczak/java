@@ -1,6 +1,8 @@
 package com.javafee.java.lessons.lesson15.model.domain;
 
+import com.javafee.java.lessons.lesson15.model.repository.Dao;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
+import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.CompanyJdbcDb;
 import com.javafee.java.lessons.lesson15.service.Utils;
 
 import java.io.Serializable;
@@ -62,7 +64,7 @@ public class Company implements Serializable {
     }
 
     private Integer findMaxId() {
-        FileDb<Company> companyFileDb = new FileDb<>(Utils.COMPANY_FILE);
+        Dao<Company> companyFileDb = new CompanyJdbcDb(); // new FileDb<>(Utils.COMPANY_FILE);
         List<Company> companyList = companyFileDb.findAll();
         return (companyList == null || companyList.isEmpty()) ? 0 : (companyList.stream().max(Comparator.comparing(Company::getId))
                 .orElseThrow(NoSuchElementException::new)).getId();

@@ -4,7 +4,7 @@ import com.javafee.java.lessons.lesson15.model.domain.Client;
 import com.javafee.java.lessons.lesson15.model.domain.Company;
 import com.javafee.java.lessons.lesson15.model.repository.Dao;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
-import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.CompanyJdbcDb;
+import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.CompanyJdbcDb;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.ClientJdbcDb;
 import com.javafee.java.lessons.lesson15.service.Utils;
 import com.javafee.java.lessons.lesson15.view.AddClientForm;

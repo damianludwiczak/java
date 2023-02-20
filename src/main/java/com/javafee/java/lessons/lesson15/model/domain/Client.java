@@ -1,6 +1,8 @@
 package com.javafee.java.lessons.lesson15.model.domain;
 
+import com.javafee.java.lessons.lesson15.model.repository.Dao;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
+import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.ClientJdbcDb;
 import com.javafee.java.lessons.lesson15.service.Utils;
 
 import java.io.Serializable;
@@ -34,7 +36,7 @@ public class Client extends UserData implements Serializable {
     }
 
     private Integer findMaxId() {
-        FileDb<Client> fileDb = new FileDb<>(Utils.CLIENT_FILE);
+        Dao<Client> fileDb = new ClientJdbcDb(); // new FileDb<>(Utils.CLIENT_FILE);
         List<Client> clientList = fileDb.findAll();
         return (clientList == null || clientList.isEmpty()) ? 0 : (clientList.stream().max(Comparator.comparing(Client::getId))
                                         .orElseThrow(NoSuchElementException::new)).getId();

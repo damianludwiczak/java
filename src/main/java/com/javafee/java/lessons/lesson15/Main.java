@@ -6,7 +6,7 @@ import com.javafee.java.lessons.lesson15.model.domain.Client;
 import com.javafee.java.lessons.lesson15.model.domain.Company;
 import com.javafee.java.lessons.lesson15.model.repository.Dao;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
-import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.AccountJdbcDb;
+import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.AccountJdbcDb;
 import com.javafee.java.lessons.lesson15.service.Utils;
 
 import javax.swing.*;
