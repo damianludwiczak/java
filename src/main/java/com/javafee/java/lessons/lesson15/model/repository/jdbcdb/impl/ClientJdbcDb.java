@@ -54,6 +54,31 @@ public class ClientJdbcDb extends JdbcDb<Client> {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<Client> findByFilter(Client clientToFilter) {
+        List<Client> clients = new ArrayList<>();
+        String query = buildQuery(clientToFilter);
+        System.out.println(query);
+        try {
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next())
+                clients.add(Orm.getClientMapFunction().apply(Map.of
+                        ("name", resultSet.getString("name"),
+                                "surname", resultSet.getString("surname"),
+                                "id", String.valueOf(resultSet.getInt("id")),
+                                "nationality", resultSet.getString("nationality"),
+                                "age", String.valueOf(resultSet.getInt("age")),
+                                "wage", String.valueOf(resultSet.getFloat("wage"))
+                        )));
+            for (Client client: clients)
+                client.setCompanyList(CompanyJdbcDb.findById(client.getId()));
+            return clients;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static List<Client> findById(int idCompany) {
         List<Client> clients = new ArrayList<>();
         String query = "select c.name, c.id, c.surname, c.nationality, c.age, c.wage from client c, (\n" +
@@ -74,5 +99,30 @@ public class ClientJdbcDb extends JdbcDb<Client> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String buildQuery(Client client) {
+        String query = "";
+        String helpQuery = "select c.name, c.id, c.surname, c.nationality, c.age, c.wage from client c where ";
+        String printAll = "select * from client";
+        query = client.getName().isEmpty() ? helpQuery : helpQuery + "name like '" + client.getName() + "' and";
+        query = client.getSurname().isEmpty() ? query : query + " surname like '" + client.getSurname() + "' and";
+        query = client.getNationality().isEmpty() ? query : query + " nationality like '" + client.getNationality() + "' and";
+        if (!(client.getAgeFrom().isEmpty()) || (!client.getAgeTo().isEmpty())) {
+            client.setAgeFrom(client.getAgeFrom().isEmpty() ? "0" : client.getAgeFrom());
+            client.setAgeTo(client.getAgeTo().isEmpty()? String.valueOf(Integer.MAX_VALUE) : client.getAgeTo());
+            query += " (age between " + client.getAgeFrom() + " and " + client.getAgeTo() + ") and";
+        }
+        if (!(client.getWageFrom().isEmpty()) || (!client.getWageTo().isEmpty())) {
+            client.setWageFrom(client.getWageFrom().isEmpty() ? "0" : client.getWageFrom());
+            client.setWageTo(client.getWageTo().isEmpty()? String.valueOf(Integer.MAX_VALUE) : client.getWageTo());
+            query += " (wage between " + client.getWageFrom() + " and " + client.getWageTo() + ") and";
+        }
+
+        query = client.getCompanyList().get(0).getName().isEmpty() ? query : query + " nationality like '" + client.getNationality() + "' and";
+        int length = query.length();
+        query = query.endsWith("and") ? query.substring(0,length - 3) : query;
+        query = query.equals(helpQuery) ? printAll : query;
+        return query;
     }
 }

@@ -28,4 +28,7 @@ public abstract class JdbcDb<T> implements Dao<T> {
 
     @Override
     public abstract void saveAll(List<T> data);
+
+    @Override
+    public abstract List<T> findByFilter(T t);
 }

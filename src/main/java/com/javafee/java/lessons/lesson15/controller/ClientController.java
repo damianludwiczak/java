@@ -1,20 +1,26 @@
 package com.javafee.java.lessons.lesson15.controller;
 
+import com.javafee.java.lessons.lesson15.model.domain.Client;
+import com.javafee.java.lessons.lesson15.model.domain.Company;
 import com.javafee.java.lessons.lesson15.view.ClientForm;
+import com.javafee.java.lessons.lesson15.view.FilterClientForm;
 import com.javafee.java.lessons.lesson15.view.Utils;
 import com.javafee.java.lessons.lesson15.view.model.ClientTableModel;
 
 import javax.swing.*;
+import java.util.Collections;
 import java.util.Objects;
 
 public class ClientController {
     private ClientForm clientForm;
     private ClientFormController clientFormController;
+    private FilterClientForm filterClientForm;
     private static ClientController instance = null;
 
     private ClientController() {
         clientForm = new ClientForm();
         clientFormController = ClientFormController.getInstance();
+        filterClientForm = new FilterClientForm();
     }
 
     public static ClientController getInstance() {
@@ -22,7 +28,6 @@ public class ClientController {
             instance = new ClientController();
         return instance;
     }
-
 
     public void control() {
         init();
@@ -69,10 +74,32 @@ public class ClientController {
         CompanyController.getInstance(e -> updateData()).open();
     }
     private void onClickBtnFilter() {
-        clientFormController.filterClient(e -> updateData());
+        initFilterForm();
     }
 
     private void updateData() {
         ((ClientTableModel) clientForm.getTableClient().getModel()).reload();
+    }
+
+    private void updateFilterData() {
+        Client client = new Client();
+        Company company = new Company();
+        client.setName(filterClientForm.getTextFieldName().getText());
+        client.setSurname(filterClientForm.getTextFieldSurname().getText());
+        client.setNationality(filterClientForm.getTextFieldNationality().getText());
+        company.setName(filterClientForm.getTextFieldCompanyName().getText());
+        client.setAgeFrom(filterClientForm.getTextFieldAgeFrom().getText());
+        client.setAgeTo(filterClientForm.getTextFieldAgeTo().getText());
+        client.setWageFrom(filterClientForm.getTextFieldWageFrom().getText());
+        client.setWageTo(filterClientForm.getTextFieldWageTo().getText());
+        company.setYearlyIncomesFrom(filterClientForm.getTextFieldCompanyIncomesFrom().getText());
+        company.setYearlyIncomesTo(filterClientForm.getTextFieldCompanyIncomesTo().getText());
+
+        client.setCompanyList(Collections.singletonList(company));
+        ((ClientTableModel) clientForm.getTableClient().getModel()).reloadFilterData(client);
+    }
+    private void initFilterForm() {
+        filterClientForm.getFrame().setVisible(true);
+        filterClientForm.getButtonFilter().addActionListener(e -> updateFilterData());
     }
 }

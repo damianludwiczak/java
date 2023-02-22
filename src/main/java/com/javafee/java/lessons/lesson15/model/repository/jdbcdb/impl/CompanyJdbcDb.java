@@ -68,4 +68,9 @@ public class CompanyJdbcDb extends JdbcDb<Company> {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<Company> findByFilter(Company company) {
+        return null;
+    }
 }

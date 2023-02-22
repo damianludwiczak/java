@@ -46,4 +46,9 @@ public class AccountJdbcDb extends JdbcDb<Account> {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<Account> findByFilter(Account account) {
+        return null;
+    }
 }

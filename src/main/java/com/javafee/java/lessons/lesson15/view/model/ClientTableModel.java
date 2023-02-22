@@ -1,6 +1,7 @@
 package com.javafee.java.lessons.lesson15.view.model;
 
 import com.javafee.java.lessons.lesson15.model.domain.Client;
+import com.javafee.java.lessons.lesson15.model.domain.Company;
 import com.javafee.java.lessons.lesson15.model.repository.Dao;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.JdbcDb;
@@ -32,6 +33,11 @@ public class ClientTableModel extends AbstractTableModel {
 
     public void reload() {
         prepareData();
+        fireTableDataChanged();
+    }
+
+    public void reloadFilterData(Client client) {
+        clients = daoClient.findByFilter(client);
         fireTableDataChanged();
     }
 

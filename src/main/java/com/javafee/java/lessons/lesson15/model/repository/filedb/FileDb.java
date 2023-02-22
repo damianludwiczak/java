@@ -29,4 +29,9 @@ public class FileDb<T> implements Dao<T> {
             System.err.println(e.getMessage());
         }
     }
+
+    @Override
+    public List<T> findByFilter(T t) {
+        return null;
+    }
 }

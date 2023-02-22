@@ -10,10 +10,14 @@ public class FilterClientForm {
     private JTextField textFieldName;
     private JTextField textFieldSurname;
     private JTextField textFieldNationality;
-    private JTextField textFieldAge;
-    private JTextField textFieldWage;
-    private JTextField textFieldCompany;
+    private JTextField textFieldAgeFrom;
+    private JTextField textFieldWageFrom;
+    private JTextField textFieldCompanyName;
     private JButton buttonFilter;
+    private JTextField textFieldCompanyIncomesFrom;
+    private JTextField textFieldCompanyIncomesTo;
+    private JTextField textFieldAgeTo;
+    private JTextField textFieldWageTo;
 
     public FilterClientForm() {
         frame = new JFrame("Filter Client");
@@ -46,16 +50,31 @@ public class FilterClientForm {
         return textFieldNationality;
     }
 
-    public JTextField getTextFieldAge() {
-        return textFieldAge;
+    public JTextField getTextFieldAgeFrom() {
+        return textFieldAgeFrom;
     }
 
-    public JTextField getTextFieldWage() {
-        return textFieldWage;
+    public JTextField getTextFieldAgeTo() {
+        return textFieldAgeTo;
+    }
+    public JTextField getTextFieldWageFrom() {
+        return textFieldWageFrom;
     }
 
-    public JTextField getTextFieldCompany() {
-        return textFieldCompany;
+    public JTextField getTextFieldWageTo() {
+        return textFieldWageTo;
+    }
+
+    public JTextField getTextFieldCompanyName() {
+        return textFieldCompanyName;
+    }
+
+    public JTextField getTextFieldCompanyIncomesFrom() {
+        return textFieldCompanyIncomesFrom;
+    }
+
+    public JTextField getTextFieldCompanyIncomesTo() {
+        return textFieldCompanyIncomesTo;
     }
 
     public JButton getButtonFilter() {

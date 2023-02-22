@@ -18,11 +18,15 @@ public class Company implements Serializable {
     private Integer id;
     private String name;
     private Double yearlyIncomes;
+    private String yearlyIncomesFrom;
+    private String yearlyIncomesTo;
 
     private List<Client> clientList =  new ArrayList<>();
 
     private List<Company> companyList = new ArrayList<>();
 
+    public Company() {
+    }
 
     public Company(String name, Double yearlyIncomes) {
         this.id = findMaxId() + 1;
@@ -53,6 +57,22 @@ public class Company implements Serializable {
 
     public void setYearlyIncomes(Double yearlyIncomes) {
         this.yearlyIncomes = yearlyIncomes;
+    }
+
+    public String getYearlyIncomesFrom() {
+        return yearlyIncomesFrom;
+    }
+
+    public void setYearlyIncomesFrom(String yearlyIncomesFrom) {
+        this.yearlyIncomesFrom = yearlyIncomesFrom;
+    }
+
+    public String getYearlyIncomesTo() {
+        return yearlyIncomesTo;
+    }
+
+    public void setYearlyIncomesTo(String yearlyIncomesTo) {
+        this.yearlyIncomesTo = yearlyIncomesTo;
     }
 
     public List<Client> getClientList() {

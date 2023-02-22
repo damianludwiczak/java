@@ -8,6 +8,7 @@ import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.CompanyJdb
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.ClientJdbcDb;
 import com.javafee.java.lessons.lesson15.service.Utils;
 import com.javafee.java.lessons.lesson15.view.AddClientForm;
+import com.javafee.java.lessons.lesson15.view.ClientForm;
 import com.javafee.java.lessons.lesson15.view.FilterClientForm;
 import com.javafee.java.lessons.lesson15.view.model.ClientTableModel;
 import com.javafee.java.lessons.lesson15.view.model.CompanyTableModel;
@@ -22,6 +23,7 @@ import java.util.function.Consumer;
 public class ClientFormController {
     private AddClientForm addClientForm;
     private FilterClientForm filterClientForm;
+    private ClientForm clientForm;
     private List<Client> clientList = new ArrayList<>();
     private Client client;
     private Consumer reload;
@@ -34,7 +36,7 @@ public class ClientFormController {
 
     private ClientFormController() {
         addClientForm = new AddClientForm();
-        filterClientForm = new FilterClientForm();
+        clientForm = new ClientForm();
     }
 
     public static ClientFormController getInstance() {
@@ -61,10 +63,6 @@ public class ClientFormController {
 
     private void init() {
         addClientForm.getFrame().setVisible(true);
-    }
-
-    private void initFilterForm() {
-        filterClientForm.getFrame().setVisible(true);
     }
 
     private void onClickButtonAdd() {
@@ -122,12 +120,6 @@ public class ClientFormController {
         removeFromCompanyList(client);
         jdbcDbClient.saveAll(clientList);
         reload.accept(null);
-    }
-
-    public void filterClient(Consumer reload) {
-        initFilterForm();
-        // ((ClientTableModel) clientForm.getTableClient().getModel()).reload();
-
     }
 
     private void reloadForm(Client clientFromTable) {

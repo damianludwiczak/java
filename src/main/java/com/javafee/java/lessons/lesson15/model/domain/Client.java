@@ -17,6 +17,14 @@ import java.util.NoSuchElementException;
 public class Client extends UserData implements Serializable {
     private List<Company> companyList = new ArrayList<>();
 
+    private String ageFrom;
+    private String ageTo;
+    private String wageFrom;
+    private String  wageTo;
+
+    public Client() {
+    }
+
     public Client(String name, String surname, Integer id, String nationality, Integer age, Double wage, List<Company> companyList) {
         super(name, surname, id, nationality, age, wage);
         this.companyList = companyList;
@@ -33,6 +41,38 @@ public class Client extends UserData implements Serializable {
 
     public void setCompanyList(List<Company> companyList) {
         this.companyList = companyList;
+    }
+
+    public String getAgeFrom() {
+        return ageFrom;
+    }
+
+    public void setAgeFrom(String ageFrom) {
+        this.ageFrom = ageFrom;
+    }
+
+    public String getAgeTo() {
+        return ageTo;
+    }
+
+    public void setAgeTo(String ageTo) {
+        this.ageTo = ageTo;
+    }
+
+    public String getWageFrom() {
+        return wageFrom;
+    }
+
+    public void setWageFrom(String wageFrom) {
+        this.wageFrom = wageFrom;
+    }
+
+    public String getWageTo() {
+        return wageTo;
+    }
+
+    public void setWageTo(String wageTo) {
+        this.wageTo = wageTo;
     }
 
     private Integer findMaxId() {
