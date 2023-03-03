@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class CompanyJdbcDb extends JdbcDb<Company> {
     @Override
@@ -60,7 +61,7 @@ public class CompanyJdbcDb extends JdbcDb<Company> {
             for (Company company : data) {
                 statement.execute(query + company.getId() + ", '" + company.getName() + "', "
                         + company.getYearlyIncomes() + ")");
-                if (!company.getClientList().isEmpty())
+                if (!(Objects.isNull(company.getClientList()) || company.getClientList().isEmpty()))
                     for (Client client : company.getClientList()) {
                         System.out.println(queryCompanyClient + company.getId() + "," + client.getId() + ")");
                         statement.execute(queryCompanyClient + company.getId() + "," + client.getId() + ")");

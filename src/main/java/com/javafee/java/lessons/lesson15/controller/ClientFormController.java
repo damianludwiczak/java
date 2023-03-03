@@ -83,9 +83,11 @@ public class ClientFormController {
         }
 
         Client newClient = new Client(name, surname, nationality, age, wage, null);
+        clientList.add(newClient);
+        jdbcDbClient.saveAll(clientList);
+
         newClient.setCompanyList(addCompanies(newClient));
 
-        clientList.add(newClient);
         jdbcDbClient.saveAll(clientList);
         reload.accept(null);
     }

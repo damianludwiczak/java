@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ClientJdbcDb extends JdbcDb<Client> {
     @Override
@@ -46,10 +47,9 @@ public class ClientJdbcDb extends JdbcDb<Client> {
                 statement.execute(queryClient + client.getId() + ", '" + client.getName() + "', '"
                         + client.getSurname() + "', '" + client.getNationality() + "', " + client.getAge() + ", " +
                         client.getWage() + ")");
-                if (!client.getCompanyList().isEmpty())
+                if (!(Objects.isNull(client.getCompanyList()) || client.getCompanyList().isEmpty()))
                     for (Company company : client.getCompanyList())
                         statement.execute(queryCompanyClient + company.getId() + "," + client.getId() + ")");
-
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -132,19 +132,6 @@ public class ClientJdbcDb extends JdbcDb<Client> {
             query = query.replaceFirst("client c", baseCompanyName);
         }
 
-        if (!(client.getCompanyList().get(0).getYearlyIncomesFrom().isEmpty()) ||
-                (!client.getCompanyList().get(0).getYearlyIncomesTo().isEmpty())) {
-            if (client.getCompanyList().get(0).getYearlyIncomesFrom().isEmpty()) {
-                client.getCompanyList().get(0).setYearlyIncomesFrom("0");
-            }
-            if (client.getCompanyList().get(0).getYearlyIncomesTo().isEmpty()) {
-                client.getCompanyList().get(0).setYearlyIncomesTo(String.valueOf(Double.MAX_VALUE));
-            }
-            String baseCompanyYearlyIncomes = buildBaseQuery(client.getCompanyList().get(0).getYearlyIncomesFrom(),
-                    client.getCompanyList().get(0).getYearlyIncomesTo());
-            query = query.replaceFirst("client c", baseCompanyYearlyIncomes);
-            query = query.replaceFirst("select ", "select distinct ");
-        }
         int length = query.length();
         query = query.endsWith("and") ? query.substring(0,length - 3) : query;
         query = query.endsWith("where ") ? query.substring(0,length - 6) : query;
