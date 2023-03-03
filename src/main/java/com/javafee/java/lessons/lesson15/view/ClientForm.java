@@ -16,12 +16,33 @@ public class ClientForm {
     private JButton buttonDelete;
     private JButton buttonManagementCompany;
     private JButton buttonFilter;
+    private JButton buttonRemoveFilters;
+    private JTextField textField1;
+    private JTextField textField2;
+    private JTextField textField3;
+    private JTextField textField4;
+    private JTextField textField5;
+    private JTextField textField6;
+    private JTextField textField7;
+    private JTextField textField8;
+    private JPanel panelFilterFieldsBottom;
+    private JPanel panelFilterFieldsTop;
+    private JSplitPane panelFilterFields;
+    private JSplitPane panelFilter;
+    private JPanel panelFilterButton;
+
 
     private static FocusTraversalPolicy newPolicy;
     public ClientForm() {
         frame = new JFrame("Clients (c) myCMS");
         frame.setIconImage(new ImageIcon(AddClientForm.class.getResource("/btnLogOut-ico.png")).getImage());
         frame.setContentPane(panel);
+
+        panelFilter.setLeftComponent(panelFilterFields);
+        panelFilter.setRightComponent(panelFilterButton);
+        panelFilterFields.setLeftComponent(panelFilterFieldsTop);
+        panelFilterFields.setRightComponent(panelFilterFieldsBottom);
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
 
@@ -35,6 +56,8 @@ public class ClientForm {
                 .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
         buttonFilter.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnRegisterNow-ico.png"))
                 .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
+        buttonRemoveFilters.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnRegisterNow-ico.png"))
+                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
 
 
         Vector<Component> order = new Vector<Component>(7);
@@ -42,7 +65,7 @@ public class ClientForm {
         order.add(buttonModify);
         order.add(buttonDelete);
         order.add(buttonManagementCompany);
-        newPolicy = new com.javafee.java.lessons.lesson12.view.ClientForm.MyOwnFocusTraversalPolicy(order);
+        newPolicy = new com.javafee.java.lessons.lesson15.view.ClientForm.MyOwnFocusTraversalPolicy(order);
 
         frame.setFocusTraversalPolicy(newPolicy);
     }
@@ -79,10 +102,20 @@ public class ClientForm {
         return buttonFilter;
     }
 
+    public JButton getButtonRemoveFilters() {
+        return buttonRemoveFilters;
+    }
+
     private void createUIComponents() {
         tableClient = new JTable();
         tableClient.setModel(new ClientTableModel());
         tableClient.setAutoCreateRowSorter(true);
+
+        panelFilter = new JSplitPane();
+        panelFilterFields = new JSplitPane();
+        panelFilterFieldsTop = new JPanel();
+        panelFilterFieldsBottom = new JPanel();
+        panelFilterButton = new JPanel();
     }
 
     public static class MyOwnFocusTraversalPolicy extends FocusTraversalPolicy {

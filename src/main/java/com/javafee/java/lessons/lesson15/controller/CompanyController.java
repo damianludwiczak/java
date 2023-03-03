@@ -1,6 +1,8 @@
 package com.javafee.java.lessons.lesson15.controller;
 
+import com.javafee.java.lessons.lesson15.model.domain.Company;
 import com.javafee.java.lessons.lesson15.view.CompanyForm;
+import com.javafee.java.lessons.lesson15.view.FilterCompanyForm;
 import com.javafee.java.lessons.lesson15.view.Utils;
 import com.javafee.java.lessons.lesson15.view.model.CompanyTableModel;
 
@@ -12,10 +14,11 @@ public class CompanyController {
     private CompanyForm companyForm;
     private static Consumer reloadAction;
     private static CompanyController instance = null;
+    private FilterCompanyForm filterCompanyForm;
 
     private CompanyController() {
         companyForm = new CompanyForm();
-
+        filterCompanyForm = new FilterCompanyForm();
         control();
     }
 
@@ -29,7 +32,9 @@ public class CompanyController {
     private void control() {
         companyForm.getButtonAdd().addActionListener(e -> onClickButtonAdd());
         companyForm.getButtonModify().addActionListener(e -> onClickButtonModify());
+        companyForm.getButtonFilter().addActionListener(e -> onClickButtonFilter());
         companyForm.getButtonDelete().addActionListener(e -> onClickButtonDelete());
+        companyForm.getButtonRemoveFilters().addActionListener(e -> updateData());
     }
 
     public void open() {
@@ -52,6 +57,11 @@ public class CompanyController {
         }
     }
 
+    private void onClickButtonFilter() {
+        initFilterForm();
+    }
+
+
     private void onClickButtonDelete() {
         int selectedIndex = companyForm.getTableCompany().getSelectedRow();
         if (selectedIndex != -1) {
@@ -62,6 +72,32 @@ public class CompanyController {
             Utils.displayPopup("Not selected row", "Error", JOptionPane.ERROR_MESSAGE, companyForm.getFrame());
         }
         reloadAction.accept(null);
+    }
+
+    private void initFilterForm() {
+        reloadEmptyFilterForm();
+        filterCompanyForm.getFrame().setVisible(true);
+        filterCompanyForm.getButtonAccept().addActionListener(e -> updateFilterData());
+    }
+
+    private void closeFilterForm() {
+        filterCompanyForm.getFrame().setVisible(false);
+    }
+
+    private void reloadEmptyFilterForm() {
+        filterCompanyForm.getTextFieldName().setText(null);
+        filterCompanyForm.getTextFieldYearlyIncomesFrom().setText(null);
+        filterCompanyForm.getTextFieldYearlyIncomesTo().setText(null);
+    }
+
+    private void updateFilterData() {
+        Company company = new Company();
+        company.setName(filterCompanyForm.getTextFieldName().getText());
+        company.setYearlyIncomesFrom(filterCompanyForm.getTextFieldYearlyIncomesFrom().getText());
+        company.setYearlyIncomesTo(filterCompanyForm.getTextFieldYearlyIncomesTo().getText());
+
+        ((CompanyTableModel) companyForm.getTableCompany().getModel()).reloadFilterData(company);
+        closeFilterForm();
     }
 
     private void updateData() {

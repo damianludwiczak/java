@@ -60,9 +60,11 @@ public class CompanyJdbcDb extends JdbcDb<Company> {
             for (Company company : data) {
                 statement.execute(query + company.getId() + ", '" + company.getName() + "', "
                         + company.getYearlyIncomes() + ")");
-                for (Client client : company.getClientList()) {
-                    statement.execute(queryCompanyClient + company.getId() + "," + client.getId() + ")");
-                }
+                if (!company.getClientList().isEmpty())
+                    for (Client client : company.getClientList()) {
+                        System.out.println(queryCompanyClient + company.getId() + "," + client.getId() + ")");
+                        statement.execute(queryCompanyClient + company.getId() + "," + client.getId() + ")");
+                    }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -70,7 +72,41 @@ public class CompanyJdbcDb extends JdbcDb<Company> {
     }
 
     @Override
-    public List<Company> findByFilter(Company company) {
-        return null;
+    public List<Company> findByFilter(Company fiterCompany) {
+        List<Company> companies = new ArrayList<>();
+        String query = buildQuery(fiterCompany);
+        System.out.println(query);
+        try {
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next())
+                companies.add(Orm.getCompanyMapFunction().apply(Map.of(
+                        "name", resultSet.getString("name"),
+                        "id", String.valueOf(resultSet.getInt("id")),
+                        "yearlyincomes", String.valueOf(resultSet.getFloat("yearlyincomes"))
+                )));
+            for (Company company: companies)
+                company.setClientList(ClientJdbcDb.findById(company.getId()));
+            return companies;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String buildQuery(Company company) {
+        String query = "";
+        String helpQuery = "select c.name, c.id, c.yearlyincomes from company c where ";
+        String printAll = "select * from company";
+
+        query = company.getName().isEmpty() ? helpQuery : helpQuery + "name like '" + company.getName() + "' and";
+        if (!(company.getYearlyIncomesFrom().isEmpty()) || (!company.getYearlyIncomesTo().isEmpty())) {
+            company.setYearlyIncomesFrom(company.getYearlyIncomesFrom().isEmpty() ? "0" : company.getYearlyIncomesFrom());
+            company.setYearlyIncomesTo(company.getYearlyIncomesTo().isEmpty() ? String.valueOf(Double.MAX_VALUE) : company.getYearlyIncomesTo());
+            query += " (yearlyincomes between " + company.getYearlyIncomesFrom() + " and " + company.getYearlyIncomesTo() + ") and";
+        }
+        int length = query.length();
+        query = query.endsWith("and") ? query.substring(0,length - 3) : query;
+        query = query.endsWith("where ") ? query.substring(0,length - 6) : query;
+        query = query.equals(helpQuery) ? printAll : query;
+        return query;
     }
 }

@@ -6,7 +6,12 @@ import com.javafee.java.lessons.lesson15.model.domain.Client;
 import com.javafee.java.lessons.lesson15.model.domain.Company;
 import com.javafee.java.lessons.lesson15.model.repository.Dao;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
+import com.javafee.java.lessons.lesson15.model.repository.filedb.imp.AccountFileDb;
+import com.javafee.java.lessons.lesson15.model.repository.filedb.imp.ClientFileDb;
+import com.javafee.java.lessons.lesson15.model.repository.filedb.imp.CompanyFileDb;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.AccountJdbcDb;
+import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.ClientJdbcDb;
+import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.CompanyJdbcDb;
 import com.javafee.java.lessons.lesson15.service.Utils;
 
 import javax.swing.*;
@@ -24,11 +29,10 @@ public class Main {
     }
 
     public static void feedAccount() {
-        Dao<Account> fileDb = new FileDb<>(Utils.ACCOUNT_FILE); //  new AccountJdbcDb();
+        Dao<Account> fileDb = new AccountJdbcDb(); // new AccountFileDb(Utils.ACCOUNT_FILE); //
         List<Account> accountList = fileDb.findAll();
 
         if (Objects.isNull(accountList) || accountList.size() == 0) {
-            System.out.println("Tak");
             Account[] arr = {new Account(1, "test", Utils.createMd5("admin123"), LocalDateTime.now(), null),
                     new Account(2, "jkowalski", Utils.createMd5("admin123"), LocalDateTime.now(), null),
                     new Account(3,"anowak", Utils.createMd5("admin123"), LocalDateTime.now(), null),
@@ -41,7 +45,7 @@ public class Main {
     }
 
     public static void feedClient() {
-        FileDb<Client> fileDb = new FileDb<>(Utils.CLIENT_FILE);
+        Dao<Client> fileDb = new ClientJdbcDb(); //new ClientFileDb(Utils.CLIENT_FILE); //
         List<Client> clientList = fileDb.findAll();
 
         if (Objects.isNull(clientList) || clientList.size() == 0) {
@@ -57,7 +61,7 @@ public class Main {
     }
 
     public static void feedCompany() {
-        FileDb<Company> fileDb = new FileDb<>(Utils.COMPANY_FILE);
+        Dao<Company> fileDb = new CompanyFileDb(Utils.COMPANY_FILE); // new CompanyJdbcDb(); //
         List<Company> companiesList = fileDb.findAll();
 
         if (Objects.isNull(companiesList) || companiesList.size() == 0) {

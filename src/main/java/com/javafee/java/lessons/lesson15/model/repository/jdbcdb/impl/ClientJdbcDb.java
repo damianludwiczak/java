@@ -46,9 +46,10 @@ public class ClientJdbcDb extends JdbcDb<Client> {
                 statement.execute(queryClient + client.getId() + ", '" + client.getName() + "', '"
                         + client.getSurname() + "', '" + client.getNationality() + "', " + client.getAge() + ", " +
                         client.getWage() + ")");
-                for (Company company : client.getCompanyList()) {
-                    statement.execute(queryCompanyClient + company.getId() + "," + client.getId() + ")");
-                }
+                if (!client.getCompanyList().isEmpty())
+                    for (Company company : client.getCompanyList())
+                        statement.execute(queryCompanyClient + company.getId() + "," + client.getId() + ")");
+
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -113,8 +114,6 @@ public class ClientJdbcDb extends JdbcDb<Client> {
                 "\t\twhere coo.id = cc.id_company\n" +
                 "\t) as ccl where ccl.id_client = cl.id\n" +
                 ") as c";
-
-
 
         query = client.getName().isEmpty() ? helpQuery : helpQuery + "name like '" + client.getName() + "' and";
         query = client.getSurname().isEmpty() ? query : query + " surname like '" + client.getSurname() + "' and";

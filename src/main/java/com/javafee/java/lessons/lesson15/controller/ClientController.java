@@ -16,17 +16,23 @@ public class ClientController {
     private ClientFormController clientFormController;
     private FilterClientForm filterClientForm;
     private static ClientController instance = null;
+    private static FilterClientForm instanceFilterClientForm = null;
 
     private ClientController() {
         clientForm = new ClientForm();
         clientFormController = ClientFormController.getInstance();
-        filterClientForm = new FilterClientForm();
+        filterClientForm = getInstanceFilterClientForm();
     }
-
     public static ClientController getInstance() {
         if (Objects.isNull(instance))
             instance = new ClientController();
         return instance;
+    }
+
+    public static FilterClientForm getInstanceFilterClientForm() {
+        if (Objects.isNull(instance))
+            instanceFilterClientForm = new FilterClientForm();
+        return instanceFilterClientForm;
     }
 
     public void control() {
@@ -39,6 +45,7 @@ public class ClientController {
         clientForm.getButtonDelete().addActionListener(e -> onClickBtnDelete());
         clientForm.getButtonManagementCompany().addActionListener(e -> onClickBtnManagementCompany());
         clientForm.getButtonFilter().addActionListener(e -> onClickBtnFilter());
+        clientForm.getButtonRemoveFilters().addActionListener(e -> updateData());
         updateData();
     }
     private void init() {
@@ -74,6 +81,7 @@ public class ClientController {
         CompanyController.getInstance(e -> updateData()).open();
     }
     private void onClickBtnFilter() {
+        reloadEmptyFilterForm();
         initFilterForm();
     }
 
@@ -92,14 +100,28 @@ public class ClientController {
         client.setAgeTo(filterClientForm.getTextFieldAgeTo().getText());
         client.setWageFrom(filterClientForm.getTextFieldWageFrom().getText());
         client.setWageTo(filterClientForm.getTextFieldWageTo().getText());
-        company.setYearlyIncomesFrom(filterClientForm.getTextFieldCompanyIncomesFrom().getText());
-        company.setYearlyIncomesTo(filterClientForm.getTextFieldCompanyIncomesTo().getText());
-
         client.setCompanyList(Collections.singletonList(company));
+
         ((ClientTableModel) clientForm.getTableClient().getModel()).reloadFilterData(client);
+        closeFilterForm();
     }
     private void initFilterForm() {
         filterClientForm.getFrame().setVisible(true);
         filterClientForm.getButtonFilter().addActionListener(e -> updateFilterData());
+    }
+
+    private void closeFilterForm() {
+        filterClientForm.getFrame().setVisible(false);
+    }
+
+    private void reloadEmptyFilterForm() {
+        filterClientForm.getTextFieldName().setText(null);
+        filterClientForm.getTextFieldSurname().setText(null);
+        filterClientForm.getTextFieldNationality().setText(null);
+        filterClientForm.getTextFieldAgeFrom().setText(null);
+        filterClientForm.getTextFieldAgeTo().setText(null);
+        filterClientForm.getTextFieldWageFrom().setText(null);
+        filterClientForm.getTextFieldWageTo().setText(null);
+        filterClientForm.getTextFieldCompanyName().setText(null);
     }
 }

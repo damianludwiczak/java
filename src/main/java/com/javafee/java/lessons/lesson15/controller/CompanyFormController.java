@@ -4,6 +4,9 @@ import com.javafee.java.lessons.lesson15.model.domain.Client;
 import com.javafee.java.lessons.lesson15.model.domain.Company;
 import com.javafee.java.lessons.lesson15.model.repository.Dao;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
+import com.javafee.java.lessons.lesson15.model.repository.filedb.imp.ClientFileDb;
+import com.javafee.java.lessons.lesson15.model.repository.filedb.imp.CompanyFileDb;
+import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.ClientJdbcDb;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.CompanyJdbcDb;
 import com.javafee.java.lessons.lesson15.service.Utils;
 import com.javafee.java.lessons.lesson15.view.AddCompanyForm;
@@ -19,7 +22,9 @@ public class CompanyFormController {
     private ActionListener addActionListener = e -> onClickButtonAdd(reloadActionClient);
     private ActionListener modifyActionListener = e -> onClickButtonModify(reloadActionClient);
     private List<Company> companyList = new ArrayList<>();
-    private Dao<Company> fileDbCompany = new CompanyJdbcDb(); // new FileDb<>(Utils.COMPANY_FILE);
+    private Dao<Company> fileDbCompany = new CompanyJdbcDb(); // new CompanyFileDb(Utils.COMPANY_FILE); //
+
+    private Dao<Client> fileDbClient = new ClientJdbcDb(); // new ClientFileDb(Utils.CLIENT_FILE); //
     private static Company company;
     private static String context;
 
@@ -105,7 +110,6 @@ public class CompanyFormController {
 
     private void modifyCompanyInClientList(Company company) {
         int indexCompanyInList = 0;
-        FileDb<Client> fileDbClient = new FileDb<>(Utils.CLIENT_FILE);
         List<Client> clientList = fileDbClient.findAll();
         if (!(clientList == null || clientList.isEmpty())) {
             for (Client client : clientList) {
@@ -123,7 +127,6 @@ public class CompanyFormController {
 
     private void deleteCompanyInClientList(Company company) {
         int indexCompanyInList = 0;
-        FileDb<Client> fileDbClient = new FileDb<>(Utils.CLIENT_FILE);
         List<Client> clientList = fileDbClient.findAll();
         if (!(clientList == null || clientList.isEmpty())) {
             for (Client client : clientList) {
