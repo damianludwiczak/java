@@ -100,8 +100,10 @@ public class CompanyJdbcDb extends JdbcDb<Company> {
 
         query = company.getName().isEmpty() ? helpQuery : helpQuery + "name like '" + company.getName() + "' and";
         if (!(company.getYearlyIncomesFrom().isEmpty()) || (!company.getYearlyIncomesTo().isEmpty())) {
-            company.setYearlyIncomesFrom(company.getYearlyIncomesFrom().isEmpty() ? "0" : company.getYearlyIncomesFrom());
-            company.setYearlyIncomesTo(company.getYearlyIncomesTo().isEmpty() ? String.valueOf(Double.MAX_VALUE) : company.getYearlyIncomesTo());
+            company.setYearlyIncomesFrom(company.getYearlyIncomesFrom().isEmpty() || (!isNumber(company.getYearlyIncomesFrom())) ?
+                    "0" : company.getYearlyIncomesFrom());
+            company.setYearlyIncomesTo(company.getYearlyIncomesTo().isEmpty() || (!isNumber(company.getYearlyIncomesTo())) ?
+                    String.valueOf(Double.MAX_VALUE) : company.getYearlyIncomesTo());
             query += " (yearlyincomes between " + company.getYearlyIncomesFrom() + " and " + company.getYearlyIncomesTo() + ") and";
         }
         int length = query.length();
@@ -109,5 +111,14 @@ public class CompanyJdbcDb extends JdbcDb<Company> {
         query = query.endsWith("where ") ? query.substring(0,length - 6) : query;
         query = query.equals(helpQuery) ? printAll : query;
         return query;
+    }
+
+    private boolean isNumber(String input) {
+        try {
+            Double.parseDouble(input);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
     }
 }

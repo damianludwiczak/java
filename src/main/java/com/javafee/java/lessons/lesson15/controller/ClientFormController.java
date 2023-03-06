@@ -65,6 +65,10 @@ public class ClientFormController {
         addClientForm.getFrame().setVisible(true);
     }
 
+    private void close() {
+        addClientForm.getFrame().setVisible(false);
+    }
+
     private void onClickButtonAdd() {
         clientList = jdbcDbClient.findAll();
 
@@ -89,6 +93,7 @@ public class ClientFormController {
         newClient.setCompanyList(addCompanies(newClient));
 
         jdbcDbClient.saveAll(clientList);
+        close();
         reload.accept(null);
     }
 
@@ -112,13 +117,14 @@ public class ClientFormController {
         clientList.get(indexOfList).setCompanyList(companyList);
 
         jdbcDbClient.saveAll(clientList);
+        close();
         reload.accept(null);
     }
 
     public void delete(Consumer reload, Client client) {
         this.reload = reload;
         clientList = jdbcDbClient.findAll();
-        clientList.remove(client);
+        clientList.remove(client); // TODO: 03.03.2023 immutable collection
         removeFromCompanyList(client);
         jdbcDbClient.saveAll(clientList);
         reload.accept(null);

@@ -119,13 +119,15 @@ public class ClientJdbcDb extends JdbcDb<Client> {
         query = client.getSurname().isEmpty() ? query : query + " surname like '" + client.getSurname() + "' and";
         query = client.getNationality().isEmpty() ? query : query + " nationality like '" + client.getNationality() + "' and";
         if (!(client.getAgeFrom().isEmpty()) || (!client.getAgeTo().isEmpty())) {
-            client.setAgeFrom(client.getAgeFrom().isEmpty() ? "0" : client.getAgeFrom());
-            client.setAgeTo(client.getAgeTo().isEmpty()? String.valueOf(Integer.MAX_VALUE) : client.getAgeTo());
+            client.setAgeFrom(client.getAgeFrom().isEmpty() || (!isNumber(client.getAgeFrom())) ? "0" : client.getAgeFrom());
+            client.setAgeTo(client.getAgeTo().isEmpty() || (!isNumber(client.getAgeTo())) ?
+                    String.valueOf(Integer.MAX_VALUE) : client.getAgeTo());
             query += " (age between " + client.getAgeFrom() + " and " + client.getAgeTo() + ") and";
         }
         if (!(client.getWageFrom().isEmpty()) || (!client.getWageTo().isEmpty())) {
-            client.setWageFrom(client.getWageFrom().isEmpty() ? "0" : client.getWageFrom());
-            client.setWageTo(client.getWageTo().isEmpty()? String.valueOf(Integer.MAX_VALUE) : client.getWageTo());
+            client.setWageFrom(client.getWageFrom().isEmpty() || (!isNumber(client.getWageFrom())) ?  "0" : client.getWageFrom());
+            client.setWageTo(client.getWageTo().isEmpty() || (!isNumber(client.getWageTo())) ?
+                    String.valueOf(Integer.MAX_VALUE) : client.getWageTo());
             query += " (wage between " + client.getWageFrom() + " and " + client.getWageTo() + ") and";
         }
         if (!client.getCompanyList().get(0).getName().isEmpty()) {
@@ -148,5 +150,14 @@ public class ClientJdbcDb extends JdbcDb<Client> {
                 "\t\twhere coo.id = cc.id_company\n" +
                 "\t) as ccl where ccl.id_client = cl.id\n" +
                 ") as c";
+    }
+
+    private boolean isNumber(String input) {
+        try {
+            Double.parseDouble(input);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
     }
 }

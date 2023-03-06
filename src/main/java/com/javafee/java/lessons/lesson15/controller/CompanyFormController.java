@@ -101,7 +101,7 @@ public class CompanyFormController {
 
     public void delete() {
         companyList = fileDbCompany.findAll();
-        companyList.remove(company);
+        companyList.remove(company); // TODO: 03.03.2023 immutable collection
         deleteCompanyInClientList(company);
         fileDbCompany.saveAll(companyList);
         reloadActionCompany.accept(null);
