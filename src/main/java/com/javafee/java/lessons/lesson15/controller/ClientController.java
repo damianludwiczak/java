@@ -8,6 +8,7 @@ import com.javafee.java.lessons.lesson15.view.Utils;
 import com.javafee.java.lessons.lesson15.view.model.ClientTableModel;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -17,6 +18,8 @@ public class ClientController {
     private FilterClientForm filterClientForm;
     private static ClientController instance = null;
     private static FilterClientForm instanceFilterClientForm = null;
+
+    private ActionListener addActionListener = e -> onClickBtnFilter();
 
     private ClientController() {
         clientForm = new ClientForm();
@@ -107,7 +110,8 @@ public class ClientController {
     }
     private void initFilterForm() {
         filterClientForm.getFrame().setVisible(true);
-        filterClientForm.getButtonFilter().addActionListener(e -> updateFilterData());
+        if (filterClientForm.getButtonFilter().getActionListeners().length == 0)
+            filterClientForm.getButtonFilter().addActionListener(e -> updateFilterData());
     }
 
     private void closeFilterForm() {

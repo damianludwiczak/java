@@ -77,7 +77,8 @@ public class CompanyController {
     private void initFilterForm() {
         reloadEmptyFilterForm();
         filterCompanyForm.getFrame().setVisible(true);
-        filterCompanyForm.getButtonAccept().addActionListener(e -> updateFilterData());
+        if (filterCompanyForm.getButtonAccept().getActionListeners().length == 0)
+            filterCompanyForm.getButtonAccept().addActionListener(e -> updateFilterData());
     }
 
     private void closeFilterForm() {

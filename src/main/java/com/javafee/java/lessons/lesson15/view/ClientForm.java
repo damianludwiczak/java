@@ -17,6 +17,7 @@ public class ClientForm {
     private JButton buttonManagementCompany;
     private JButton buttonFilter;
     private JButton buttonRemoveFilters;
+    private JPanel panelFilter;
     private JTextField textField1;
     private JTextField textField2;
     private JTextField textField3;
@@ -25,11 +26,6 @@ public class ClientForm {
     private JTextField textField6;
     private JTextField textField7;
     private JTextField textField8;
-    private JPanel panelFilterFieldsBottom;
-    private JPanel panelFilterFieldsTop;
-    private JSplitPane panelFilterFields;
-    private JSplitPane panelFilter;
-    private JPanel panelFilterButton;
 
 
     private static FocusTraversalPolicy newPolicy;
@@ -38,10 +34,6 @@ public class ClientForm {
         frame.setIconImage(new ImageIcon(AddClientForm.class.getResource("/btnLogOut-ico.png")).getImage());
         frame.setContentPane(panel);
 
-        panelFilter.setLeftComponent(panelFilterFields);
-        panelFilter.setRightComponent(panelFilterButton);
-        panelFilterFields.setLeftComponent(panelFilterFieldsTop);
-        panelFilterFields.setRightComponent(panelFilterFieldsBottom);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
@@ -110,12 +102,6 @@ public class ClientForm {
         tableClient = new JTable();
         tableClient.setModel(new ClientTableModel());
         tableClient.setAutoCreateRowSorter(true);
-
-        panelFilter = new JSplitPane();
-        panelFilterFields = new JSplitPane();
-        panelFilterFieldsTop = new JPanel();
-        panelFilterFieldsBottom = new JPanel();
-        panelFilterButton = new JPanel();
     }
 
     public static class MyOwnFocusTraversalPolicy extends FocusTraversalPolicy {
