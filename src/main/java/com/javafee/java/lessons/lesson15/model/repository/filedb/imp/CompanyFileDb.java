@@ -17,7 +17,7 @@ public class CompanyFileDb extends FileDb<Company> {
         List<Company> returnList =  companyList;
         Company companyToFilter = replacePerCent(company);
 
-        returnList = !companyToFilter.getName().isEmpty() ? returnList.stream().filter( // TODO: 02.03.2023 handle NumberFormatExcaeption 
+        returnList = !companyToFilter.getName().isEmpty() ? returnList.stream().filter(
                 e -> e.getName().contains(companyToFilter.getName())).collect(Collectors.toList()) : returnList;
         returnList = !companyToFilter.getYearlyIncomesFrom().isEmpty() ? returnList.stream().filter(
                 e -> e.getYearlyIncomes() >= Integer.parseInt(companyToFilter.getYearlyIncomesFrom())).collect(Collectors.toList()) : returnList;

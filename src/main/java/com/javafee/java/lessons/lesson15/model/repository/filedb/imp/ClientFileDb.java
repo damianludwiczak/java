@@ -26,7 +26,7 @@ public class ClientFileDb extends FileDb<Client> {
                 e -> e.getNationality().contains(clientToFilter.getNationality())).collect(Collectors.toList()) : returnList;
 
         returnList = !clientToFilter.getAgeFrom().isEmpty() ? returnList.stream().filter(
-                e -> e.getAge() >= Integer.parseInt(clientToFilter.getAgeFrom())).collect(Collectors.toList()) : returnList; // TODO: 02.03.2023 handle NumberFromatException
+                e -> e.getAge() >= Integer.parseInt(clientToFilter.getAgeFrom())).collect(Collectors.toList()) : returnList;
         returnList = !clientToFilter.getAgeTo().isEmpty() ? returnList.stream().filter(
                 e -> e.getAge() <= Integer.parseInt(clientToFilter.getAgeTo())).collect(Collectors.toList()) : returnList;
         returnList = !clientToFilter.getWageFrom().isEmpty() ? returnList.stream().filter(
