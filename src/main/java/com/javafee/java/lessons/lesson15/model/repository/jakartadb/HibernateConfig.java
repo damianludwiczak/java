@@ -42,7 +42,7 @@ public class HibernateConfig {
             settings.put(Environment.PASS, prop.getProperty("db.password"));
             settings.put(Environment.DIALECT, "org.hibernate.dialect.PostgreSQL82Dialect");
             settings.put(Environment.CACHE_PROVIDER_CONFIG, "org.hibernate.cache.internal.NoCacheProvider");
-            settings.put(Environment.HBM2DDL_AUTO, "update");
+            settings.put(Environment.HBM2DDL_AUTO, "create-drop");
             settings.put(Environment.NON_CONTEXTUAL_LOB_CREATION, "true");
 
             registryBuilder.applySettings(settings);

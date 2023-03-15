@@ -1,28 +1,30 @@
-package com.javafee.java.lessons.lesson15.model.domain;
+package com.javafee.java.lessons.lesson15.model.entity;
 
 import com.javafee.java.lessons.lesson15.model.repository.Dao;
-import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.CompanyJdbcDb;
-import com.javafee.java.lessons.lesson15.service.Utils;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-/**
- * Store company's data.
- */
-public class Company implements Serializable {
+@Entity
+@SequenceGenerator(name = "seq_company", sequenceName = "seq_company", allocationSize = 1)
+public class Company {
+    @Id
+    @Column(name = "id_company")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_company")
     private Integer id;
     private String name;
-    private Double yearlyIncomes;
+    private double yearlyIncomes;
     private String yearlyIncomesFrom;
     private String yearlyIncomesTo;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinTable(name = "company_client",
+            joinColumns = @JoinColumn(name = "id_company"),
+            inverseJoinColumns = @JoinColumn(name = "id_client"))
     private List<Client> clientList = new ArrayList<>();
-
 
     public Company() {
     }
@@ -84,9 +86,9 @@ public class Company implements Serializable {
     }
 
     private Integer findMaxId() {
-        Dao<Company> companyFileDb = new CompanyJdbcDb(); // new FileDb<>(Utils.COMPANY_FILE);
-        List<Company> companyList = companyFileDb.findAll();
-        return (companyList == null || companyList.isEmpty()) ? 0 : (companyList.stream().max(Comparator.comparing(Company::getId))
+        Dao<com.javafee.java.lessons.lesson15.model.domain.Company> companyFileDb = new CompanyJdbcDb(); // new FileDb<>(Utils.COMPANY_FILE);
+        List<com.javafee.java.lessons.lesson15.model.domain.Company> companyList = companyFileDb.findAll();
+        return (companyList == null || companyList.isEmpty()) ? 0 : (companyList.stream().max(Comparator.comparing(com.javafee.java.lessons.lesson15.model.domain.Company::getId))
                 .orElseThrow(NoSuchElementException::new)).getId();
     }
 
