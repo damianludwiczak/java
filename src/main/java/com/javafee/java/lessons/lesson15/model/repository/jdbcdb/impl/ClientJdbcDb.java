@@ -1,7 +1,7 @@
 package com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl;
 
-import com.javafee.java.lessons.lesson15.model.domain.Client;
-import com.javafee.java.lessons.lesson15.model.domain.Company;
+import com.javafee.java.lessons.lesson15.model.entity.Client;
+import com.javafee.java.lessons.lesson15.model.entity.Company;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.JdbcDb;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.Orm;
 
@@ -60,7 +60,6 @@ public class ClientJdbcDb extends JdbcDb<Client> {
     public List<Client> findByFilter(Client clientToFilter) {
         List<Client> clients = new ArrayList<>();
         String query = buildQuery(clientToFilter);
-        System.out.println(query);
         try {
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next())
@@ -78,6 +77,11 @@ public class ClientJdbcDb extends JdbcDb<Client> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<Client> findAll(Class<?> clazz) {
+        return null;
     }
 
     public static List<Client> findById(int idCompany) {

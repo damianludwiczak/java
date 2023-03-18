@@ -11,11 +11,11 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         HibernateConfig hibernateConfig = new HibernateConfig();
-        Company company = new Company("Hendi", 100.0);
         Client client = new Client("Damian", "Ludwiczak", "polish", 31, 15000.0,
-                new ArrayList<>());
-        company.getClientList().add(client);
-        client.getCompanyList().add(company);
+               null);
+        Company company = new Company("Hendi", 100.0);
+        //company.setClientList(List.of(client));
+        client.setCompanyList(List.of(company));
 
         HibernateConfig.beginTransaction();
         HibernateConfig.getSession().save(client);
@@ -29,7 +29,7 @@ public class Main {
     }
 
 //    public static void feedAccount() {
-//        Dao<Account> fileDb = new AccountJdbcDb(); // new AccountFileDb(Utils.ACCOUNT_FILE); //
+//        Dao<Account> fileDb = new HibernateConfig<>(); // new AccountJdbcDb(); // new AccountFileDb(Utils.ACCOUNT_FILE); //
 //        List<Account> accountList = fileDb.findAll();
 //
 //        if (Objects.isNull(accountList) || accountList.size() == 0) {
@@ -45,7 +45,7 @@ public class Main {
 //    }
 
 //    public static void feedClient() {
-//        Dao<Client> fileDb = new ClientJdbcDb(); //new ClientFileDb(Utils.CLIENT_FILE); //
+//        Dao<Client> fileDb = new HibernateConfig<>(); // new ClientJdbcDb(); //new ClientFileDb(Utils.CLIENT_FILE); //
 //        List<Client> clientList = fileDb.findAll();
 //
 //        if (Objects.isNull(clientList) || clientList.size() == 0) {
@@ -61,7 +61,7 @@ public class Main {
 //    }
 
 //    public static void feedCompany() {
-//        Dao<Company> fileDb = new CompanyFileDb(Utils.COMPANY_FILE); // new CompanyJdbcDb(); //
+//        Dao<Company> fileDb = new HibernateConfig<>(); // new CompanyFileDb(Utils.COMPANY_FILE); // new CompanyJdbcDb(); //
 //        List<Company> companiesList = fileDb.findAll();
 //
 //        if (Objects.isNull(companiesList) || companiesList.size() == 0) {

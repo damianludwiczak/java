@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Entity
+@Table(name = "client")
 @SequenceGenerator(name = "seq_client", sequenceName = "seq_client", allocationSize = 1)
 public class Client {
     @Id
-    @Column(name = "id_client")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_client")
     private Integer id;
     private String name;
@@ -21,7 +21,8 @@ public class Client {
     private String nationality;
     private int age;
     private double wage;
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "clientList")
+    // @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "clientList")
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER, mappedBy = "clientList")
     private List<Company> companyList = new ArrayList<>();
     private String ageFrom;
     private String ageTo;

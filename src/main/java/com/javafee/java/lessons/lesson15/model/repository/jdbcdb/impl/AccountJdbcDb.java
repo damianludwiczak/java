@@ -1,7 +1,7 @@
 package com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl;
 
-import com.javafee.java.lessons.lesson15.model.domain.Account;
-import com.javafee.java.lessons.lesson15.model.domain.Company;
+import com.javafee.java.lessons.lesson15.model.entity.Account;
+import com.javafee.java.lessons.lesson15.model.entity.Company;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.JdbcDb;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.Orm;
 
@@ -49,6 +49,11 @@ public class AccountJdbcDb extends JdbcDb<Account> {
 
     @Override
     public List<Account> findByFilter(Account account) {
+        return null;
+    }
+
+    @Override
+    public List<Account> findAll(Class<?> clazz) {
         return null;
     }
 }

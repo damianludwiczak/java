@@ -10,20 +10,23 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Entity
+@Table(name="company")
 @SequenceGenerator(name = "seq_company", sequenceName = "seq_company", allocationSize = 1)
 public class Company {
     @Id
-    @Column(name = "id_company")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_company")
     private Integer id;
     private String name;
     private double yearlyIncomes;
     private String yearlyIncomesFrom;
     private String yearlyIncomesTo;
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    @JoinTable(name = "company_client",
-            joinColumns = @JoinColumn(name = "id_company"),
-            inverseJoinColumns = @JoinColumn(name = "id_client"))
+    @ManyToMany(fetch=FetchType.EAGER,
+            cascade= {CascadeType.ALL})
+    @JoinTable(
+            name="company_client",
+            joinColumns=@JoinColumn(name="id_company", referencedColumnName = "id"),
+            inverseJoinColumns=@JoinColumn(name="id_client", referencedColumnName = "id")
+    )
     private List<Client> clientList = new ArrayList<>();
 
     public Company() {

@@ -1,6 +1,6 @@
 package com.javafee.java.lessons.lesson15.controller;
 
-import com.javafee.java.lessons.lesson15.model.domain.Company;
+import com.javafee.java.lessons.lesson15.model.entity.Company;
 import com.javafee.java.lessons.lesson15.view.CompanyForm;
 import com.javafee.java.lessons.lesson15.view.FilterCompanyForm;
 import com.javafee.java.lessons.lesson15.view.Utils;

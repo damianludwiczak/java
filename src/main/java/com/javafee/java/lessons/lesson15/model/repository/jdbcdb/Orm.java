@@ -1,9 +1,9 @@
 package com.javafee.java.lessons.lesson15.model.repository.jdbcdb;
 
-import com.javafee.java.lessons.lesson15.model.domain.Client;
-import com.javafee.java.lessons.lesson15.model.domain.Account;
-import com.javafee.java.lessons.lesson15.model.domain.Company;
-import com.javafee.java.lessons.lesson15.model.domain.UserData;
+import com.javafee.java.lessons.lesson15.model.entity.Client;
+import com.javafee.java.lessons.lesson15.model.entity.Account;
+import com.javafee.java.lessons.lesson15.model.entity.Company;
+import com.javafee.java.lessons.lesson15.model.entity.UserData;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.ClientJdbcDb;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.CompanyJdbcDb;
 

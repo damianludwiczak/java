@@ -1,6 +1,6 @@
 package com.javafee.java.lessons.lesson15.model.repository.filedb.imp;
 
-import com.javafee.java.lessons.lesson15.model.domain.Company;
+import com.javafee.java.lessons.lesson15.model.entity.Company;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
 
 import java.util.List;
@@ -24,6 +24,11 @@ public class CompanyFileDb extends FileDb<Company> {
         returnList = !companyToFilter.getYearlyIncomesTo().isEmpty() ? returnList.stream().filter(
                 e -> e.getYearlyIncomes() <= Integer.parseInt(companyToFilter.getYearlyIncomesTo())).collect(Collectors.toList()) : returnList;
         return returnList;
+    }
+
+    @Override
+    public List<Company> findAll(Class<?> clazz) {
+        return null;
     }
 
     private Company replacePerCent(Company company) {

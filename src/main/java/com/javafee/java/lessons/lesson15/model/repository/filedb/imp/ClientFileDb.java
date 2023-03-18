@@ -1,7 +1,7 @@
 package com.javafee.java.lessons.lesson15.model.repository.filedb.imp;
 
-import com.javafee.java.lessons.lesson15.model.domain.Client;
-import com.javafee.java.lessons.lesson15.model.domain.Company;
+import com.javafee.java.lessons.lesson15.model.entity.Client;
+import com.javafee.java.lessons.lesson15.model.entity.Company;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
 
 import java.util.ArrayList;
@@ -42,6 +42,11 @@ public class ClientFileDb extends FileDb<Client> {
             return newClientList;
         }
         return returnList;
+    }
+
+    @Override
+    public List<Client> findAll(Class<?> clazz) {
+        return null;
     }
 
     private Client replacePerCent(Client client) {

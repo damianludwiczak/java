@@ -1,5 +1,6 @@
 package com.javafee.java.lessons.lesson15.model.repository.jakartadb;
 
+import com.javafee.java.lessons.lesson15.model.repository.Dao;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,12 +14,10 @@ import org.reflections.Reflections;
 import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public class HibernateConfig {
+public abstract class HibernateConfig<T> implements Dao<T> {
     private static final SessionFactory sessionFactory;
     private static final Session session;
     private static EntityManager entityManager;
@@ -105,5 +104,20 @@ public class HibernateConfig {
     public static void commitJpaTransaction() {
         entityManager.getTransaction().commit();
         entityManager.close();
+    }
+
+    @Override
+    public List<T> findAll(Class<?> clazz) {
+        return (List<T>) session.createQuery("select * from " + clazz.getSimpleName()).stream().collect(Collectors.toList());
+    }
+
+    @Override
+    public List<T> findAll() {
+        return null;
+    }
+
+    @Override
+    public void saveAll(List<T> data) {
+        session.save(data);
     }
 }

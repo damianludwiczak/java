@@ -1,7 +1,7 @@
 package com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl;
 
-import com.javafee.java.lessons.lesson15.model.domain.Client;
-import com.javafee.java.lessons.lesson15.model.domain.Company;
+import com.javafee.java.lessons.lesson15.model.entity.Client;
+import com.javafee.java.lessons.lesson15.model.entity.Company;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.JdbcDb;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.Orm;
 
@@ -91,6 +91,11 @@ public class CompanyJdbcDb extends JdbcDb<Company> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<Company> findAll(Class<?> clazz) {
+        return null;
     }
 
     private String buildQuery(Company company) {
