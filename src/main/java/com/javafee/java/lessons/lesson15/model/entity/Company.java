@@ -15,10 +15,15 @@ import java.util.NoSuchElementException;
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_company")
+    @Column(name = "id")
     private Integer id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "yearlyincomes")
     private double yearlyIncomes;
+    @Column(name = "yearlyincomesfrom")
     private String yearlyIncomesFrom;
+    @Column(name = "yearlyincomesto")
     private String yearlyIncomesTo;
     @ManyToMany(fetch=FetchType.EAGER,
             cascade= {CascadeType.ALL})
@@ -89,9 +94,9 @@ public class Company {
     }
 
     private Integer findMaxId() {
-        Dao<com.javafee.java.lessons.lesson15.model.domain.Company> companyFileDb = new CompanyJdbcDb(); // new FileDb<>(Utils.COMPANY_FILE);
-        List<com.javafee.java.lessons.lesson15.model.domain.Company> companyList = companyFileDb.findAll();
-        return (companyList == null || companyList.isEmpty()) ? 0 : (companyList.stream().max(Comparator.comparing(com.javafee.java.lessons.lesson15.model.domain.Company::getId))
+        Dao<Company> companyFileDb = new CompanyJdbcDb(); // new FileDb<>(Utils.COMPANY_FILE);
+        List<Company> companyList = companyFileDb.findAll();
+        return (companyList == null || companyList.isEmpty()) ? 0 : (companyList.stream().max(Comparator.comparing(Company::getId))
                 .orElseThrow(NoSuchElementException::new)).getId();
     }
 

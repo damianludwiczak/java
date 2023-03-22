@@ -5,6 +5,7 @@ import com.javafee.java.lessons.lesson15.model.repository.Dao;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.imp.CompanyFileDb;
 import com.javafee.java.lessons.lesson15.model.repository.jakartadb.HibernateConfig;
+import com.javafee.java.lessons.lesson15.model.repository.jakartadb.impl.CompanyHibernate;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.CompanyJdbcDb;
 import com.javafee.java.lessons.lesson15.service.Utils;
 
@@ -19,7 +20,7 @@ public class CompanyTableModel extends AbstractTableModel {
     private Dao<Company> companyDao;
 
     public CompanyTableModel() {
-        companyDao = new HibernateConfig<>(); // new CompanyJdbcDb(); // new CompanyFileDb(Utils.COMPANY_FILE); //
+        companyDao = new CompanyHibernate(); // new CompanyJdbcDb(); // new CompanyFileDb(Utils.COMPANY_FILE); //
         prepareData();
         columns = new String[]{"Name", "Yearly Incomes", "Client List"};
     }

@@ -78,12 +78,6 @@ public class ClientJdbcDb extends JdbcDb<Client> {
             throw new RuntimeException(e);
         }
     }
-
-    @Override
-    public List<Client> findAll(Class<?> clazz) {
-        return null;
-    }
-
     public static List<Client> findById(int idCompany) {
         List<Client> clients = new ArrayList<>();
         String query = "select c.name, c.id, c.surname, c.nationality, c.age, c.wage from client c, (\n" +

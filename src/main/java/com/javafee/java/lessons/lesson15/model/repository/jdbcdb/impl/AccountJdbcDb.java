@@ -51,9 +51,4 @@ public class AccountJdbcDb extends JdbcDb<Account> {
     public List<Account> findByFilter(Account account) {
         return null;
     }
-
-    @Override
-    public List<Account> findAll(Class<?> clazz) {
-        return null;
-    }
 }

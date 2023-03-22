@@ -20,13 +20,13 @@ public class AddClientForm {
 
     public AddClientForm() {
         frame = new JFrame("Add Client");
-        frame.setIconImage(new ImageIcon(com.javafee.java.lessons.lesson15.view.AddClientForm.class.getResource("/btnLogOut-ico.png")).getImage());
+//        frame.setIconImage(new ImageIcon(com.javafee.java.lessons.lesson15.view.AddClientForm.class.getResource("/btnLogOut-ico.png")).getImage());
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
 
-        buttonAccept.setIcon(new ImageIcon(new ImageIcon(com.javafee.java.lessons.lesson15.view.AddClientForm.class.getResource("/btnAccept-ico.png"))
-                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
+//        buttonAccept.setIcon(new ImageIcon(new ImageIcon(com.javafee.java.lessons.lesson15.view.AddClientForm.class.getResource("/btnAccept-ico.png"))
+//                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
     }
 
     public JTable getTableCompany() {

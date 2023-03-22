@@ -6,6 +6,7 @@ import com.javafee.java.lessons.lesson15.model.repository.Dao;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.imp.ClientFileDb;
 import com.javafee.java.lessons.lesson15.model.repository.jakartadb.HibernateConfig;
+import com.javafee.java.lessons.lesson15.model.repository.jakartadb.impl.ClientHibernate;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.JdbcDb;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.ClientJdbcDb;
 import com.javafee.java.lessons.lesson15.service.Utils;
@@ -20,7 +21,7 @@ public class ClientTableModel extends AbstractTableModel {
     private Dao<Client> daoClient;
 
     public ClientTableModel() {
-        daoClient = new HibernateConfig<>(); // new ClientJdbcDb(); // new ClientFileDb(Utils.CLIENT_FILE); //
+        daoClient = new ClientHibernate(); // new ClientJdbcDb(); // new ClientFileDb(Utils.CLIENT_FILE); //
         prepareData();
         columns = new String[]{"name", "surname", "nationality", "age", "wage", "company"};
     }

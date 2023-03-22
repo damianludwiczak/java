@@ -7,6 +7,8 @@ import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.imp.ClientFileDb;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.imp.CompanyFileDb;
 import com.javafee.java.lessons.lesson15.model.repository.jakartadb.HibernateConfig;
+import com.javafee.java.lessons.lesson15.model.repository.jakartadb.impl.ClientHibernate;
+import com.javafee.java.lessons.lesson15.model.repository.jakartadb.impl.CompanyHibernate;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.CompanyJdbcDb;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.ClientJdbcDb;
 import com.javafee.java.lessons.lesson15.service.Utils;
@@ -28,8 +30,8 @@ public class ClientFormController {
     private List<Client> clientList = new ArrayList<>();
     private Client client;
     private Consumer reload;
-    private Dao<Client> jdbcDbClient = new HibernateConfig<>(); // new ClientJdbcDb(); // new ClientFileDb(Utils.CLIENT_FILE); //
-    private Dao<Company> jdbcDbCompany = new HibernateConfig<>(); // new CompanyJdbcDb(); // new CompanyFileDb(Utils.COMPANY_FILE); //
+    private Dao<Client> jdbcDbClient = new ClientHibernate(); // new ClientJdbcDb(); // new ClientFileDb(Utils.CLIENT_FILE); //
+    private Dao<Company> jdbcDbCompany = new CompanyHibernate(); // new CompanyJdbcDb(); // new CompanyFileDb(Utils.COMPANY_FILE); //
     private ActionListener addActionListener = e -> onClickButtonAdd();
     private ActionListener modifyActionListener = e -> onClickButtonModify();
     private static ClientFormController instance = null;
@@ -125,7 +127,7 @@ public class ClientFormController {
     public void delete(Consumer reload, Client client) {
         this.reload = reload;
         clientList = jdbcDbClient.findAll();
-        clientList.remove(client); // TODO: 03.03.2023 immutable collection
+        clientList.remove(client);
         removeFromCompanyList(client);
         jdbcDbClient.saveAll(clientList);
         reload.accept(null);

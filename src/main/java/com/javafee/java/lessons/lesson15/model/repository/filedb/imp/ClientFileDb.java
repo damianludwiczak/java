@@ -43,12 +43,6 @@ public class ClientFileDb extends FileDb<Client> {
         }
         return returnList;
     }
-
-    @Override
-    public List<Client> findAll(Class<?> clazz) {
-        return null;
-    }
-
     private Client replacePerCent(Client client) {
         client.setName(client.getName().replaceAll("%", ""));
         client.setSurname(client.getSurname().replaceAll("%", ""));

@@ -31,25 +31,25 @@ public class ClientForm {
     private static FocusTraversalPolicy newPolicy;
     public ClientForm() {
         frame = new JFrame("Clients (c) myCMS");
-        frame.setIconImage(new ImageIcon(AddClientForm.class.getResource("/btnLogOut-ico.png")).getImage());
+//        frame.setIconImage(new ImageIcon(AddClientForm.class.getResource("/btnLogOut-ico.png")).getImage());
         frame.setContentPane(panel);
 
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
 
-        buttonAdd.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnAdd-ico.png"))
-                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
-        buttonModify.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnModify-ico.png"))
-                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
-        buttonDelete.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnRemoveFromList-ico.png"))
-                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
-        buttonManagementCompany.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnRegisterNow-ico.png"))
-                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
-        buttonFilter.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnRegisterNow-ico.png"))
-                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
-        buttonRemoveFilters.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnRegisterNow-ico.png"))
-                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
+//        buttonAdd.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnAdd-ico.png"))
+//                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
+//        buttonModify.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnModify-ico.png"))
+//                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
+//        buttonDelete.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnRemoveFromList-ico.png"))
+//                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
+//        buttonManagementCompany.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnRegisterNow-ico.png"))
+//                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
+//        buttonFilter.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnRegisterNow-ico.png"))
+//                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
+//        buttonRemoveFilters.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnRegisterNow-ico.png"))
+//                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
 
 
         Vector<Component> order = new Vector<Component>(7);

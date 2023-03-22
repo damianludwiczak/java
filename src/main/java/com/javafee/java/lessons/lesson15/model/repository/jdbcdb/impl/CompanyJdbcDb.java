@@ -92,12 +92,6 @@ public class CompanyJdbcDb extends JdbcDb<Company> {
             throw new RuntimeException(e);
         }
     }
-
-    @Override
-    public List<Company> findAll(Class<?> clazz) {
-        return null;
-    }
-
     private String buildQuery(Company company) {
         String query = "";
         String helpQuery = "select c.name, c.id, c.yearlyincomes from company c where ";

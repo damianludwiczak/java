@@ -21,13 +21,13 @@ public class FilterClientForm {
 
     public FilterClientForm() {
         frame = new JFrame("Filter Client");
-        frame.setIconImage(new ImageIcon(com.javafee.java.lessons.lesson15.view.FilterClientForm.class.
-                getResource("/btnLogOut-ico.png")).getImage());
+//        frame.setIconImage(new ImageIcon(com.javafee.java.lessons.lesson15.view.FilterClientForm.class.
+//                getResource("/btnLogOut-ico.png")).getImage());
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
-        buttonFilter.setIcon(new ImageIcon(new ImageIcon(com.javafee.java.lessons.lesson15.view.FilterClientForm.class.getResource("/btnAccept-ico.png"))
-                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
+//        buttonFilter.setIcon(new ImageIcon(new ImageIcon(com.javafee.java.lessons.lesson15.view.FilterClientForm.class.getResource("/btnAccept-ico.png"))
+//                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
     }
 
     public JFrame getFrame() {

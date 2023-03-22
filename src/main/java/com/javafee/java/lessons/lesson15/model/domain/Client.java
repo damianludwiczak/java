@@ -32,7 +32,7 @@ public class Client extends UserData implements Serializable {
 
     public Client(String name, String surname, String nationality, Integer age, Double wage, List<Company> companyList) {
         super(name, surname, nationality, age, wage);
-        setId(findMaxId() + 1);
+//        setId(findMaxId() + 1);
         this.companyList = companyList;
     }
     public List<Company> getCompanyList() {
@@ -75,12 +75,12 @@ public class Client extends UserData implements Serializable {
         this.wageTo = wageTo;
     }
 
-    private Integer findMaxId() {
-        Dao<Client> fileDb = new ClientJdbcDb(); // new FileDb<>(Utils.CLIENT_FILE);
-        List<Client> clientList = fileDb.findAll();
-        return (clientList == null || clientList.isEmpty()) ? 0 : (clientList.stream().max(Comparator.comparing(Client::getId))
-                                        .orElseThrow(NoSuchElementException::new)).getId();
-    }
+//    private Integer findMaxId() {
+//        Dao<Client> fileDb = new ClientJdbcDb(); // new FileDb<>(Utils.CLIENT_FILE);
+//        List<Client> clientList = fileDb.findAll();
+//        return (clientList == null || clientList.isEmpty()) ? 0 : (clientList.stream().max(Comparator.comparing(Client::getId))
+//                                        .orElseThrow(NoSuchElementException::new)).getId();
+//    }
 
 
     @Override

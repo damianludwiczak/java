@@ -8,11 +8,24 @@ import java.util.stream.Collectors;
 
 public class CompanyHibernate extends HibernateConfig<Company> {
     @Override
-    public List<Company> findByFilter(Company company) {
-        getSession().createQuery(buildQuery(company)).stream().collect(Collectors.toList());
+    public void saveAll(List<Company> data) {
+        getSession().getTransaction().begin();
+        for (Company company : data)
+            getSession().save(company);
+        getSession().getTransaction().commit();
     }
 
-    private String buildQuery(com.javafee.java.lessons.lesson15.model.domain.Company company) {
+    @Override
+    public List<Company> findByFilter(Company company) {
+        return (List<Company>) getSession().createQuery(buildQuery(company)).stream().collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Company> findAll() {
+        return (List<Company>) getSession().createQuery("from Company").stream().collect(Collectors.toList());
+    }
+
+    private String buildQuery(Company company) {
         String query = "";
         String helpQuery = "select c.name, c.id, c.yearlyincomes from company c where ";
         String printAll = "select * from company";

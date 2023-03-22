@@ -8,11 +8,29 @@ import java.util.stream.Collectors;
 
 public class ClientHibernate extends HibernateConfig<Client> {
     @Override
-    public List<Client> findByFilter(Client clientToFilter) {
-        return getSession().createQuery(buildQuery(clientToFilter)).stream().collect(Collectors.toList());
+    public void saveAll(List<Client> data) {
+        getSession().getTransaction().begin();
+        List<Client> all = findAll();
+        for (Client client : all)
+            getSession().delete(client);
+        getSession().getTransaction().commit();
+        getSession().getTransaction().begin();
+        for (Client client : data)
+            getSession().save(client);
+        getSession().getTransaction().commit();
     }
 
-    private String buildQuery(com.javafee.java.lessons.lesson15.model.domain.Client client) {
+    @Override
+    public List<Client> findByFilter(Client clientToFilter) {
+        return (List<Client>) getSession().createQuery(buildQuery(clientToFilter)).stream().collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Client> findAll() {
+        return (List<Client>) getSession().createQuery("from Client").stream().collect(Collectors.toList());
+    }
+
+    private String buildQuery(Client client) {
         String query = "";
         String helpQuery = "select c.name, c.id, c.surname, c.nationality, c.age, c.wage from client c where ";
         String printAll = "select * from client";
@@ -35,7 +53,7 @@ public class ClientHibernate extends HibernateConfig<Client> {
             query += " (age between " + client.getAgeFrom() + " and " + client.getAgeTo() + ") and";
         }
         if (!(client.getWageFrom().isEmpty()) || (!client.getWageTo().isEmpty())) {
-            client.setWageFrom(client.getWageFrom().isEmpty() || (!isNumber(client.getWageFrom())) ?  "0" : client.getWageFrom());
+            client.setWageFrom(client.getWageFrom().isEmpty() || (!isNumber(client.getWageFrom())) ? "0" : client.getWageFrom());
             client.setWageTo(client.getWageTo().isEmpty() || (!isNumber(client.getWageTo())) ?
                     String.valueOf(Integer.MAX_VALUE) : client.getWageTo());
             query += " (wage between " + client.getWageFrom() + " and " + client.getWageTo() + ") and";
@@ -45,8 +63,8 @@ public class ClientHibernate extends HibernateConfig<Client> {
         }
 
         int length = query.length();
-        query = query.endsWith("and") ? query.substring(0,length - 3) : query;
-        query = query.endsWith("where ") ? query.substring(0,length - 6) : query;
+        query = query.endsWith("and") ? query.substring(0, length - 3) : query;
+        query = query.endsWith("where ") ? query.substring(0, length - 6) : query;
         query = query.equals(helpQuery) ? printAll : query;
         return query;
     }

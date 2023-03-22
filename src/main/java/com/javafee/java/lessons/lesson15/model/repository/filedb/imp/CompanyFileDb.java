@@ -25,12 +25,6 @@ public class CompanyFileDb extends FileDb<Company> {
                 e -> e.getYearlyIncomes() <= Integer.parseInt(companyToFilter.getYearlyIncomesTo())).collect(Collectors.toList()) : returnList;
         return returnList;
     }
-
-    @Override
-    public List<Company> findAll(Class<?> clazz) {
-        return null;
-    }
-
     private Company replacePerCent(Company company) {
         company.setName(company.getName().replaceAll("%", ""));
         return company;

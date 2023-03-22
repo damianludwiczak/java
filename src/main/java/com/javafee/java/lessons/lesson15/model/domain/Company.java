@@ -2,6 +2,7 @@ package com.javafee.java.lessons.lesson15.model.domain;
 
 import com.javafee.java.lessons.lesson15.model.repository.Dao;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
+import com.javafee.java.lessons.lesson15.model.repository.jakartadb.impl.CompanyHibernate;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.CompanyJdbcDb;
 import com.javafee.java.lessons.lesson15.service.Utils;
 
@@ -28,7 +29,7 @@ public class Company implements Serializable {
     }
 
     public Company(String name, Double yearlyIncomes) {
-        this.id = findMaxId() + 1;
+//        this.id = findMaxId() + 1;
         this.name = name;
         this.yearlyIncomes = yearlyIncomes;
     }
@@ -83,12 +84,12 @@ public class Company implements Serializable {
         this.clientList = clientList;
     }
 
-    private Integer findMaxId() {
-        Dao<Company> companyFileDb = new CompanyJdbcDb(); // new FileDb<>(Utils.COMPANY_FILE);
-        List<Company> companyList = companyFileDb.findAll();
-        return (companyList == null || companyList.isEmpty()) ? 0 : (companyList.stream().max(Comparator.comparing(Company::getId))
-                .orElseThrow(NoSuchElementException::new)).getId();
-    }
+//    private Integer findMaxId() {
+//        Dao<Company> companyFileDb = new CompanyHibernate(); // new CompanyJdbcDb(); // new FileDb<>(Utils.COMPANY_FILE);
+//        List<Company> companyList = companyFileDb.findAll();
+//        return (companyList == null || companyList.isEmpty()) ? 0 : (companyList.stream().max(Comparator.comparing(Company::getId))
+//                .orElseThrow(NoSuchElementException::new)).getId();
+//    }
 
     @Override
     public String toString() {

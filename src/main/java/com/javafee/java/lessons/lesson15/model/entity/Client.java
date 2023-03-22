@@ -15,24 +15,34 @@ import java.util.NoSuchElementException;
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_client")
+    @Column(name = "id")
     private Integer id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "surname")
     private String surname;
+    @Column(name = "nationality")
     private String nationality;
+    @Column(name = "age")
     private int age;
+    @Column(name = "wage")
     private double wage;
     // @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "clientList")
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER, mappedBy = "clientList")
     private List<Company> companyList = new ArrayList<>();
+    @Column(name = "agefrom")
     private String ageFrom;
+    @Column(name = "ageto")
     private String ageTo;
+    @Column(name = "wagefrom")
     private String wageFrom;
+    @Column(name = "wageto")
     private String wageTo;
 
     public Client() {
     }
 
-    public Client(int id, String name, String surname, String nationality, int age, double wage, List<Company> companyList) {
+    public Client(String name, String surname, int id, String nationality, int age, double wage, List<Company> companyList) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -140,9 +150,9 @@ public class Client {
     }
 
     private Integer findMaxId() {
-        Dao<com.javafee.java.lessons.lesson15.model.domain.Client> fileDb = new ClientJdbcDb(); // new FileDb<>(Utils.CLIENT_FILE);
-        List<com.javafee.java.lessons.lesson15.model.domain.Client> clientList = fileDb.findAll();
-        return (clientList == null || clientList.isEmpty()) ? 0 : (clientList.stream().max(Comparator.comparing(com.javafee.java.lessons.lesson15.model.domain.Client::getId))
+        Dao<Client> fileDb = new ClientJdbcDb(); // new FileDb<>(Utils.CLIENT_FILE);
+        List<Client> clientList = fileDb.findAll();
+        return (clientList == null || clientList.isEmpty()) ? 0 : (clientList.stream().max(Comparator.comparing(Client::getId))
                 .orElseThrow(NoSuchElementException::new)).getId();
     }
 
