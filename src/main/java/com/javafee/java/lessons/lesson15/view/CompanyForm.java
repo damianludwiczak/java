@@ -13,6 +13,8 @@ public class CompanyForm {
     private JButton buttonAdd;
     private JButton buttonModify;
     private JButton buttonDelete;
+    private JButton buttonFilter;
+    private JButton buttonRemoveFilters;
     private JTable tableClient;
 
     public CompanyForm() {
@@ -26,7 +28,11 @@ public class CompanyForm {
                 .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
         buttonModify.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnModify-ico.png"))
                 .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
+        buttonFilter.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnModify-ico.png"))
+                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
         buttonDelete.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnRemoveFromList-ico.png"))
+                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
+        buttonRemoveFilters.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnRemoveFromList-ico.png"))
                 .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
     }
 
@@ -51,6 +57,14 @@ public class CompanyForm {
 
     public JButton getButtonDelete() {
         return buttonDelete;
+    }
+
+    public JButton getButtonRemoveFilters() {
+        return buttonRemoveFilters;
+    }
+
+    public JButton getButtonFilter() {
+        return buttonFilter;
     }
 
     private void createUIComponents() {

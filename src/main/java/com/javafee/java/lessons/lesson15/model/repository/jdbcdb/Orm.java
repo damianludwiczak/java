@@ -4,6 +4,8 @@ import com.javafee.java.lessons.lesson15.model.domain.Client;
 import com.javafee.java.lessons.lesson15.model.domain.Account;
 import com.javafee.java.lessons.lesson15.model.domain.Company;
 import com.javafee.java.lessons.lesson15.model.domain.UserData;
+import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.ClientJdbcDb;
+import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.CompanyJdbcDb;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -14,7 +16,8 @@ public class Orm {
 
     public static Function<Map<String, String>, Client> getClientMapFunction() {
         return (map) -> new Client(map.get("name"), map.get("surname"), Integer.parseInt(map.get("id")), map.get("nationality"),
-                Integer.parseInt(map.get("age")), Double.parseDouble(map.get("wage")), null);
+                Integer.parseInt(map.get("age")), Double.parseDouble(map.get("wage")),
+                null);
     }
 
     public static Function<Map<String, String>, Account> getAccountMapFunction() {

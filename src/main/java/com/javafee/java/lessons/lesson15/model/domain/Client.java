@@ -1,6 +1,8 @@
 package com.javafee.java.lessons.lesson15.model.domain;
 
+import com.javafee.java.lessons.lesson15.model.repository.Dao;
 import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
+import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.ClientJdbcDb;
 import com.javafee.java.lessons.lesson15.service.Utils;
 
 import java.io.Serializable;
@@ -14,6 +16,14 @@ import java.util.NoSuchElementException;
  */
 public class Client extends UserData implements Serializable {
     private List<Company> companyList = new ArrayList<>();
+
+    private String ageFrom;
+    private String ageTo;
+    private String wageFrom;
+    private String  wageTo;
+
+    public Client() {
+    }
 
     public Client(String name, String surname, Integer id, String nationality, Integer age, Double wage, List<Company> companyList) {
         super(name, surname, id, nationality, age, wage);
@@ -33,8 +43,40 @@ public class Client extends UserData implements Serializable {
         this.companyList = companyList;
     }
 
+    public String getAgeFrom() {
+        return ageFrom;
+    }
+
+    public void setAgeFrom(String ageFrom) {
+        this.ageFrom = ageFrom;
+    }
+
+    public String getAgeTo() {
+        return ageTo;
+    }
+
+    public void setAgeTo(String ageTo) {
+        this.ageTo = ageTo;
+    }
+
+    public String getWageFrom() {
+        return wageFrom;
+    }
+
+    public void setWageFrom(String wageFrom) {
+        this.wageFrom = wageFrom;
+    }
+
+    public String getWageTo() {
+        return wageTo;
+    }
+
+    public void setWageTo(String wageTo) {
+        this.wageTo = wageTo;
+    }
+
     private Integer findMaxId() {
-        FileDb<Client> fileDb = new FileDb<>(Utils.CLIENT_FILE);
+        Dao<Client> fileDb = new ClientJdbcDb(); // new FileDb<>(Utils.CLIENT_FILE);
         List<Client> clientList = fileDb.findAll();
         return (clientList == null || clientList.isEmpty()) ? 0 : (clientList.stream().max(Comparator.comparing(Client::getId))
                                         .orElseThrow(NoSuchElementException::new)).getId();

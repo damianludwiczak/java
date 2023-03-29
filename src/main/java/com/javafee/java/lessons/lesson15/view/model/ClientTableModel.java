@@ -1,9 +1,13 @@
 package com.javafee.java.lessons.lesson15.view.model;
 
 import com.javafee.java.lessons.lesson15.model.domain.Client;
+import com.javafee.java.lessons.lesson15.model.domain.Company;
 import com.javafee.java.lessons.lesson15.model.repository.Dao;
+import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
+import com.javafee.java.lessons.lesson15.model.repository.filedb.imp.ClientFileDb;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.JdbcDb;
 import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.ClientJdbcDb;
+import com.javafee.java.lessons.lesson15.service.Utils;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.Arrays;
@@ -15,7 +19,7 @@ public class ClientTableModel extends AbstractTableModel {
     private Dao<Client> daoClient;
 
     public ClientTableModel() {
-        daoClient = new ClientJdbcDb(); //new FileDb<>(Utils.CLIENT_FILE);
+        daoClient = new ClientJdbcDb(); // new ClientFileDb(Utils.CLIENT_FILE); //
         prepareData();
         columns = new String[]{"name", "surname", "nationality", "age", "wage", "company"};
     }
@@ -30,6 +34,11 @@ public class ClientTableModel extends AbstractTableModel {
 
     public void reload() {
         prepareData();
+        fireTableDataChanged();
+    }
+
+    public void reloadFilterData(Client client) {
+        clients = daoClient.findByFilter(client);
         fireTableDataChanged();
     }
 

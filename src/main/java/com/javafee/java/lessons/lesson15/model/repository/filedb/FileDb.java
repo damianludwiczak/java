@@ -5,12 +5,15 @@ import com.javafee.java.lessons.lesson15.model.repository.Dao;
 import java.io.*;
 import java.util.List;
 
-public class FileDb<T> implements Dao<T> {
+public abstract class FileDb<T> implements Dao<T> {
     private String path;
 
     public FileDb(String path) {
         this.path = path;
     }
+
+    @Override
+    public abstract List<T> findByFilter(T t);
 
     public List<T> findAll() {
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(path))) {

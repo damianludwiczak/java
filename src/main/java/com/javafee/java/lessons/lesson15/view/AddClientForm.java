@@ -9,24 +9,23 @@ public class AddClientForm {
     private JFrame frame;
     private JPanel panel;
     private JTextField textFieldName;
+    private JTextField textFieldSurname;
     private JTextField textFieldNationality;
     private JTextField textFieldAge;
     private JTextField textFieldWage;
     private JTextField textFieldCompany;
     private JButton buttonAccept;
-    private JTextField textFieldSurname;
     private JTable tableCompany;
-    private JButton buttonUpdate;
 
 
     public AddClientForm() {
-        frame = new JFrame("Add User");
-        frame.setIconImage(new ImageIcon(com.javafee.java.lessons.lesson12.view.AddClientForm.class.getResource("/btnLogOut-ico.png")).getImage());
+        frame = new JFrame("Add Client");
+        frame.setIconImage(new ImageIcon(com.javafee.java.lessons.lesson15.view.AddClientForm.class.getResource("/btnLogOut-ico.png")).getImage());
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
 
-        buttonAccept.setIcon(new ImageIcon(new ImageIcon(com.javafee.java.lessons.lesson12.view.AddClientForm.class.getResource("/btnAccept-ico.png"))
+        buttonAccept.setIcon(new ImageIcon(new ImageIcon(com.javafee.java.lessons.lesson15.view.AddClientForm.class.getResource("/btnAccept-ico.png"))
                 .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
     }
 

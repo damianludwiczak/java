@@ -15,12 +15,26 @@ public class ClientForm {
     private JButton buttonModify;
     private JButton buttonDelete;
     private JButton buttonManagementCompany;
+    private JButton buttonFilter;
+    private JButton buttonRemoveFilters;
+    private JPanel panelFilter;
+    private JTextField textField1;
+    private JTextField textField2;
+    private JTextField textField3;
+    private JTextField textField4;
+    private JTextField textField5;
+    private JTextField textField6;
+    private JTextField textField7;
+    private JTextField textField8;
+
 
     private static FocusTraversalPolicy newPolicy;
     public ClientForm() {
         frame = new JFrame("Clients (c) myCMS");
         frame.setIconImage(new ImageIcon(AddClientForm.class.getResource("/btnLogOut-ico.png")).getImage());
         frame.setContentPane(panel);
+
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
 
@@ -32,13 +46,18 @@ public class ClientForm {
                 .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
         buttonManagementCompany.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnRegisterNow-ico.png"))
                 .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
+        buttonFilter.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnRegisterNow-ico.png"))
+                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
+        buttonRemoveFilters.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnRegisterNow-ico.png"))
+                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
+
 
         Vector<Component> order = new Vector<Component>(7);
         order.add(buttonAdd);
         order.add(buttonModify);
         order.add(buttonDelete);
         order.add(buttonManagementCompany);
-        newPolicy = new com.javafee.java.lessons.lesson12.view.ClientForm.MyOwnFocusTraversalPolicy(order);
+        newPolicy = new com.javafee.java.lessons.lesson15.view.ClientForm.MyOwnFocusTraversalPolicy(order);
 
         frame.setFocusTraversalPolicy(newPolicy);
     }
@@ -69,6 +88,14 @@ public class ClientForm {
 
     public JButton getButtonManagementCompany() {
         return buttonManagementCompany;
+    }
+
+    public JButton getButtonFilter() {
+        return buttonFilter;
+    }
+
+    public JButton getButtonRemoveFilters() {
+        return buttonRemoveFilters;
     }
 
     private void createUIComponents() {
