@@ -1,17 +1,12 @@
 package com.javafee.java.lessons.lesson15;
 
 import com.javafee.java.lessons.lesson15.controller.LoginController;
-import com.javafee.java.lessons.lesson15.model.domain.Account;
-import com.javafee.java.lessons.lesson15.model.domain.Client;
-import com.javafee.java.lessons.lesson15.model.domain.Company;
-import com.javafee.java.lessons.lesson15.model.repository.Dao;
-import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
-import com.javafee.java.lessons.lesson15.model.repository.filedb.imp.AccountFileDb;
-import com.javafee.java.lessons.lesson15.model.repository.filedb.imp.ClientFileDb;
-import com.javafee.java.lessons.lesson15.model.repository.filedb.imp.CompanyFileDb;
-import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.AccountJdbcDb;
-import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.ClientJdbcDb;
-import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.CompanyJdbcDb;
+import com.javafee.java.lessons.lesson15.model.Account;
+import com.javafee.java.lessons.lesson15.model.Client;
+import com.javafee.java.lessons.lesson15.model.Company;
+import com.javafee.java.lessons.lesson15.service.AccountFetcher;
+import com.javafee.java.lessons.lesson15.service.ClientFetcher;
+import com.javafee.java.lessons.lesson15.service.CompanyFetcher;
 import com.javafee.java.lessons.lesson15.service.Utils;
 
 import javax.swing.*;
@@ -29,49 +24,49 @@ public class Main {
     }
 
     public static void feedAccount() {
-        Dao<Account> fileDb = new AccountJdbcDb(); // new AccountFileDb(Utils.ACCOUNT_FILE); //
-        List<Account> accountList = fileDb.findAll();
+        AccountFetcher accountFetcher = new AccountFetcher();
+        List<Account> accountList = accountFetcher.findAll();
 
         if (Objects.isNull(accountList) || accountList.size() == 0) {
             Account[] arr = {new Account(1, "test", Utils.createMd5("admin123"), LocalDateTime.now(), null),
                     new Account(2, "jkowalski", Utils.createMd5("admin123"), LocalDateTime.now(), null),
                     new Account(3,"anowak", Utils.createMd5("admin123"), LocalDateTime.now(), null),
                     new Account(4,"admin", Utils.createMd5("admin123"), LocalDateTime.now(), null)};
-            fileDb.saveAll(List.of(arr));
+            accountFetcher.saveAll(List.of(arr));
 
-            accountList = fileDb.findAll();
+            accountList = accountFetcher.findAll();
             System.out.println(accountList.size() + " accounts fed successfully");
         }
     }
 
     public static void feedClient() {
-        Dao<Client> fileDb = new ClientJdbcDb(); //new ClientFileDb(Utils.CLIENT_FILE); //
-        List<Client> clientList = fileDb.findAll();
+        ClientFetcher clientFetcher = new ClientFetcher();
+        List<Client> clientList = clientFetcher.findAll();
 
         if (Objects.isNull(clientList) || clientList.size() == 0) {
-            Client[] arr = {new Client("Andrzej", "Kosiński", 1,"Polish", 30, 6500.0, null),
-                    new Client("Marta", "Skupień", 2,"Polish", 25, 24000.0, null),
-                    new Client("Andrew", "Roberts",3,  "US", 32, 4500.0, null),
-                    new Client("Amhad", "Yossi", 4, "India", 31, 40000.0, null)};
-            fileDb.saveAll(List.of(arr));
+            Client[] arr = {new Client(1,"Andrzej", "Kosiński", "Polish", 30, 6500.0, null),
+                    new Client(2,"Marta", "Skupień", "Polish", 25, 24000.0, null),
+                    new Client(3,"Andrew", "Roberts",  "US", 32, 4500.0, null),
+                    new Client(4,"Amhad", "Yossi",  "India", 31, 40000.0, null)};
+            clientFetcher.saveAll(List.of(arr));
 
-            clientList = fileDb.findAll();
+            clientList = clientFetcher.findAll();
             System.out.println(clientList.size() + " clients fed successfully");
         }
     }
 
     public static void feedCompany() {
-        Dao<Company> fileDb = new CompanyFileDb(Utils.COMPANY_FILE); // new CompanyJdbcDb(); //
-        List<Company> companiesList = fileDb.findAll();
+        CompanyFetcher companyFetcher = new CompanyFetcher();
+        List<Company> companiesList = companyFetcher.findAll();
 
         if (Objects.isNull(companiesList) || companiesList.size() == 0) {
-            Company[] arr = { new Company("aaa", 1, 250000.0),
-                    new Company("bbb", 2, 350000.0),
-                    new Company("ccc", 3,450000.0),
-                    new Company( "ddd", 4,550000.0)};
-            fileDb.saveAll(List.of(arr));
+            Company[] arr = { new Company(1,"aaa", 250000.0),
+                    new Company(2,"bbb", 350000.0),
+                    new Company(3,"ccc",450000.0),
+                    new Company(4, "ddd", 550000.0)};
+            companyFetcher.saveAll(List.of(arr));
 
-            companiesList = fileDb.findAll();
+            companiesList = companyFetcher.findAll();
             System.out.println(companiesList.size() + " company  fed successfully");
         }
     }

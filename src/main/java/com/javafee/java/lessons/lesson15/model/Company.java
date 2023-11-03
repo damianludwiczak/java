@@ -1,20 +1,13 @@
-package com.javafee.java.lessons.lesson15.model.domain;
+package com.javafee.java.lessons.lesson15.model;
 
-import com.javafee.java.lessons.lesson15.model.repository.Dao;
-import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
-import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.CompanyJdbcDb;
-import com.javafee.java.lessons.lesson15.service.Utils;
-
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.NoSuchElementException;
+
 
 /**
  * Store company's data.
  */
-public class Company implements Serializable {
+public class Company {
     private Integer id;
     private String name;
     private Double yearlyIncomes;
@@ -23,17 +16,24 @@ public class Company implements Serializable {
 
     private List<Client> clientList =  new ArrayList<>();
 
-    private List<Company> companyList = new ArrayList<>();
-
     public Company() {
     }
 
+    public Company(Integer id, String name, Double yearlyIncomes, String yearlyIncomesFrom, String yearlyIncomesTo, List<Client> clientList) {
+        this.id = id;
+        this.name = name;
+        this.yearlyIncomes = yearlyIncomes;
+        this.yearlyIncomesFrom = yearlyIncomesFrom;
+        this.yearlyIncomesTo = yearlyIncomesTo;
+        this.clientList = clientList;
+    }
+
     public Company(String name, Double yearlyIncomes) {
-        this.id = findMaxId() + 1;
         this.name = name;
         this.yearlyIncomes = yearlyIncomes;
     }
-    public Company(String name, Integer id, Double yearlyIncomes) {
+
+    public Company(Integer id, String name, Double yearlyIncomes) {
         this.id = id;
         this.name = name;
         this.yearlyIncomes = yearlyIncomes;
@@ -83,12 +83,6 @@ public class Company implements Serializable {
         this.clientList = clientList;
     }
 
-    private Integer findMaxId() {
-        Dao<Company> companyFileDb = new CompanyJdbcDb(); // new FileDb<>(Utils.COMPANY_FILE);
-        List<Company> companyList = companyFileDb.findAll();
-        return (companyList == null || companyList.isEmpty()) ? 0 : (companyList.stream().max(Comparator.comparing(Company::getId))
-                .orElseThrow(NoSuchElementException::new)).getId();
-    }
 
     @Override
     public String toString() {

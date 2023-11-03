@@ -1,13 +1,7 @@
 package com.javafee.java.lessons.lesson15.view.model;
 
-import com.javafee.java.lessons.lesson15.model.domain.Client;
-import com.javafee.java.lessons.lesson15.model.domain.Company;
-import com.javafee.java.lessons.lesson15.model.repository.Dao;
-import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
-import com.javafee.java.lessons.lesson15.model.repository.filedb.imp.ClientFileDb;
-import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.JdbcDb;
-import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.ClientJdbcDb;
-import com.javafee.java.lessons.lesson15.service.Utils;
+import com.javafee.java.lessons.lesson15.model.Client;
+import com.javafee.java.lessons.lesson15.service.ClientFetcher;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.Arrays;
@@ -16,10 +10,10 @@ import java.util.List;
 public class ClientTableModel extends AbstractTableModel {
     private List<Client> clients;
     private String[] columns;
-    private Dao<Client> daoClient;
+    private ClientFetcher clientFetcher;
 
     public ClientTableModel() {
-        daoClient = new ClientJdbcDb(); // new ClientFileDb(Utils.CLIENT_FILE); //
+        clientFetcher = new ClientFetcher();
         prepareData();
         columns = new String[]{"name", "surname", "nationality", "age", "wage", "company"};
     }
@@ -29,7 +23,7 @@ public class ClientTableModel extends AbstractTableModel {
     }
 
     private void prepareData() {
-        clients = daoClient.findAll();
+        clients = clientFetcher.findAll();
     }
 
     public void reload() {
@@ -38,7 +32,7 @@ public class ClientTableModel extends AbstractTableModel {
     }
 
     public void reloadFilterData(Client client) {
-        clients = daoClient.findByFilter(client);
+        clients = clientFetcher.findByFilter(client);
         fireTableDataChanged();
     }
 

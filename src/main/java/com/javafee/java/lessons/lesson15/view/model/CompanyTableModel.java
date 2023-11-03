@@ -1,11 +1,7 @@
 package com.javafee.java.lessons.lesson15.view.model;
 
-import com.javafee.java.lessons.lesson15.model.domain.Company;
-import com.javafee.java.lessons.lesson15.model.repository.Dao;
-import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
-import com.javafee.java.lessons.lesson15.model.repository.filedb.imp.CompanyFileDb;
-import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.CompanyJdbcDb;
-import com.javafee.java.lessons.lesson15.service.Utils;
+import com.javafee.java.lessons.lesson15.model.Company;
+import com.javafee.java.lessons.lesson15.service.CompanyFetcher;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.Arrays;
@@ -15,10 +11,10 @@ import java.util.List;
 public class CompanyTableModel extends AbstractTableModel {
     private List<Company> companies;
     private String[] columns;
-    private Dao<Company> companyDao;
+    private CompanyFetcher companyFetcher;
 
     public CompanyTableModel() {
-        companyDao = new CompanyJdbcDb(); // new CompanyFileDb(Utils.COMPANY_FILE); //
+        companyFetcher = new CompanyFetcher(); // new CompanyFileDb(Utils.COMPANY_FILE); //
         prepareData();
         columns = new String[]{"Name", "Yearly Incomes", "Client List"};
     }
@@ -32,7 +28,7 @@ public class CompanyTableModel extends AbstractTableModel {
     }
 
     private void prepareData() {
-        companies = companyDao.findAll();
+        companies = companyFetcher.findAll();
     }
 
     public void reload() {
@@ -41,7 +37,7 @@ public class CompanyTableModel extends AbstractTableModel {
     }
 
     public void reloadFilterData(Company company) {
-        companies = companyDao.findByFilter(company);
+        companies = companyFetcher.findByFilter(company);
         fireTableDataChanged();
     }
 

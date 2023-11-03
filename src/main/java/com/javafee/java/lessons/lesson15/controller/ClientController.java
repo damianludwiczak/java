@@ -1,7 +1,7 @@
 package com.javafee.java.lessons.lesson15.controller;
 
-import com.javafee.java.lessons.lesson15.model.domain.Client;
-import com.javafee.java.lessons.lesson15.model.domain.Company;
+import com.javafee.java.lessons.lesson15.model.Client;
+import com.javafee.java.lessons.lesson15.model.Company;
 import com.javafee.java.lessons.lesson15.view.ClientForm;
 import com.javafee.java.lessons.lesson15.view.FilterClientForm;
 import com.javafee.java.lessons.lesson15.view.Utils;

@@ -1,14 +1,9 @@
 package com.javafee.java.lessons.lesson15.controller;
 
-import com.javafee.java.lessons.lesson15.model.domain.Client;
-import com.javafee.java.lessons.lesson15.model.domain.Company;
-import com.javafee.java.lessons.lesson15.model.repository.Dao;
-import com.javafee.java.lessons.lesson15.model.repository.filedb.FileDb;
-import com.javafee.java.lessons.lesson15.model.repository.filedb.imp.ClientFileDb;
-import com.javafee.java.lessons.lesson15.model.repository.filedb.imp.CompanyFileDb;
-import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.ClientJdbcDb;
-import com.javafee.java.lessons.lesson15.model.repository.jdbcdb.impl.CompanyJdbcDb;
-import com.javafee.java.lessons.lesson15.service.Utils;
+import com.javafee.java.lessons.lesson15.model.Client;
+import com.javafee.java.lessons.lesson15.model.Company;
+import com.javafee.java.lessons.lesson15.service.ClientFetcher;
+import com.javafee.java.lessons.lesson15.service.CompanyFetcher;
 import com.javafee.java.lessons.lesson15.view.AddCompanyForm;
 
 import java.awt.event.ActionListener;
@@ -22,9 +17,9 @@ public class CompanyFormController {
     private ActionListener addActionListener = e -> onClickButtonAdd(reloadActionClient);
     private ActionListener modifyActionListener = e -> onClickButtonModify(reloadActionClient);
     private List<Company> companyList = new ArrayList<>();
-    private Dao<Company> fileDbCompany = new CompanyJdbcDb(); // new CompanyFileDb(Utils.COMPANY_FILE); //
+    private CompanyFetcher companyFetcher = new CompanyFetcher();
 
-    private Dao<Client> fileDbClient = new ClientJdbcDb(); // new ClientFileDb(Utils.CLIENT_FILE); //
+    private ClientFetcher clientFetcher = new ClientFetcher();
     private static Company company;
     private static String context;
 
@@ -68,7 +63,7 @@ public class CompanyFormController {
     }
 
     private void onClickButtonAdd(Consumer reloadClient) {
-        companyList = fileDbCompany.findAll();
+        companyList = companyFetcher.findAll();
         String name = addCompanyForm.getTextFieldName().getText();
         Double YearlyIncomes;
         try {
@@ -78,13 +73,13 @@ public class CompanyFormController {
         }
         this.company = new Company(name, YearlyIncomes);
         companyList.add(company);
-        fileDbCompany.saveAll(companyList);
+        companyFetcher.saveAll(companyList);
         reloadActionCompany.accept(null);
         reloadClient.accept(null);
     }
 
     private void onClickButtonModify(Consumer reloadClient) {
-        companyList = fileDbCompany.findAll();
+        companyList = companyFetcher.findAll();
         int indexOfCompanyInList = companyList.indexOf(company);
 
         companyList.get(indexOfCompanyInList).setName(addCompanyForm.getTextFieldName().getText());
@@ -94,23 +89,23 @@ public class CompanyFormController {
             companyList.get(indexOfCompanyInList).setYearlyIncomes(0.0);
         }
         modifyCompanyInClientList(companyList.get(indexOfCompanyInList));
-        fileDbCompany.saveAll(companyList);
+        companyFetcher.saveAll(companyList);
         reloadActionCompany.accept(null);
         reloadClient.accept(null);
     }
 
     public void delete() {
-        companyList = fileDbCompany.findAll();
+        companyList = companyFetcher.findAll();
         companyList.remove(company); // TODO: 03.03.2023 immutable collection
         deleteCompanyInClientList(company);
-        fileDbCompany.saveAll(companyList);
+        companyFetcher.saveAll(companyList);
         reloadActionCompany.accept(null);
         reloadActionClient.accept(null);
     }
 
     private void modifyCompanyInClientList(Company company) {
         int indexCompanyInList = 0;
-        List<Client> clientList = fileDbClient.findAll();
+        List<Client> clientList = clientFetcher.findAll();
         if (!(clientList == null || clientList.isEmpty())) {
             for (Client client : clientList) {
                 if (!Objects.isNull(client.getCompanyList())) {
@@ -121,13 +116,13 @@ public class CompanyFormController {
                     }
                 }
             }
-            fileDbClient.saveAll(clientList);
+            clientFetcher.saveAll(clientList);
         }
     }
 
     private void deleteCompanyInClientList(Company company) {
         int indexCompanyInList = 0;
-        List<Client> clientList = fileDbClient.findAll();
+        List<Client> clientList = clientFetcher.findAll();
         if (!(clientList == null || clientList.isEmpty())) {
             for (Client client : clientList) {
                 if (!(client.getCompanyList() == null || client.getCompanyList().isEmpty())) {
@@ -137,7 +132,7 @@ public class CompanyFormController {
                     }
                 }
             }
-            fileDbClient.saveAll(clientList);
+            clientFetcher.saveAll(clientList);
         }
     }
 
