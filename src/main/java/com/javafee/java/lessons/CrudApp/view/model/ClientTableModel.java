@@ -3,7 +3,6 @@ package com.javafee.java.lessons.CrudApp.view.model;
 import com.javafee.java.lessons.CrudApp.model.domain.Client;
 import com.javafee.java.lessons.CrudApp.model.repository.Dao;
 import com.javafee.java.lessons.CrudApp.model.repository.filedb.imp.ClientFileDb;
-import com.javafee.java.lessons.CrudApp.model.repository.jdbcdb.impl.ClientJdbcDb;
 import com.javafee.java.lessons.CrudApp.service.Utils;
 
 import javax.swing.table.AbstractTableModel;
@@ -63,7 +62,8 @@ public class ClientTableModel extends AbstractTableModel {
             case COL_NATIONALITY -> client.getNationality();
             case COL_AGE -> client.getAge();
             case COL_WAGE -> client.getWage();
-            case COL_COMPANY -> !(client.getCompanyList() == null || client.getCompanyList().isEmpty()) ? client.getCompanyList().toString() : "";
+            case COL_COMPANY ->
+                    !(client.getCompanyList() == null || client.getCompanyList().isEmpty()) ? client.getCompanyList().toString() : "";
         };
     }
 

@@ -18,8 +18,7 @@ public class LoginForm {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
 
-        buttonLogin.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnLogIn-ico.png"))
-                .getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
+        buttonLogin.setIcon(new ImageIcon(new ImageIcon(AddClientForm.class.getResource("/btnLogIn-ico.png")).getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
     }
 
     public JFrame getFrame() {

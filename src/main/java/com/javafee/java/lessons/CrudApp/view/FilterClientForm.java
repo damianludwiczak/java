@@ -57,6 +57,7 @@ public class FilterClientForm {
     public JTextField getTextFieldAgeTo() {
         return textFieldAgeTo;
     }
+
     public JTextField getTextFieldWageFrom() {
         return textFieldWageFrom;
     }

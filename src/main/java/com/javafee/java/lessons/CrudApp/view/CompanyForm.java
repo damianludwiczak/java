@@ -40,10 +40,11 @@ public class CompanyForm {
         return frame;
     }
 
-    public JPanel getPanel(){
+    public JPanel getPanel() {
         return panel;
     }
-    public JTable getTableCompany(){
+
+    public JTable getTableCompany() {
         return tableCompany;
     }
 

@@ -1,7 +1,5 @@
 package com.javafee.java.lessons.CrudApp.view;
 
-import com.javafee.java.lessons.CrudApp.view.AddClientForm;
-
 import javax.swing.*;
 import java.awt.*;
 

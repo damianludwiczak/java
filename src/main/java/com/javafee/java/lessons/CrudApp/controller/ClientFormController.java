@@ -3,8 +3,9 @@ package com.javafee.java.lessons.CrudApp.controller;
 import com.javafee.java.lessons.CrudApp.model.domain.Client;
 import com.javafee.java.lessons.CrudApp.model.domain.Company;
 import com.javafee.java.lessons.CrudApp.model.repository.Dao;
-import com.javafee.java.lessons.CrudApp.model.repository.jdbcdb.impl.CompanyJdbcDb;
-import com.javafee.java.lessons.CrudApp.model.repository.jdbcdb.impl.ClientJdbcDb;
+import com.javafee.java.lessons.CrudApp.model.repository.filedb.imp.ClientFileDb;
+import com.javafee.java.lessons.CrudApp.model.repository.filedb.imp.CompanyFileDb;
+import com.javafee.java.lessons.CrudApp.service.Utils;
 import com.javafee.java.lessons.CrudApp.view.AddClientForm;
 import com.javafee.java.lessons.CrudApp.view.ClientForm;
 import com.javafee.java.lessons.CrudApp.view.model.CompanyTableModel;
@@ -22,8 +23,8 @@ public class ClientFormController {
     private List<Client> clientList = new ArrayList<>();
     private Client client;
     private Consumer reload;
-    private Dao<Client> jdbcDbClient = new ClientJdbcDb(); // new ClientFileDb(Utils.CLIENT_FILE); //
-    private Dao<Company> jdbcDbCompany = new CompanyJdbcDb(); // new CompanyFileDb(Utils.COMPANY_FILE); //
+    private Dao<Client> jdbcDbClient = new ClientFileDb(Utils.CLIENT_FILE); // new ClientJdbcDb(); //
+    private Dao<Company> jdbcDbCompany = new CompanyFileDb(Utils.COMPANY_FILE); //new CompanyJdbcDb(); //
     private ActionListener addActionListener = e -> onClickButtonAdd();
     private ActionListener modifyActionListener = e -> onClickButtonModify();
     private static ClientFormController instance = null;
@@ -82,14 +83,23 @@ public class ClientFormController {
         }
 
         Client newClient = new Client(name, surname, nationality, age, wage, null);
-        clientList.add(newClient);
-        jdbcDbClient.saveAll(clientList);
+        List<Client> newClientList = copyList(clientList);
+        newClientList.add(newClient);
+        jdbcDbClient.saveAll(newClientList);
 
         newClient.setCompanyList(addCompanies(newClient));
 
-        jdbcDbClient.saveAll(clientList);
+        jdbcDbClient.saveAll(copyList(newClientList));
         close();
         reload.accept(null);
+    }
+
+    public List<Client> copyList(List<Client> clientList) {
+        List<Client> newClientList = new ArrayList<>();
+        for (Client client : clientList)
+            newClientList.add(client);
+
+        return newClientList;
     }
 
     private void onClickButtonModify() {

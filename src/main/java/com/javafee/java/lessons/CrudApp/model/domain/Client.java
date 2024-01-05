@@ -1,7 +1,8 @@
 package com.javafee.java.lessons.CrudApp.model.domain;
 
 import com.javafee.java.lessons.CrudApp.model.repository.Dao;
-import com.javafee.java.lessons.CrudApp.model.repository.jdbcdb.impl.ClientJdbcDb;
+import com.javafee.java.lessons.CrudApp.model.repository.filedb.imp.ClientFileDb;
+import com.javafee.java.lessons.CrudApp.service.Utils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class Client extends UserData implements Serializable {
     private String ageFrom;
     private String ageTo;
     private String wageFrom;
-    private String  wageTo;
+    private String wageTo;
 
     public Client() {
     }
@@ -33,6 +34,7 @@ public class Client extends UserData implements Serializable {
         setId(findMaxId() + 1);
         this.companyList = companyList;
     }
+
     public List<Company> getCompanyList() {
         return companyList;
     }
@@ -74,10 +76,10 @@ public class Client extends UserData implements Serializable {
     }
 
     private Integer findMaxId() {
-        Dao<Client> fileDb = new ClientJdbcDb(); // new FileDb<>(Utils.CLIENT_FILE);
-        List<Client> clientList = fileDb.findAll();
+        Dao<Client> clientFileDb = new ClientFileDb(Utils.CLIENT_FILE); // new ClientJdbcDb(); //
+        List<Client> clientList = clientFileDb.findAll();
         return (clientList == null || clientList.isEmpty()) ? 0 : (clientList.stream().max(Comparator.comparing(Client::getId))
-                                        .orElseThrow(NoSuchElementException::new)).getId();
+                .orElseThrow(NoSuchElementException::new)).getId();
     }
 
 

@@ -3,8 +3,9 @@ package com.javafee.java.lessons.CrudApp.controller;
 import com.javafee.java.lessons.CrudApp.model.domain.Client;
 import com.javafee.java.lessons.CrudApp.model.domain.Company;
 import com.javafee.java.lessons.CrudApp.model.repository.Dao;
-import com.javafee.java.lessons.CrudApp.model.repository.jdbcdb.impl.ClientJdbcDb;
-import com.javafee.java.lessons.CrudApp.model.repository.jdbcdb.impl.CompanyJdbcDb;
+import com.javafee.java.lessons.CrudApp.model.repository.filedb.imp.ClientFileDb;
+import com.javafee.java.lessons.CrudApp.model.repository.filedb.imp.CompanyFileDb;
+import com.javafee.java.lessons.CrudApp.service.Utils;
 import com.javafee.java.lessons.CrudApp.view.AddCompanyForm;
 
 import java.awt.event.ActionListener;
@@ -18,9 +19,9 @@ public class CompanyFormController {
     private ActionListener addActionListener = e -> onClickButtonAdd(reloadActionClient);
     private ActionListener modifyActionListener = e -> onClickButtonModify(reloadActionClient);
     private List<Company> companyList = new ArrayList<>();
-    private Dao<Company> fileDbCompany = new CompanyJdbcDb(); // new CompanyFileDb(Utils.COMPANY_FILE); //
+    private Dao<Company> fileDbCompany = new CompanyFileDb(Utils.COMPANY_FILE); // new CompanyJdbcDb(); //
 
-    private Dao<Client> fileDbClient = new ClientJdbcDb(); // new ClientFileDb(Utils.CLIENT_FILE); //
+    private Dao<Client> fileDbClient = new ClientFileDb(Utils.CLIENT_FILE); //new ClientJdbcDb(); //
     private static Company company;
     private static String context;
     private static Consumer reloadActionClient;
@@ -71,10 +72,20 @@ public class CompanyFormController {
             YearlyIncomes = 0.0;
         }
         this.company = new Company(name, YearlyIncomes);
-        companyList.add(company);
-        fileDbCompany.saveAll(companyList);
+        List<Company> newCompanyList = new ArrayList<>();
+        newCompanyList = copyList(companyList);
+        newCompanyList.add(company);
+        fileDbCompany.saveAll(newCompanyList);
         reloadActionCompany.accept(null);
         reloadClient.accept(null);
+    }
+
+    public List<Company> copyList(List<Company> companyList) {
+        List<Company> newCompanylist = new ArrayList<>();
+        for (Company company : companyList)
+            newCompanylist.add(company);
+
+        return newCompanylist;
     }
 
     private void onClickButtonModify(Consumer reloadClient) {
@@ -88,7 +99,6 @@ public class CompanyFormController {
             companyList.get(indexOfCompanyInList).setYearlyIncomes(0.0);
         }
         modifyCompanyInClientList(companyList.get(indexOfCompanyInList));
-        fileDbCompany.saveAll(companyList);
         reloadActionCompany.accept(null);
         reloadClient.accept(null);
     }

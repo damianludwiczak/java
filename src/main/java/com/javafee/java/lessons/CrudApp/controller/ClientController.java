@@ -26,6 +26,7 @@ public class ClientController {
         clientFormController = ClientFormController.getInstance();
         filterClientForm = getInstanceFilterClientForm();
     }
+
     public static ClientController getInstance() {
         if (Objects.isNull(instance))
             instance = new ClientController();
@@ -51,6 +52,7 @@ public class ClientController {
         clientForm.getButtonRemoveFilters().addActionListener(e -> updateData());
         updateData();
     }
+
     private void init() {
         clientForm.getFrame().setVisible(true);
     }
@@ -83,6 +85,7 @@ public class ClientController {
     private void onClickBtnManagementCompany() {
         CompanyController.getInstance(e -> updateData()).open();
     }
+
     private void onClickBtnFilter() {
         reloadEmptyFilterForm();
         initFilterForm();
@@ -108,6 +111,7 @@ public class ClientController {
         ((ClientTableModel) clientForm.getTableClient().getModel()).reloadFilterData(client);
         closeFilterForm();
     }
+
     private void initFilterForm() {
         filterClientForm.getFrame().setVisible(true);
         if (filterClientForm.getButtonFilter().getActionListeners().length == 0)

@@ -3,7 +3,6 @@ package com.javafee.java.lessons.CrudApp.view;
 import com.javafee.java.lessons.CrudApp.view.model.ClientTableModel;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.util.Vector;
 
@@ -20,6 +19,7 @@ public class ClientForm {
 
 
     private static FocusTraversalPolicy newPolicy;
+
     public ClientForm() {
         frame = new JFrame("Clients (c) myCMS");
         frame.setIconImage(new ImageIcon(AddClientForm.class.getResource("/btnLogOut-ico.png")).getImage());
