@@ -9,7 +9,7 @@ public class LoginService {
     public Dao<Account> accountFileDb;
 
     public LoginService() {
-        accountFileDb = new AccountJdbcDb(); // new AccountFileDb(Utils.ACCOUNT_FILE); //
+        accountFileDb = new AccountFileDb(Utils.ACCOUNT_FILE); // new AccountJdbcDb(); //
     }
     public boolean authenticate(String login, String password) {
         for (Account account : accountFileDb.findAll())

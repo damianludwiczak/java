@@ -3,7 +3,6 @@ package com.javafee.java.lessons.CrudApp.view.model;
 import com.javafee.java.lessons.CrudApp.model.domain.Company;
 import com.javafee.java.lessons.CrudApp.model.repository.Dao;
 import com.javafee.java.lessons.CrudApp.model.repository.filedb.imp.CompanyFileDb;
-import com.javafee.java.lessons.CrudApp.model.repository.jdbcdb.impl.CompanyJdbcDb;
 import com.javafee.java.lessons.CrudApp.service.Utils;
 
 import javax.swing.table.AbstractTableModel;
@@ -17,7 +16,7 @@ public class CompanyTableModel extends AbstractTableModel {
     private Dao<Company> companyDao;
 
     public CompanyTableModel() {
-        companyDao = new CompanyJdbcDb(); // new CompanyFileDb(Utils.COMPANY_FILE); //
+        companyDao = new CompanyFileDb(Utils.COMPANY_FILE); // new CompanyJdbcDb(); //
         prepareData();
         columns = new String[]{"Name", "Yearly Incomes", "Client List"};
     }

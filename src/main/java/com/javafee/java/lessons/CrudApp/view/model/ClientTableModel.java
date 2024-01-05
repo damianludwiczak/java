@@ -16,7 +16,7 @@ public class ClientTableModel extends AbstractTableModel {
     private Dao<Client> daoClient;
 
     public ClientTableModel() {
-        daoClient = new ClientJdbcDb(); // new ClientFileDb(Utils.CLIENT_FILE); //
+        daoClient = new ClientFileDb(Utils.CLIENT_FILE); //new ClientJdbcDb(); //
         prepareData();
         columns = new String[]{"name", "surname", "nationality", "age", "wage", "company"};
     }
