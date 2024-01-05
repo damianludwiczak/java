@@ -99,6 +99,7 @@ public class CompanyFormController {
             companyList.get(indexOfCompanyInList).setYearlyIncomes(0.0);
         }
         modifyCompanyInClientList(companyList.get(indexOfCompanyInList));
+        fileDbCompany.saveAll(companyList);
         reloadActionCompany.accept(null);
         reloadClient.accept(null);
     }
